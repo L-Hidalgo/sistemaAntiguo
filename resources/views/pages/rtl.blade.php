@@ -992,7 +992,7 @@
                                 made with <i class="fa fa-heart"></i> by
                                 <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative
                                     Tim</a>
-                                for a better web.
+                                for a better wsadsfsdsdaeb.
                             </div>
                         </div>
                         <div class="col-lg-6">

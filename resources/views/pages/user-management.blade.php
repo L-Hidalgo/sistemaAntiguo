@@ -21,24 +21,26 @@
                 <div class="row">
 
                         <div class="col-6 d-flex align-items-center">
-                                <button type="submit" class="btn btn-primary btn-sm ms-auto nav-link {{ Route::currentRouteName() == 'profile' ? 'active' : '' }}" href="{{ route('profile') }}">Nuevo Usuario
-                                <a class="nav-link {{ Route::currentRouteName() == 'profile' ? 'active' : '' }}" href="{{ route('profile') }}">
-                                
-
+<!--                                 <button type="submit" class="btn btn-primary btn-sm ms-auto nav-link {{ Route::currentRouteName() == 'profile' ? 'active' : '' }}" href="{{ route('profile') }}">Nuevo Usuario
+                                 <a class="nav-link {{ Route::currentRouteName() == 'profile' ? 'active' : '' }}" href="{{ route('profile') }}">
+                                 
                                 </button>
+ -->
+                                <form role="form"  method="get" action="{{ url('/profile') }}">
+                                        <button type="submit" class="btn btn-primary btn-sm ms-auto">Nuevo Usuario</button>
+                                </form>
 
-
-                                
+<!--                                 
                         <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
-                    </div>
+ -->                    </div>
 
 
                     <span class="nav-link-text ms-1">Usuarios</span>
-                </a>
+                    </a>
 
 
 
-                            </div>
+                </div>
 
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
@@ -76,14 +78,11 @@
                                     </td>
                                     <td class="align-middle text-end">
                                         <div class="d-flex px-3 py-1 justify-content-center align-items-center">
+                                            <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i
+                                                class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
 
-                                        <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i
-                                            class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
-
-                                        <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i
-                                            class="far fa-trash-alt me-2"></i>Delete</a>
-
-
+                                            <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i
+                                                class="far fa-trash-alt me-2"></i>Delete</a>
                                         </div>
                                     </td>
                                 </tr>
@@ -106,9 +105,12 @@
                                     </td>
                                     <td class="align-middle text-end">
                                         <div class="d-flex px-3 py-1 justify-content-center align-items-center">
-                                            <p class="text-sm font-weight-bold mb-0">Edit</p>
-                                            <p class="text-sm font-weight-bold mb-0 ps-2">Delete</p>
-                                        </div>
+                                                <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i
+                                                    class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
+
+                                                <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i
+                                                    class="far fa-trash-alt me-2"></i>Delete</a>
+                                            </div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -130,10 +132,13 @@
                                     </td>
                                     <td class="align-middle text-end">
                                         <div class="d-flex px-3 py-1 justify-content-center align-items-center">
-                                            <p class="text-sm font-weight-bold mb-0 cursor-pointer">Edit</p>
-                                            <p class="text-sm font-weight-bold mb-0 ps-2 cursor-pointer">Delete</p>
-                                        </div>
-                                    </td>
+                                                <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i
+                                                    class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
+
+                                                <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i
+                                                    class="far fa-trash-alt me-2"></i>Delete</a>
+                                            </div>
+                                        </td>
                                 </tr>
                             </tbody>
                         </table>

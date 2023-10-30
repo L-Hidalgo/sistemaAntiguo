@@ -7,6 +7,11 @@ use Illuminate\Validation\Rule;
 
 class UserProfileController extends Controller
 {
+    public function index()
+    {
+        return view('pages.permisos');
+    }
+
     public function show()
     {
         return view('pages.user-profile');

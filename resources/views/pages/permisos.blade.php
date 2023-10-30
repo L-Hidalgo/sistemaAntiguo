@@ -53,7 +53,9 @@
     <div id="alert">  
         @include('components.alert')
     </div>
-    <div class="container-fluid py-4">
+
+
+     <div class="container-fluid py-4">
         <div class="row">
             <div class="col-md-8">
                 <div class="card">
@@ -62,124 +64,93 @@
                         <div class="card-header pb-0">
                             <div class="d-flex align-items-center">
                                 <p class="mb-0">Agregar  al Usuario</p>
-                                <button type="submit" class="btn btn-primary btn-sm ms-auto">Save</button>
-
-
-
-
+                                <button type="submit" class="btn btn-primary btn-sm ms-auto">Registrar Usuario</button>
                                 
                             </div>
                         </div>
+                        
                         <div class="card-body">
-                            <p class="text-uppercase text-sm">Informacion del Usuario</p>
+                            <p class="text-uppercase text-sm">Modulos permitidos para el Usuario</p>
                             <div class="row">
-                                <div class="col-md-6">
+                            <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="example-text-input" class="form-control-label">Nombre de Usuario</label>
-                                        <input class="form-control" type="text" name="username" value="{{ old('username', auth()->user()->username) }}">
+                                
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                            <label class="custom-control-label" for="customCheck1">Check this custom checkbox</label>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
+                                    <label for="example-text-input" class="form-control-label">Nombre de Usuario</label>
+                                       <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                            <label class="custom-control-label" for="customCheck1">Check this custom checkbox</label>
+                                        </div>
+                                </div>
+
+
+                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Correo Electronico</label>
-                                        <input class="form-control" type="email" name="email" value="{{ old('email', auth()->user()->email) }}">
+                                
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                            <label class="custom-control-label" for="customCheck1">Check this custom checkbox</label>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Nombres</label>
-                                        <input class="form-control" type="text" name="firstname"  value="{{ old('firstname', auth()->user()->firstname) }}">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Apellidos</label>
-                                        <input class="form-control" type="text" name="lastname" value="{{ old('lastname', auth()->user()->lastname) }}">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Tipo de Usuario</label>
-
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Tipo de Usuario
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                            <li><a class="dropdown-item" href="#">Administrar</a></li>
-                                            <li><a class="dropdown-item" href="#">Nacional</a></li>
-                                            <li><a class="dropdown-item" href="#">Distrital</a></li>
-                                        </ul>                                    
-
-<!--                                         <form method="post" action="{{ url('/permisos') }}">
-                                            <button type="submit" class="btn btn-primary btn-sm ms-auto">Permisodhsajs</button>
-                                        </form>
- -->
-                                        <a href="{{ url('/permisos')}}" class="btn btn-warning">Permisos</a>
-
+                                       <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                            <label class="custom-control-label" for="customCheck1">Check this custom checkbox</label>
+                                        </div>
                                 </div>
 
-
-                                    <div>
-
-              
-                                </div>
                             </div>
 
 
-
-                            </div>
-<!--                             <hr class="horizontal dark">
-                            <p class="text-uppercase text-sm">Informasdfhskjdcion del Contacto</p>
+                            <p class="text-uppercase text-sm">Accesos permitidos para el Usuario</p>
                             <div class="row">
-                                <div class="col-md-12">
+                            <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Address</label>
-                                        <input class="form-control" type="text" name="address"
-                                            value="{{ old('address', auth()->user()->address) }}">
+                                        <label for="example-text-input" class="form-control-label">Nombre de Usuario</label>
+                                
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                            <label class="custom-control-label" for="customCheck1">Check this custom checkbox</label>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
+                                    <label for="example-text-input" class="form-control-label">Nombre de Usuario</label>
+                                       <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                            <label class="custom-control-label" for="customCheck1">Check this custom checkbox</label>
+                                        </div>
+                                </div>
+
+
+                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Ciudad</label>
-                                        <input class="form-control" type="text" name="city" value="{{ old('city', auth()->user()->city) }}">
+                                
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                            <label class="custom-control-label" for="customCheck1">Check this custom checkbox</label>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Pais</label>
-                                        <input class="form-control" type="text" name="country" value="{{ old('country', auth()->user()->country) }}">
-                                    </div>
+                                <div class="col-md-6">
+                                       <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                            <label class="custom-control-label" for="customCheck1">Check this custom checkbox</label>
+                                        </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Codigo Postal</label>
-                                        <input class="form-control" type="text" name="postal" value="{{ old('postal', auth()->user()->postal) }}">
-                                    </div>
-                                </div>
+
                             </div>
-
-
-                            <hr class="horizontal dark">
-                            <p class="text-uppercase text-sm">About me</p>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">About me</label>
-                                        <input class="form-control" type="text" name="about"
-                                            value="{{ old('about', auth()->user()->about) }}">
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-
-
- -->                            
-
-
                         </div>
-                    </form>
+                     </div>
+|                 </form>
                 </div>
             </div>
 <!--             <div class="col-md-12">

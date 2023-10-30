@@ -56,14 +56,13 @@
                 </a>
             </li>
 
+
             <li class="nav-item mt-3 d-flex align-items-center">
                 <div class="ps-4">
                     <i class="fab fa-laravel" style="color: #f4645f;"></i>
                 </div>
-                <h6 class="ms-2 text-uppercase text-xs font-weight-bolder opacity-6 mb-0">Laravel cambiadolExamples</h6>
+                <h6 class="ms-2 text-uppercase text-xs font-weight-bolder opacity-6 mb-0">Laravel Examples</h6>
             </li>
-
-            
 
 
             <li class="nav-item mt-3">
@@ -78,7 +77,9 @@
                     <span class="nav-link-text ms-1">Tables</span>
                 </a>
             </li>
-            <li class="nav-item">
+
+
+<!--             <li class="nav-item">
                 <a class="nav-link {{  str_contains(request()->url(), 'billing') == true ? 'active' : '' }}" href="{{ route('page', ['page' => 'billing']) }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -87,7 +88,8 @@
                     <span class="nav-link-text ms-1">Billing</span>
                 </a>
             </li>
-            <li class="nav-item">
+ -->            
+<!--             <li class="nav-item">
                 <a class="nav-link {{ Route::currentRouteName() == 'virtual-reality' ? 'active' : '' }}" href="{{ route('virtual-reality') }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -96,7 +98,9 @@
                     <span class="nav-link-text ms-1">Virtual Reality</span>
                 </a>
             </li>
-            <li class="nav-item">
+ -->
+    
+<!--             <li class="nav-item">
                 <a class="nav-link {{ Route::currentRouteName() == 'rtl' ? 'active' : '' }}" href="{{ route('rtl') }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -105,6 +109,9 @@
                     <span class="nav-link-text ms-1">RTL</span>
                 </a>
             </li>
+ -->
+
+            
             <li class="nav-item mt-3">
                 <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
             </li>
@@ -117,7 +124,9 @@
                     <span class="nav-link-text ms-1">Profile</span>
                 </a>
             </li>
-            <li class="nav-item">
+
+
+<!--             <li class="nav-item">
                 <a class="nav-link " href="{{ route('sign-in-static') }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -126,6 +135,8 @@
                     <span class="nav-link-text ms-1">Sign In</span>
                 </a>
             </li>
+ -->
+
             <li class="nav-item">
                 <a class="nav-link " href="{{ route('sign-up-static') }}">
                     <div

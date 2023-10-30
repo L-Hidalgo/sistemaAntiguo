@@ -69,14 +69,17 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-4">
-            <div class="col-lg-7 mb-lg-0 mb-4">
+
+<!--        <div class="row mt-4">
+             <div class="col-lg-7 mb-lg-0 mb-4">
                 <div class="card ">
                     <div class="card-header pb-0 p-3">
                         <div class="d-flex justify-content-between">
                             <h6 class="mb-2">Sales by Country</h6>
                         </div>
                     </div>
+            
+            
                     <div class="table-responsive">
                         <table class="table align-items-center ">
                             <tbody>
@@ -208,7 +211,10 @@
                         </table>
                     </div>
                 </div>
-            </div>
+            </div> -->
+
+<!--
+
             <div class="col-lg-5">
                 <div class="card">
                     <div class="card-header pb-0 p-3">
@@ -286,8 +292,8 @@
                         </ul>
                     </div>
                 </div>
-            </div>
-        </div>
+            </div>  
+        </div>-->
         @include('layouts.footers.auth.footer')
     </div>
 @endsection
