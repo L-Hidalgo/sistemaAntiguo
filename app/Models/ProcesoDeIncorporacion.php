@@ -25,7 +25,7 @@ class ProcesoDeIncorporacion extends Model
         'memorandum',
         'RA',
         'fechaMemorialRap',
-        'SAYRI'
+        'sayri'
     ];
 
     public function personal()

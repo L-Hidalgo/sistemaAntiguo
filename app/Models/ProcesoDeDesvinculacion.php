@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Desvinculacion extends Model
+class ProcesoDeDesvinculacion extends Model
 {
     protected $fillable = [
         'id', 

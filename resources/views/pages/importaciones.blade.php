@@ -104,9 +104,8 @@
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Planilla:</label>
                                     <div class="custom-file">
-  <input type="file" class="custom-file-input" id="customFileLang" lang="es">
-  <label class="custom-file-label" for="customFileLang">Seleccionar Archivo</label>
-</div>
+                                        <input type="file" class="custom-file-input" id="customFileLang" lang="es" accept=".xlsx, .xls, .xlsm, .csv, .ods">
+                                    </div>
                                 </div>
                             </div>
                         </div>
