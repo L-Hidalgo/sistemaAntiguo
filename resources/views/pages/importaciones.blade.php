@@ -35,7 +35,7 @@
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Nombre</th>                                        
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Nombre</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> Fecha</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Estado</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Acciones</th>
@@ -73,7 +73,7 @@
                                     </td>
                                     <td>
                                         <p class="text-sm font-weight-bold mb-0">15/07/2023</p>
-                                    </td>                                        
+                                    </td>
                                     <td class="align-middle text-center text-sm">
                                         <span class="badge badge-sm bg-gradient-secondary">Desestable</span>
                                     </td>
@@ -85,7 +85,7 @@
                                             <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;">
                                                 <i class="far fa-trash-alt me-2"></i>Dar de Baja
                                             </a>
-                                        </div>                                        
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -98,7 +98,8 @@
     <!--Modal Para Añadir-->
     <div class="modal" id="modalPlanilla" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
-            <div class="modal-content" action="{{ route('import.excel') }}" method="POST" enctype="multipart/form-data">
+            <form class="modal-content" action="{{ route('importaciones') }}" method="POST" enctype="multipart/form-data">
+                @csrf <!-- {{ csrf_field() }} -->
                 <div class="modal-header">
                     <h5 class="modal-title">ImportarPlanilla</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
@@ -111,17 +112,17 @@
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Planilla:</label>
                                     <div class="custom-file">
-                                        <input  type="file" name="file" class="form-control" accept=".xlsx, .xls, .xlsm, .csv, .ods">
+                                        <input type="file" name="file" class="form-control" accept=".xlsx, .xls, .xlsm, .csv, .ods">
                                     </div>
                                 </div>
                             </div>
                         </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-info" data-dismiss="modal">Guardar datos</button>
+                    <button type="submit" class="btn btn-info">Guardar datos</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
     <!--Modal Para Dar De Baja-->

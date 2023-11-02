@@ -1,27 +1,28 @@
-<?php 
+<?php
 
-namespace App\Import;
+namespace App\Imports;
 
-use Maatwebsite\Excel\Concerns\ToModel;
 use App\Models\Departamento;
 use App\Models\Gerencia;
-use App\Models\IntegracionDelPersonal;
+use App\Models\IntegracionDePersonal;
 use App\Models\Personal;
 use App\Models\ProcesoDeDesvinculacion;
 use App\Models\ProcesoDeIncorporacion;
 use App\Models\Puesto;
 use App\Models\RequisitosPuesto;
+use Maatwebsite\Excel\Concerns\ToModel;
 
 class ImportExcelData implements ToModel
 {
     public function model(array $row)
     {
-        return new Departamento([
-            'nombre' => $row[2],
+        $gerencia =  new Gerencia([
+            'nombre' => $row[3],
         ]);
 
-        return new Gerencia([
-            'nombre' => $row[3],
+        $departamento = new Departamento([
+            'nombre' => $row[2],
+            'gerencia_id' => $gerencia->id
         ]);
 
         return new Puesto([
@@ -43,6 +44,7 @@ class ImportExcelData implements ToModel
             'formacion' => $row[15],
             'sexo' => $row[16],
             'fechaNacimiento' => $row[17],
+            'departamento_id' => $departamento->id,
         ]);
 
         return new IntegracionDePersonal([
@@ -72,13 +74,13 @@ class ImportExcelData implements ToModel
             'fechaMermorialRap' => $row[38],
             'sayri' => $row[39],
         ]);
-        
+
         return new ProcesoDeDesvinculacion([
             'nombre' => $row[40],
             'renunciaRetiro' => $row[41],
             'ultimoDiaTrabajo' => $row[42],
         ]);
-        
+
         return new RequisitosPuesto([
             'objetivoPuesto' => $row[43],
             'formacion' => $row[44],
