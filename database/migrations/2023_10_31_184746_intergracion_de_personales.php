@@ -4,12 +4,12 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateIntegracionDePersonalesTable extends Migration
+return new class extends Migration
 {
-    
+
     public function up()
     {
-        Schema::create('integracionDePersonales', function (Blueprint $table) {
+        Schema::create('integracionDepersonales', function (Blueprint $table) {
             $table->id();
             $table->string('fileAc');
             $table->string('telefono')->nullable();
@@ -25,6 +25,6 @@ class CreateIntegracionDePersonalesTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('integracionDePersonales');
+        Schema::dropIfExists('integracionDepersonales');
     }
 };

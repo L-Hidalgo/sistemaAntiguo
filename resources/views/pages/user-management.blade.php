@@ -14,7 +14,7 @@
              </div>
  -->            <div class="card mb-4">
                 <div class="card-header pb-0">
-                    <h6>Lista de Funcionarios Publicos</h6>
+                    <h6>Lista de personales Publicos</h6>
                 </div>
 
 
@@ -23,14 +23,14 @@
                         <div class="col-6 d-flex align-items-center">
 <!--                                 <button type="submit" class="btn btn-primary btn-sm ms-auto nav-link {{ Route::currentRouteName() == 'profile' ? 'active' : '' }}" href="{{ route('profile') }}">Nuevo Usuario
                                  <a class="nav-link {{ Route::currentRouteName() == 'profile' ? 'active' : '' }}" href="{{ route('profile') }}">
-                                 
+
                                 </button>
  -->
                                 <form role="form"  method="get" action="{{ url('/profile') }}">
                                         <button type="submit" class="btn btn-primary btn-sm ms-auto">Nuevo Usuario</button>
                                 </form>
 
-<!--                                 
+<!--
                         <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
  -->                    </div>
 

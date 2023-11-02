@@ -4,9 +4,9 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRequisitosPuestosTable extends Migration
+return new class extends Migration
 {
-    
+
     public function up(): void
     {
         Schema::create('requisitosPuestos', function (Blueprint $table) {
@@ -16,8 +16,8 @@ class CreateRequisitosPuestosTable extends Migration
             $table->string('experienciaProfesionalSegunCargo')->nullable();
             $table->string('experienciaRelacionadAlAreaFormacion')->nullable();
             $table->string('experienciaEnFuncionesDeMando')->nullable();
-            $table->unsignedBigInteger('puesto_id');
-            $table->foreign('puesto_id')->references('id')->on('puestos');
+            // $table->unsignedBigInteger('puesto_id');
+            // $table->foreign('puesto_id')->references('id')->on('puestos');
             $table->timestamps();
         });
     }

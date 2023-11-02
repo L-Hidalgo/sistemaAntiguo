@@ -4,9 +4,9 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePersonalesTable extends Migration
+return new class extends Migration
 {
-    
+
     public function up()
     {
         Schema::create('personales', function (Blueprint $table) {
@@ -22,14 +22,12 @@ class CreatePersonalesTable extends Migration
             $table->string('formacion')->nullable();
             $table->string('sexo')->nullable();
             $table->timestamp('fechaNacimiento');
+            // Relacion con el puesto del personal
             $table->unsignedBigInteger('puesto_id');
-            $table->unsignedBigInteger('integracionDePersonal_id');
-            $table->unsignedBigInteger('procesoDeIncorporacion_id');
-            $table->unsignedBigInteger('procesoDeDesvinculacion_id');
             $table->foreign('puesto_id')->references('id')->on('puestos');
-            $table->foreign('integracionDePersonal_id')->references('id')->on('integracionDePersonales');
-            $table->foreign('procesoDeIncorporacion_id')->references('id')->on('procesoDeIncorporaciones');
-            $table->foreign('procesoDeDesvinculacion_id')->references('id')->on('procesoDeDesvinculaciones');
+            // Relacion con el departamento del personal
+            $table->unsignedBigInteger('departamento_id');
+            $table->foreign('departamento_id')->references('id')->on('departamentos');
             $table->timestamps();
         });
     }
