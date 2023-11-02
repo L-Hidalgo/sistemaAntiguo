@@ -4,31 +4,23 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateGerenciasTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+    
     public function up()
     {
-        Schema::create('gerencia', function (Blueprint $table) {
+        Schema::create('gerencias', function (Blueprint $table) {
             $table->id();
             $table->string('conector')->nullable();
             $table->string('nombre')->nullable();
-            $table->rememberToken();
+            $table->unsignedBigInteger('departamento_id');
+            $table->foreign('departamento_id')->references('id')->on('departamentos');
             $table->timestamps();
         });   
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
-        Schema::dropIfExists('gerencia');
+        Schema::dropIfExists('gerencias');
     }
 };

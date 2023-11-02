@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class IntegracionDelPersonal extends Model
+class IntegracionDePersonal extends Model
 {
     protected $fillable = [
         'id',
@@ -12,6 +12,8 @@ class IntegracionDelPersonal extends Model
         'telefono', 
         'fechaInicioSin', 
         'fechaInicioCargo',
+        'personal_id',
+        'puesto_id'
     ];
 
     public function personal()

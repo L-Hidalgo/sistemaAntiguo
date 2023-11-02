@@ -4,33 +4,27 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateIntegracionDePersonalesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+    
     public function up()
     {
-        Schema::create('integracionDelPersonal', function (Blueprint $table) {
+        Schema::create('integracionDePersonales', function (Blueprint $table) {
             $table->id();
             $table->string('fileAc');
             $table->string('telefono')->nullable();
             $table->timestamp('fechaInicioSin')->nullable();
             $table->timestamp('fechaInicioCargo')->nullable();
-            $table->rememberToken();
+            $table->unsignedBigInteger('personal_id');
+            $table->unsignedBigInteger('puesto_id');
+            $table->foreign('personal_id')->references('id')->on('personales');
+            $table->foreign('puesto_id')->references('id')->on('puestos');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
-        Schema::dropIfExists('integracionDelPersonal');
+        Schema::dropIfExists('integracionDePersonales');
     }
 };

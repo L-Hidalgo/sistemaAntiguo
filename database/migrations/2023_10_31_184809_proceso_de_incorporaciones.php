@@ -4,16 +4,12 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateProcesoDeIncorporacionesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+    
     public function up()
     {
-        Schema::create('procesoDeIncorporacion', function (Blueprint $table) {
+        Schema::create('procesoDeIncorporaciones', function (Blueprint $table) {
             $table->id();
             $table->string('propuestos')->nullable();
             $table->string('estado')->nullable();
@@ -33,18 +29,16 @@ return new class extends Migration
             $table->string('RA')->nullable();
             $table->timestamp('fechaMemorialRap')->nullable();
             $table->string('sayri')->nullable();
-            $table->rememberToken();
+            $table->unsignedBigInteger('personal_id');
+            $table->unsignedBigInteger('puesto_id');
+            $table->foreign('personal_id')->references('id')->on('personales');
+            $table->foreign('puesto_id')->references('id')->on('puestos');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
-        Schema::dropIfExists('procesoDeIncorporacion');
+        Schema::dropIfExists('procesoDeIncorporaciones');
     }
 };

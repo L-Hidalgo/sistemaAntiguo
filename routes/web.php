@@ -55,6 +55,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 	//nuestros links
-	Route::get('/importaciones', [ImportacionesController::class, 'create'])->name('importaciones'); 
+	Route::post('/importaciones', 'ExcelImportController@import')->name('importaciones'); 
 
 });

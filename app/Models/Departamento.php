@@ -9,7 +9,9 @@ class Departamento extends Model
     protected $fillable = [
         'id',
         'conector', 
-        'nombre'
+        'nombre',
+        'gerencia_id',
+        'personal_id'
     ];
 
     public function gerencia()

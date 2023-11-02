@@ -10,7 +10,9 @@ class ProcesoDeDesvinculacion extends Model
         'id', 
         'nombre', 
         'renunciaRetiro',
-        'ultimoDiaTrabajo'
+        'ultimoDiaTrabajo',
+        'personal_id',
+        'puesto_id'
     ];
 
     public function personal()

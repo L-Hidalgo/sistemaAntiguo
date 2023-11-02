@@ -9,9 +9,11 @@ class Gerencia extends Model
     protected $fillable = [
         'id',
         'conector', 
-        'nombre'];
+        'nombre',
+        'departamento_id'
+    ];
 
-    public function departamentos()
+    public function departamento()
     {
         return $this->hasMany(Departamento::class);
     }

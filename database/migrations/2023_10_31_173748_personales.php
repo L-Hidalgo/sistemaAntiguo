@@ -4,16 +4,12 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreatePersonalesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+    
     public function up()
     {
-        Schema::create('personal', function (Blueprint $table) {
+        Schema::create('personales', function (Blueprint $table) {
             $table->id();
             $table->string('ci')->unique();
             $table->string('an');
@@ -26,18 +22,20 @@ return new class extends Migration
             $table->string('formacion')->nullable();
             $table->string('sexo')->nullable();
             $table->timestamp('fechaNacimiento');
-            $table->rememberToken();
+            $table->unsignedBigInteger('puesto_id');
+            $table->unsignedBigInteger('integracionDePersonal_id');
+            $table->unsignedBigInteger('procesoDeIncorporacion_id');
+            $table->unsignedBigInteger('procesoDeDesvinculacion_id');
+            $table->foreign('puesto_id')->references('id')->on('puestos');
+            $table->foreign('integracionDePersonal_id')->references('id')->on('integracionDePersonales');
+            $table->foreign('procesoDeIncorporacion_id')->references('id')->on('procesoDeIncorporaciones');
+            $table->foreign('procesoDeDesvinculacion_id')->references('id')->on('procesoDeDesvinculaciones');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
-        Schema::dropIfExists('personal');
+        Schema::dropIfExists('personales');
     }
 };

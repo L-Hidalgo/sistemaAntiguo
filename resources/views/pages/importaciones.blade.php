@@ -16,7 +16,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link mb-0 px-0 py-1 align-items-center justify-content-center" data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
+                            <a class="nav-link mb-0 px-0 py-1 align-items-center justify-content-center" data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false" data-toggle="modal" data-target="#modalDarDeBaja">
+                                <i class="ni ni-chart-bar-32" style="font-size: 1em;"></i>
+                                <span class="ms-2" style="font-size: 1em;">Dar de Baja</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link mb-0 px-0 py-1 align-items-center justify-content-center" data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false" data-toggle="modal" data-target="#modalInformes">
                                 <i class="ni ni-chart-bar-32" style="font-size: 1em;"></i>
                                 <span class="ms-2" style="font-size: 1em;">Informes</span>
                             </a>
@@ -39,7 +45,7 @@
                                 <tr>
                                      <td>
                                         <div class="d-flex px-2 py-1">
-                                            <h6 class="mb-0 text-sm">Spotify</h6>
+                                            <h6 class="mb-0 text-sm">Planilla_1</h6>
                                         </div>
                                     </td>
                                     <td>
@@ -62,7 +68,7 @@
                                 <tr>
                                     <td>
                                         <div class="d-flex px-2 py-1">
-                                            <h6 class="mb-0 text-sm">Spotify</h6>
+                                            <h6 class="mb-0 text-sm">Planilla_2 </h6>
                                         </div>
                                     </td>
                                     <td>
@@ -77,7 +83,7 @@
                                                 <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Actualizar
                                             </a>
                                             <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;">
-                                                <i class="far fa-trash-alt me-2"></i>Eliminar
+                                                <i class="far fa-trash-alt me-2"></i>Dar de Baja
                                             </a>
                                         </div>                                        
                                     </td>
@@ -89,9 +95,10 @@
             </div>
         </div>
     </div>
+    <!--Modal Para Añadir-->
     <div class="modal" id="modalPlanilla" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <div class="modal-content" action="{{ route('import.excel') }}" method="POST" enctype="multipart/form-data">
                 <div class="modal-header">
                     <h5 class="modal-title">ImportarPlanilla</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
@@ -104,13 +111,49 @@
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Planilla:</label>
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="customFileLang" lang="es" accept=".xlsx, .xls, .xlsm, .csv, .ods">
+                                        <input  type="file" name="file" class="form-control" accept=".xlsx, .xls, .xlsm, .csv, .ods">
                                     </div>
                                 </div>
                             </div>
                         </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="submit" class="btn btn-info" data-dismiss="modal">Guardar datos</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Modal Para Dar De Baja-->
+    <div class="modal" id="#modalDarDeBaja" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Dar de Baja Planilla</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">De:</label>
+                                    <div class="custom-file">
+                                        <input type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Hasta:</label>
+                                    <div class="custom-file">
+                                        <input type="text">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Guardar datos</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>

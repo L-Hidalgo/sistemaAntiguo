@@ -23,9 +23,11 @@ class ProcesoDeIncorporacion extends Model
         'itemOrigen',
         'cargoOrigen',
         'memorandum',
-        'RA',
+        'ra',
         'fechaMemorialRap',
-        'sayri'
+        'sayri',
+        'personal_id',
+        'puesto_id'
     ];
 
     public function personal()

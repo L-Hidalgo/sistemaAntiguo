@@ -18,7 +18,11 @@ class Personal extends Model
         'carreraIrregular',
         'formacion',
         'sexo',
-        'fechaNacimiento'
+        'fechaNacimiento',
+        'puesto_id',
+        'integracionDePersonal_id',
+        'procesoDeIncorporacion_id',
+        'procesoDeDesvinculacion_id'
     ];
 
     public function puesto()
@@ -26,7 +30,7 @@ class Personal extends Model
         return $this->hasOne(Puesto::class);
     }
     
-    public function integracionDelPersonal()
+    public function integracionDePersonal()
     {
         return $this->hasOne(IntegracionDelPersonal::class);
     }
