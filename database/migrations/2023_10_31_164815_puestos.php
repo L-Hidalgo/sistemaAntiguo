@@ -11,6 +11,7 @@ return new class extends Migration
     {
         Schema::create('puestos', function (Blueprint $table) {
             $table->id();
+            $table->decimal('item')->nullable();
             $table->string('nombre')->nullable();
             $table->decimal('salario')->nullable();
             $table->string('salarioLiteral')->nullable();
