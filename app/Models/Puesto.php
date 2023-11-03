@@ -9,10 +9,9 @@ class Puesto extends Model
     protected $fillable = [
         'id',
         'item',
-        'nombre', 
+        'nombre',
         'salario',
         'salarioLiteral',
-        'personal_id',
         'requisitosPuesto_id'
     ];
 

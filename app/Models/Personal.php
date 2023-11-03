@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Personal extends Model
 {
+    protected $table = 'personales';
     protected $fillable = [
         'id',
         'ci',
@@ -19,17 +20,14 @@ class Personal extends Model
         'formacion',
         'sexo',
         'fechaNacimiento',
-        'puesto_id',
-        'integracionDePersonal_id',
-        'procesoDeIncorporacion_id',
-        'procesoDeDesvinculacion_id'
+        'puesto_id'
     ];
 
     public function puesto()
     {
         return $this->hasOne(Puesto::class);
     }
-    
+
     public function integracionDePersonal()
     {
         return $this->hasOne(IntegracionDelPersonal::class);
@@ -39,7 +37,7 @@ class Personal extends Model
     {
         return $this->hasOne(ProcesoDeIncorporacion::class);
     }
-    
+
     public function procesoDeDesvinculacion()
     {
         return $this->hasOne(ProcesoDeDesvinculacion::class);

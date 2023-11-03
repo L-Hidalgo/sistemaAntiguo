@@ -11,8 +11,8 @@ return new class extends Migration
     {
         Schema::create('gerencias', function (Blueprint $table) {
             $table->id();
-            $table->string('conector')->nullable();
             $table->string('nombre')->nullable();
+            $table->string('conector')->nullable();
             $table->timestamps();
         });
     }

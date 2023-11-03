@@ -8,12 +8,11 @@ class RequisitosPuesto extends Model
 {
     protected $fillable = [
         'id',
-        'objetivoPuesto', 
-        'formacion', 
+        'objetivoPuesto',
+        'formacion',
         'experienciaProfesionalSegunCargo',
-        'experienciaRelacionadaAlAreaFormacion', 
-        'ExperienciaEnFuncionesDeMando',
-        'puesto_id'
+        'experienciaRelacionadaAlAreaFormacion',
+        'ExperienciaEnFuncionesDeMando'
     ];
 
     public function puesto()

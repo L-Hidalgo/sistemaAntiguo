@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Gerencia extends Model
 {
+    // protected $table = 'gerencias';
+
     protected $fillable = [
         'id',
-        'conector', 
         'nombre',
-        'departamento_id'
+        'conector',
     ];
 
     public function departamento()
