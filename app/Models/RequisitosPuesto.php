@@ -12,7 +12,8 @@ class RequisitosPuesto extends Model
         'formacion',
         'experienciaProfesionalSegunCargo',
         'experienciaRelacionadaAlAreaFormacion',
-        'ExperienciaEnFuncionesDeMando'
+        'experienciaEnFuncionesDeMando',
+        'puesto_id'
     ];
 
     public function puesto()

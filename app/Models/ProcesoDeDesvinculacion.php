@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProcesoDeDesvinculacion extends Model
 {
+    protected $table = 'proceso_de_desvinculaciones';
+
     protected $fillable = [
         'id', 
         'nombre', 
         'renunciaRetiro',
         'ultimoDiaTrabajo',
-        'personal_id',
-        'puesto_id'
+        'personal_id'
     ];
 
     public function personal()

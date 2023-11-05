@@ -15,10 +15,6 @@ return new class extends Migration
             $table->string('nombre')->nullable();
             $table->decimal('salario')->nullable();
             $table->string('salarioLiteral')->nullable();
-            // $table->unsignedBigInteger('personal_id');
-            $table->unsignedBigInteger('requisitosPuesto_id')->nullable();
-            // $table->foreign('personal_id')->references('id')->on('personales');
-            $table->foreign('requisitosPuesto_id')->references('id')->on('requisitosPuestos');
             $table->timestamps();
         });
     }

@@ -12,16 +12,7 @@ class Puesto extends Model
         'nombre',
         'salario',
         'salarioLiteral',
-        'requisitosPuesto_id'
+        
     ];
 
-    public function personal()
-    {
-        return $this->hasOne(Personsal::class);
-    }
-
-    public function requisitosPuesto()
-    {
-        return $this->hasMany(RequisitosPuesto::class);
-    }
 }

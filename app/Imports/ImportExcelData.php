@@ -33,6 +33,7 @@ class ImportExcelData implements ToModel, WithStartRow
 
         $puesto = $this->migrarPuesto($row[0], $row[3], $row[4], $row[5]);
 
+        
         /* ------------------------------ NO MIGRAR PERSONAL SI ES ASEFALIA ----------------------------- */
         if($row[9] != 'ACEFALIA' && $row[12] != 'ACEFALIA' && isset($row[6])){
             return new Personal([
@@ -52,47 +53,49 @@ class ImportExcelData implements ToModel, WithStartRow
             ]);
         }
 
-        // return new IntegracionDePersonal([
-        //     'fileAc' => $row[18],
-        //     'telefono' => $row[19],
-        //     'fechaInicioSin' => $row[20],
-        //     'fechaInicioCargo' => $row[21],
-        // ]);
+        /*
+        $personal = null;
 
-        // return new ProcesoDeIncorporacion([
-        //     'propuestos' => $row[22],
-        //     'estado' => $row[23],
-        //     'remitente' => $row[24],
-        //     'fechaAccion' => $row[25],
-        //     'responsable' => $row[26],
-        //     'informeCuadro' => $row[27],
-        //     'fechaInformeCuadro' => $row[28],
-        //     'hpHr' => $row[29],
-        //     'sippase' => $row[30],
-        //     'idioma' => $row[31],
-        //     'fechaMovimiento' => $row[32],
-        //     'nombreMovimiento' => $row[33],
-        //     'itemOrigen' => $row[34],
-        //     'cargoOrigen' => $row[35],
-        //     'memorandum' => $row[36],
-        //     'ra' => $row[37],
-        //     'fechaMermorialRap' => $row[38],
-        //     'sayri' => $row[39],
-        // ]);
+        if ($row[9] != 'ACEFALIA' && $row[12] != 'ACEFALIA' && isset($row[6])) {
+            $personal = new Personal([
+                'ci' => $row[6],
+                'an' => $row[7],
+                'exp' => $row[8],
+                'paterno' => $row[9],
+                'materno' => $row[10],
+                'nombre' => $row[11],
+                'nombreApellido' => $row[11].' '.$row[9].' '.$row[10],
+                'carreraIrregular' => $row[13],
+                'formacion' => $row[14],
+                'sexo' => $row[15],
+                'fechaNacimiento' => $row[16],
+                'departamento_id' => $departamento->id,
+                'puesto_id' => $puesto->id,
+            ]);
+        }
 
-        // return new ProcesoDeDesvinculacion([
-        //     'nombre' => $row[40],
-        //     'renunciaRetiro' => $row[41],
-        //     'ultimoDiaTrabajo' => $row[42],
-        // ]);
+        $integracionDePersonal = null;
 
-        // return new RequisitosPuesto([
-        //     'objetivoPuesto' => $row[43],
-        //     'formacion' => $row[44],
-        //     'experienciaProfesionalSegunCargo' => $row[45],
-        //     'experienciaRelacionadaAlAreaFormacion' => $row[46],
-        //     'experienciaEnFuncionesDeMando' => $row[47],
-        // ]);
+        if ($personal) {
+          /* $integracionDePersonal = new IntegracionDePersonal([
+                'telefono' => $row[18],
+                'fechaInicioSin' => $row[19], 
+                'fechaInicioCargo' => $row[20],
+                'personal_id' => $personal->id, 
+
+            ]);
+            $integracionDePersonal =$this->migrarIntegracionDePersonal( $row[18], $row[19], $row[20], $personal->id);
+
+        }
+
+        //$integracionDePersonal =$this->migrarIntegracionDePersonal($row[17], $row[18], $row[19], $row[20], $personal->id, $puesto->id);
+        
+        $procesoDeIncorporacion = $this->migrarProcesoDeIncorporacion($row[21], $row[22], $row[23], $row[24], $row[25], $row[26], $row[27], $row[28], $row[29], $row[30], $row[31], $row[32], $row[33], $row[34], $row[35], $row[36], $row[37], $row[38], $personal->id);
+   
+        $procesoDeDesvinculacion = $this->migrarProcesoDeDesvinculacion($row[39], $row[40], $row[41], $personal->id);
+
+        $RequisitosPuesto = $this->migrarRequisitosPuesto($row[42], $row[43], $row[44], $row[45], $row[46], $puesto->id);
+        */
     }
 
     /**!SECTION
@@ -135,4 +138,100 @@ class ImportExcelData implements ToModel, WithStartRow
         }
         return $puesto;
     }
+
+    /*
+    public function migrarPersonal($ci, $an, $exp, $paterno, $materno, $nombre, $nombreApellido, $carreraIrregular, $formacion, $sexo, $fechaNacimiento, $puesto_id, $departamento_id): Personal {
+        $personal = Personal::where('ci', $ci)->where('puesto_id', $puesto_id)->where('departamento_id', $departamento_id)->first();
+        if(!isset($personal)){
+            $personal = Personal::create([
+                'ci' => $ci,
+                'an' => $an, 
+                'exp' => $exp, 
+                'paterno' => $paterno, 
+                'materno' => $materno, 
+                'nombre' => $nombre, 
+                'nombreApellido' => $nombreApellido, 
+                'carreraIrregular' => $carreraIrregular, 
+                'formacion' => $formacion, 
+                'sexo' => $sexo, 
+                'fechaNacimiento' => $fechaNacimiento, 
+                'puesto_id' => $puesto_id, 
+                'departamento_id' => $departamento_id,
+            ]);
+        }
+        return $personal;
+    }
+
+    
+    public function migrarIntegracionDePersonal( $telefono, $fechaInicioSin, $fechaInicioCargo, $personalId): IntegracionDePersonal {
+        $integracionDePersonal = IntegracionDePersonal::where('telefono', $telefono)->where('personal_id', $personalId)->first();
+        if(!isset($integracionDePersonal)){
+            $integracionDePersonal = IntegracionDePersonal::create([
+                'telefono' => $telefono, 
+                'fechaInicioSin' => $fechaInicioSin, 
+                'fechaInicioCargo' => $fechaInicioCargo, 
+                'personal_id' => $personalId, 
+            ]);
+        }
+        return $integracionDePersonal;
+    }
+
+    public function migrarProcesoDeIncorporacion($propuestos, $estado, $remitente, $fechaAccion, $responsable, $informeCuadro, $fechaInformeCuadro, $hpHr, $sippase, $idioma, $fechaMovimiento, $nombreMovimiento, $itemOrigen, $cargoOrigen, $memorandum, $ra, $fechaMermorialRap, $sayri, $personalId): ProcesoDeIncorporacion {
+        $procesoDeIncorporacion = ProcesoDeIncorporacion::where('propuestos', $propuestos)->where('personal_id', $personalId)->where('puesto_id', $puestoId)->first();
+        if(!isset($procesoDeIncorporacion)){
+            $procesoDeIncorporacion = ProcesoDeIncorporacion::create([
+                'propuestos' => $propuestos, 
+                'estado' => $estado, 
+                'remitente' => $remitente, 
+                'fechaAccion' => $fechaAccion, 
+                'responsable' => $responsable, 
+                'informeCuadro' => $informeCuadro, 
+                'fechaInformeCuadro' => $fechaInformeCuadro,
+                'hpHr' => $hpHr, 
+                'sippase' => $sippase, 
+                'idioma' => $idioma, 
+                'fechaMovimiento' => $fechaMovimiento, 
+                'nombreMovimiento' => $nombreMovimiento, 
+                'itemOrigen' => $itemOrigen, 
+                'cargoOrigen' => $cargoOrigen, 
+                'memorandum' => $memorandum, 
+                'ra' => $ra, 
+                'fechaMermorialRap' => $fechaMermorialRap,
+                'sayri' => $sayri,
+                'personal_id' => $personalId
+            ]);
+        }
+        return $procesoDeIncorporacion;
+    }
+
+    public function migrarProcesoDeDesvinculacion($nombre, $renunciaRetiro, $ultimoDiaTrabajo, $personalI): ProcesoDeDesvinculacion {
+        $procesoDeDesvinculacion = ProcesoDeDesvinculacion::where('nombre', $nombre)->where('personal_id', $personalId)->first();
+        if(!isset($procesoDeDesvinculacion)){
+            $procesoDeDesvinculacion = ProcesoDeDesvinculacion::create([
+                'fileAc' => $fileAc, 
+                'telefono' => $telefono, 
+                'fechaInicioSin' => $fechaInicioSin, 
+                'fechaInicioCargo' => $fechaInicioCargo, 
+                'personal_id' => $personalId
+            ]);
+        }
+        return $procesoDeDesvinculacion;
+    }
+
+    public function migrarRequisitosPuesto($objetivoPuesto, $formacion, $experienciaProfesionalSegunCargo, $experienciaRelacionadaAlAreaFormacion, $experienciaEnFuncionesDeMando, $puestoId): RequisitosPuesto {
+        $requisitosPuesto = RequisitosPuesto::where('objetivoPuesto', $objetivoPuesto)->where('puesto_id', $puestoId)->first();
+        if(!isset($requisitosPuesto)){
+            $requisitosPuesto = RequisitosPuesto::create([
+                'objetivoPuesto' => $objetivoPuesto, 
+                'formacion' => $formacion, 
+                'experienciaProfesionalSegunCargo' => $experienciaProfesionalSegunCargo, 
+                'experienciaRelacionadaAlAreaFormacion' => $experienciaRelacionadaAlAreaFormacion, 
+                'experienciaEnFuncionesDeMando' => $experienciaEnFuncionesDeMando, 
+                'puesto_id' => $puestoId
+            ]);
+        }
+        return $requisitosPuesto;
+    }*/
+   
+    
 }

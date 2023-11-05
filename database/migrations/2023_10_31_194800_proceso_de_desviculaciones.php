@@ -11,13 +11,13 @@ return new class extends Migration
     {
         Schema::create('procesoDeDesvinculaciones', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre')->nullable();
+            $table->string('nombre')->nullable()->default('');
             $table->timestamp('renunciaRetiro')->nullable();
             $table->timestamp('ultimoDiaTrabajo')->nullable();
             $table->unsignedBigInteger('personal_id');
-            $table->unsignedBigInteger('puesto_id');
+            //$table->unsignedBigInteger('puesto_id');
             $table->foreign('personal_id')->references('id')->on('personales');
-            $table->foreign('puesto_id')->references('id')->on('puestos');
+            //$table->foreign('puesto_id')->references('id')->on('puestos');
             $table->timestamps();
         });
     }

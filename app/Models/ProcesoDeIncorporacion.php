@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProcesoDeIncorporacion extends Model
 {
+    protected $table = 'proceso_de_incorporaciones';
+
     protected $fillable = [
         'id',
         'propuestos', 
@@ -26,8 +28,7 @@ class ProcesoDeIncorporacion extends Model
         'ra',
         'fechaMemorialRap',
         'sayri',
-        'personal_id',
-        'puesto_id'
+        'personal_id'
     ];
 
     public function personal()

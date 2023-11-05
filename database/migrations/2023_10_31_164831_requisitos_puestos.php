@@ -16,6 +16,10 @@ return new class extends Migration
             $table->string('experienciaProfesionalSegunCargo')->nullable();
             $table->string('experienciaRelacionadAlAreaFormacion')->nullable();
             $table->string('experienciaEnFuncionesDeMando')->nullable();
+             // $table->unsignedBigInteger('personal_id');
+            $table->unsignedBigInteger('puesto_id')->nullable();
+             // $table->foreign('personal_id')->references('id')->on('personales');
+            $table->foreign('puesto_id')->references('id')->on('puestos');
             $table->timestamps();
         });
     }

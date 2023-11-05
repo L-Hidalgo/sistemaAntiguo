@@ -6,14 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class IntegracionDePersonal extends Model
 {
-    protected $fillable = [
+    protected $table = 'integracion_de_personales';
+
+    protected $fillables = [
         'id',
         'fileAc', 
         'telefono', 
         'fechaInicioSin', 
         'fechaInicioCargo',
-        'personal_id',
-        'puesto_id'
+        'personal_id'
     ];
 
     public function personal()
