@@ -17,18 +17,19 @@ class Puesto extends Model
         'departamento_id'  
     ];
 
-    public function requisitos()
-    {
+    public function requisitos(){
         return $this->belongsToMany(Requisitos::class);
     }
 
-    public function personaPuesto()
-    {
+    public function personaPuesto(){
         return $this->hasMany(PersonaPuesto::class);
     }
 
-    public function procesoDeIncorporacion()
-    {
+    public function procesoDeIncorporacion(){
         return $this->hasMany(ProcesoDeIncorporacion::class);
+    }
+
+    public function departamentos() {
+        return $this->belongsTo(Departamento::class);
     }
 }

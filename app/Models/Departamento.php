@@ -18,6 +18,10 @@ class Departamento extends Model
         return $this->hasMany(Puesto::class);
     }
 
+    public function gerencias() {
+        return $this->belongsTo(Gerencia::class);
+    }
+
 }
 
 

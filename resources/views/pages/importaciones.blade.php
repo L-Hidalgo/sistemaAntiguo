@@ -31,67 +31,42 @@
                 </div>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
-                    <div class="table-responsive p-0">
-                        <table class="table align-items-center mb-0">
-                            <thead>
-                                <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Nombre</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> Fecha</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Estado</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                     <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <h6 class="mb-0 text-sm">Planilla_1</h6>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">15/07/2023</p>
-                                    </td>
-                                    <td class="align-middle text-center text-sm">
-                                        <span class="badge badge-sm bg-gradient-success">Estable</span>
-                                    </td>
-                                    <td class="align-middle text-end">
-                                        <div class="d-flex px-3 py-1 justify-content-center align-items-center">
-                                            <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;">
-                                                <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Actualizar
-                                            </a>
-                                            <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;">
-                                                <i class="far fa-trash-alt me-2"></i>Eliminar
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <h6 class="mb-0 text-sm">Planilla_2 </h6>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">15/07/2023</p>
-                                    </td>
-                                    <td class="align-middle text-center text-sm">
-                                        <span class="badge badge-sm bg-gradient-secondary">Desestable</span>
-                                    </td>
-                                    <td class="align-middle text-end">
-                                        <div class="d-flex px-3 py-1 justify-content-center align-items-center">
-                                            <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;">
-                                                <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Actualizar
-                                            </a>
-                                            <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;">
-                                                <i class="far fa-trash-alt me-2"></i>Dar de Baja
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Item</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Personal</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Posicion</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Estado</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fecha</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fecha de Actualizacion</th>
+                                    </tr>
+                                </thead>
+                                @if ($puestos->isEmpty())
+                                    <div>No hay datos importados</div>
+                                @else
+                                <tbody>
+                                    @foreach ($puestos as $puesto)
+                                    <tr>
+                                        <td>{{!! $puesto->item !!}}</td>
+                                        <td></td>
+                                        <td>
+                                            @foreach($puesto->departamentos as $departamento)
+                                            <p class="text-xs font-weight-bold mb-0">{{ $departamento->gerencias->nombre }}</p>
+                                            <p class="text-xs text-secondary mb-0">{{ $departamento->nombre }}</p>
+                                            @endforeach
+                                        </td>
+                                        <td class="align-middle text-center text-sm"><span class="badge badge-sm bg-gradient-success">Online</span></td>
+                                        <td class="align-middle text-center"><span class="text-secondary text-xs font-weight-bold">23/04/18</span></td>
+                                        <td class="align-middle"></td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                                @endif
+                            </table>
+                        </div>
                     </div>
-                </div>
             </div>
         </div>
     </div>
