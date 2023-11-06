@@ -13,15 +13,11 @@ class Departamento extends Model
         'gerencia_id'
     ];
 
-    public function gerencia()
+    public function puesto()
     {
-        return $this->belongsTo(Gerencia::class);
+        return $this->hasMany(Puesto::class);
     }
 
-    public function personal()
-    {
-        return $this->hasMany(Personal::class);
-    }
 }
 
 

@@ -9,36 +9,34 @@ return new class extends Migration
 
     public function up()
     {
-        Schema::create('procesoDeIncorporaciones', function (Blueprint $table) {
+        Schema::create('proceso_de_incorporaciones', function (Blueprint $table) {
             $table->id();
-            $table->string('propuestos')->nullable()->default('');
-            $table->string('estado')->nullable()->default('');
-            $table->string('remitente')->nullable()->default('');
-            $table->timestamp('fechaAccion')->nullable();
-            $table->string('responsable')->nullable()->default('');
-            $table->string('informeCuadro')->nullable()->default('');
-            $table->timestamp('fechaInformeCuadro')->nullable();
-            $table->string('hpHr')->nullable()->default('');
-            $table->string('sippase')->nullable()->default('');
-            $table->string('idioma')->nullable()->default('');
-            $table->timestamp('fechaMovimiento')->nullable();
-            $table->string('nombreMovimiento')->nullable()->default('');
-            $table->string('itemOrigen')->nullable()->default('');
-            $table->string('cargoOrigen')->nullable()->default('');
-            $table->string('memorandum')->nullable()->default('');
-            $table->string('RA')->nullable()->default('');
-            $table->timestamp('fechaMemorialRap')->nullable();
-            $table->string('sayri')->nullable()->default('');
-            $table->unsignedBigInteger('personal_id');
-            //$table->unsignedBigInteger('puesto_id');
-            $table->foreign('personal_id')->references('id')->on('personales');
-           // $table->foreign('puesto_id')->references('id')->on('puestos');
+            $table->string('propuestos')->nullable();
+            $table->string('estado')->nullable();
+            $table->string('remitente')->nullable();
+            $table->string('fechaAccion')->nullable();
+            $table->string('responsable')->nullable();
+            $table->string('informeCuadro')->nullable();
+            $table->string('fechaInformeCuadro')->nullable();
+            $table->string('hpHr')->nullable();
+            $table->string('sippase')->nullable();
+            $table->string('idioma')->nullable();
+            $table->string('fechaMovimiento')->nullable();
+            $table->string('tipoMovimiento')->nullable();
+            $table->string('itemOrigen')->nullable();
+            $table->string('cargoOrigen')->nullable();
+            $table->string('memorandum')->nullable();
+            $table->string('ra')->nullable();
+            $table->string('fechaMemorialRap')->nullable();
+            $table->string('sayri')->nullable();
+            $table->unsignedBigInteger('puesto_id');
+            $table->foreign('puesto_id')->references('id')->on('puestos');
             $table->timestamps();
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('procesoDeIncorporaciones');
+        Schema::dropIfExists('proceso_de_incorporaciones');
     }
 };

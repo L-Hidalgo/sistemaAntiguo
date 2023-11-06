@@ -12,7 +12,7 @@ class ExcelImportController extends Controller
     public function importExcel(Request $request)
     {
         $file = $request->file('file');
-        Log::info('En controlador import excel');
+        Log::info('El controlador import excel');
         Excel::import(new ImportExcelData, $file);
 
         return redirect()->back()->with('message', 'Importación completada.');

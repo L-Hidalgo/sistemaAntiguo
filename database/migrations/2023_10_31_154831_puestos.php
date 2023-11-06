@@ -12,9 +12,13 @@ return new class extends Migration
         Schema::create('puestos', function (Blueprint $table) {
             $table->id();
             $table->integer('item')->nullable();
-            $table->string('nombre')->nullable();
+            $table->string('denominacion')->nullable();
             $table->decimal('salario')->nullable();
             $table->string('salarioLiteral')->nullable();
+            $table->string('objetivo')->nullable();
+            $table->string('estado')->nullable();
+            $table->unsignedBigInteger('departamento_id');
+            $table->foreign('departamento_id')->references('id')->on('departamentos');
             $table->timestamps();
         });
     }

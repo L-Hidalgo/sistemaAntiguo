@@ -21,24 +21,14 @@ class ProcesoDeIncorporacion extends Model
         'sippase',
         'idioma',
         'fechaMovimiento',
-        'nombreMovimiento',
+        'tipoMovimiento',
         'itemOrigen',
         'cargoOrigen',
         'memorandum',
         'ra',
         'fechaMemorialRap',
         'sayri',
-        'personal_id'
+        'puesto_id'
     ];
 
-    public function personal()
-    {
-        return $this->hasOne(Personal::class);
-    }
-    
-    public function puesto()
-    {
-        return $this->hasOne(Puesto::class);
-    }
-    
 }
