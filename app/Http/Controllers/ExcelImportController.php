@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Http\Request;
 use App\Imports\ImportExcelData;
 use Illuminate\Support\Facades\Log;
 
-use App\Puesto;
+use Illuminate\Http\Request;
+use App\Models\Puesto;
 
 class ExcelImportController extends Controller
 {
@@ -21,7 +21,7 @@ class ExcelImportController extends Controller
 
     public function mostrarDatosEnTabla(){
         $puestos = Puesto::all();
-        return view('importaciones', compact('puestos'));
+        return view('importaciones', ['puestos'->$puestos]);
     }
-
+    
 }

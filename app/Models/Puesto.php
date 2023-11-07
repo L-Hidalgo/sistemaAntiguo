@@ -17,7 +17,11 @@ class Puesto extends Model
         'departamento_id'  
     ];
 
-    public function requisitos(){
+    public function departamento() {
+        return $this->belongsTo(Departamento::class);
+    }
+
+    public function requisito(){
         return $this->belongsToMany(Requisitos::class);
     }
 
@@ -29,7 +33,4 @@ class Puesto extends Model
         return $this->hasMany(ProcesoDeIncorporacion::class);
     }
 
-    public function departamentos() {
-        return $this->belongsTo(Departamento::class);
-    }
 }

@@ -22,4 +22,12 @@ class PersonaPuesto extends Model
         'persona_id',
     ];
 
+    public function puesto() {
+        return $this->belongsTo(Puesto::class);
+    }
+
+    public function persona() {
+        return $this->belongsTo(Persona::class);
+    }
+
 }

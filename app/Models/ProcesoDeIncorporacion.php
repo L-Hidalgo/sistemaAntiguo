@@ -31,4 +31,8 @@ class ProcesoDeIncorporacion extends Model
         'puesto_id'
     ];
 
+    public function puesto(){
+        return $this->belongsToMany(Puestos::class);
+    }
+
 }
