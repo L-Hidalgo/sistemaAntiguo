@@ -53,9 +53,9 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
     //nuestros links
-	//Route::post('/importaciones', [ExcelImportController::class, 'importExcel'])->name('importaciones');
-	//Route::get('/importaciones', [ExcelImportController::class, 'mostrarDatosEnTabla'])->name('importaciones');
-	Route::match(['get', 'post'], '/importaciones', [ExcelImportController::class, 'importExcel', 'mostrarDatosEnTabla'])->name('importaciones');
-	
+	Route::post('/importaciones', [ExcelImportController::class, 'importExcel'])->name('importaciones');
+	// Route::get('/importaciones', [ExcelImportController::class, 'mostrarDatosEnTabla'])->name('listar-importacion');
+	// Route::match(['get', 'post'], '/importaciones', [ExcelImportController::class, 'importExcel', 'mostrarDatosEnTabla'])->name('importaciones');
+
 
 });

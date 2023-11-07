@@ -1,6 +1,11 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 @section('content')
     @include('layouts.navbars.auth.topnav', ['title' => 'Importaciones'])
+    <?php
+        use App\Models\Puesto;
+        $puestos = Puesto::all();
+        // dd($puestos);
+    ?>
     <div class="container-fluid py-4">
         <div class="row">
             <div class="col-12">
@@ -57,18 +62,23 @@
                                                     <img src="/img/team-2.jpg" class="avatar avatar-sm me-3"
                                                         alt="user1">
                                                 </div>
+                                                @if (isset($personaP))
                                                 <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">{{personaP->personas->nombreCompleto}}</h6>
-                                                    <p class="text-xs text-secondary mb-0">{{personaP->personas->ci}}</p>
+                                                    <h6 class="mb-0 text-sm">{{$personaP->persona->nombreCompleto}}</h6>
+                                                    <p class="text-xs text-secondary mb-0">{{$personaP->persona->ci}}</p>
                                                 </div>
+                                                @else
+                                                <div>No hay datos importados</div>
+                                                @endif
+
                                             </div>
                                             @endforeach
                                         </td>
                                         <td>
-                                            @foreach($puesto->departamentos as $departamento)
-                                            <p class="text-xs font-weight-bold mb-0">{{ $departamento->gerencias->nombre }}</p>
-                                            <p class="text-xs text-secondary mb-0">{{ $departamento->nombre }}</p>
-                                            @endforeach
+                                            @if(isset($puesto->departamento))
+                                            <p class="text-xs font-weight-bold mb-0">{{ $puesto->departamento->gerencia->nombre }}</p>
+                                            <p class="text-xs text-secondary mb-0">{{ $puesto->departamento->nombre }}</p>
+                                            @endif
                                         </td>
                                         <td class="align-middle text-center text-sm"><span class="badge badge-sm bg-gradient-success">Online</span></td>
                                         <td class="align-middle text-center"><span class="text-secondary text-xs font-weight-bold">23/04/18</span></td>

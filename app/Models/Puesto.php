@@ -14,7 +14,7 @@ class Puesto extends Model
         'estado',
         'salario',
         'salarioLiteral',
-        'departamento_id'  
+        'departamento_id'
     ];
 
     public function departamento() {
@@ -26,7 +26,7 @@ class Puesto extends Model
     }
 
     public function personaPuesto(){
-        return $this->hasMany(PersonaPuesto::class);
+        return $this->hasMany(PersonaPuesto::class,'puesto_id', 'id');
     }
 
     public function procesoDeIncorporacion(){

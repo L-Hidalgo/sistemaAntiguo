@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class PersonaPuesto extends Model
 {
     protected $table = 'personas_puestos';
-    
+
     protected $fillable = [
         'id',
         'estadoFormacion',
@@ -27,7 +27,7 @@ class PersonaPuesto extends Model
     }
 
     public function persona() {
-        return $this->belongsTo(Persona::class);
+        return $this->belongsTo(Persona::class,'persona_id', 'id');
     }
 
 }
