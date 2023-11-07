@@ -56,5 +56,6 @@ Route::group(['middleware' => 'auth'], function () {
 	//Route::post('/importaciones', [ExcelImportController::class, 'importExcel'])->name('importaciones');
 	//Route::get('/importaciones', [ExcelImportController::class, 'mostrarDatosEnTabla'])->name('importaciones');
 	Route::match(['get', 'post'], '/importaciones', [ExcelImportController::class, 'importExcel', 'mostrarDatosEnTabla'])->name('importaciones');
+	
 
 });
