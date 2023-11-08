@@ -12,30 +12,25 @@
             <div class="card mb-4">
                 <div class="card-header pb-0" style="display: flex; align-items: center;">
                     <h6 style="margin-bottom: 0;">Importación de planilla</h6>
-                    <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
-                        <ul class="nav nav-pills nav-fill p-1" role="tablist" style="display: flex;">
-                        <li class="nav-item">
-                            <a class="nav-link mb-0 px-0 py-1 active align-items-center justify-content-center" data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="true" data-toggle="modal" data-target="#modalPlanilla">
-                                <i class="ni ni-folder-17" style="font-size: 1em;"></i>
-                                <span class="ms-2" style="font-size: 1em;">Añadir</span>
-                            </a>
-                        </li>
-                        </ul>
-                    </div>
-                </div>
+                    <button class="btn btn-primary btn-sm ms-auto" data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="true" data-toggle="modal" data-target="#modalPlanilla">Guardar datos</button>
+                </div>    
                 <div class="card-body px-0 pt-0 pb-2">
                     @if ($puestos->isEmpty())
-                        <div class="alert alert-danger">No hay datos importados!!!</div>
+                        <div class="alert" role="alert">
+                            <span class="alert-icon"><i class="ni ni-notification-70"></i></span>
+                            <strong>Importante!</strong> No hay datos importados...
+                        </div>
                     @else
                     <div class="table-responsive p-0">
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Item</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Personal</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Posicion</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fecha de Ingreso</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fecha de Migracion</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Personal</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Posicion</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Estado</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fecha de Migracio</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Fecha de Actualizacion</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -45,6 +40,7 @@
                                 <td>
                                 @foreach($puesto->personaPuesto as $personaP)
                                     <div class="d-flex px-2 py-1">
+
                                         <div>
                                             <img src="/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1">
                                         </div>
@@ -152,7 +148,7 @@
                                             <!--------------------------------------------------------------------------------------------------------------------------------->
                                         </div>
                                         @else
-                                            <div>No hay datos importados</div>
+                                            <div>ACEFALIA</div>
                                         @endif
                                     </div>
                                 @endforeach
@@ -164,11 +160,16 @@
                                 @endif
                                 </td>
                                 <td class="align-middle text-center">
+                                    <span class="text-secondary text-xs font-weight-bold"></span>
+                                </td>
+                                <td class="align-middle text-center">
                                 @foreach($puesto->personaPuesto as $personaP)
-                                    <span class="text-secondary text-xs font-weight-bold">{{$personaP->fechaInicioEnSin}}</span>
+                                    <span class="text-secondary text-xs font-weight-bold">{{$personaP->created_at}}</span>
+                                </td>
+                                <td class="align-middle">
+                                    <span class="text-secondary text-xs font-weight-bold">{{$personaP->updated_at}}</span>
                                 @endforeach
                                 </td>
-                                <td class="align-middle"></td>
                             </tr>
                             @endforeach
                             </tbody>
@@ -216,7 +217,7 @@
         </div>
     </div>
 </div>    
-    <!--------------------------------------MODAL PARA AÑADIR--------------------------------------------->
+ <!--------------------------------------MODAL PARA AÑADIR--------------------------------------------->
     <div class="modal" id="modalPlanilla" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <form class="modal-content" action="{{ route('importaciones') }}" method="POST" enctype="multipart/form-data">
@@ -240,14 +241,60 @@
                         </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-info">Guardar datos</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-info" style="background-color: #fb6340;">Guardar datos</button>
                 </div>
             </form>
         </div>
     </div>
+
+
+    @if(session('success'))
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <span class="alert-icon"><i class="ni ni-like-2"></i></span>
+    <span class="alert-text"><strong>Éxito!</strong> {{ session('success') }}</span>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+@endif
+    
     @include('layouts.footers.auth.footer')
 </div>
 @endsection
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('form').on('submit', function(e) {
+            e.preventDefault();
+            var formData = new FormData($(this)[0]);
+
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Éxito!',
+                        text: data.message,
+                    });
+                },
+                error: function (data) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Algo salió mal.',
+                    });
+                }
+            });
+        });
+    });
+</script>

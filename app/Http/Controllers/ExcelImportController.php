@@ -13,15 +13,11 @@ class ExcelImportController extends Controller
 {
     public function importExcel(Request $request) {
         $file = $request->file('file');
-        Log::info('El controlador import excel');
+        Log::info('Import excel');
         Excel::import(new ImportExcelData, $file);
 
-        return redirect()->back()->with('message', 'Importación completada.');
+        $message ='Datos importados correctamente.';
+        return response()->json(['message' => $message]);
+        //return redirect()->back()->with('success', 'Datos importados correctamente.');
     }
-
-    /*public function mostrarDatosEnTabla(){
-        $puestos = Puesto::all();
-        return view('importaciones', ['puestos'->$puestos]);
-    }*/
-
 }

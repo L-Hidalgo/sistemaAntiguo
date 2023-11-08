@@ -31,21 +31,6 @@ class ImportExcelData implements ToModel, WithStartRow
 
         $puesto = $this->migrarPuesto($row[0], $row[3], $row[4], $row[5], $row[42], $departamento->id);
 
-        /* ------------------------------ NO MIGRAR PERSONAL SI ES ASEFALIA ----------------------------- 
-        if($row[9] != 'ACEFALIA' && $row[12] != 'ACEFALIA' && isset($row[6])){
-            return new Personal([
-                'ci' => $row[6],
-                'an' => $row[7],
-                'exp' => $row[8],
-                'primerApellido' => $row[9],
-                'segundoApellido' => $row[10],
-                'nombres' => $row[11],
-                'nombreCompleto' => $row[11].' '.$row[9].' '.$row[10],
-                'sexo' => $row[15],
-                'fechaNacimiento' => $row[16]
-            ]);
-        }*/
-
         $persona = null;
 
         if ($row[9] !== 'ACEFALIA' && $row[12] !== 'ACEFALIA') {
@@ -178,7 +163,5 @@ class ImportExcelData implements ToModel, WithStartRow
             ]);
         }
         return $requisitos;
-    }
-   
-    
+    }   
 }
