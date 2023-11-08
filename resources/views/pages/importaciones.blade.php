@@ -3,7 +3,8 @@
 @include('layouts.navbars.auth.topnav', ['title' => 'Importaciones'])
 <?php
     use App\Models\Puesto;
-    $puestos = Puesto::all();
+    //$puestos = Puesto::all();
+    $puestos = Puesto::paginate(10);
 ?>
 <div class="container-fluid py-4">
     <div class="row">
@@ -23,6 +24,9 @@
                     </div>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
+                    @if ($puestos->isEmpty())
+                        <div class="alert alert-danger">No hay datos importados!!!</div>
+                    @else
                     <div class="table-responsive p-0">
                         <table class="table align-items-center mb-0">
                             <thead>
@@ -34,9 +38,6 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fecha de Migracion</th>
                                 </tr>
                             </thead>
-                            @if ($puestos->isEmpty())
-                                <div>No hay datos importados</div>
-                            @else
                             <tbody>
                             @foreach ($puestos as $puesto)
                             <tr>
@@ -53,7 +54,7 @@
                                                 <h6 class="mb-0 text-sm">{{$personaP->persona->nombreCompleto}}</h6>
                                             </a>
                                             <p class="text-xs text-secondary mb-0">{{$puesto->denominacion}}</p>
-                                            <!--------------------------------------MOSTRAR INFORMACION DEL PERSONAL--------------------------------------------->
+                                            <!----------------------------------------------------MOSTRAR INFORMACION DEL PERSONAL--------------------------------------------->
                                             <div class="modal" id="modalInformacion{{$personaP->id}}" tabindex="-1" role="dialog">
                                                     <div class="modal-dialog" role="document" style="max-width: 55%; width: 55%;">
                                                         <div class="modal-content">
@@ -67,15 +68,15 @@
                                                                 <h6 class="modal-title">Datos de la Persona</h6>
                                                                 <div class="row">
                                                                     <div class="col-md-6">
-                                                                        <img src="/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1" style="width: 100%; max-width: 100%;">
+                                                                        <img src="/img/team-2.jpg" style="width: 250px; height: 100px;">
                                                                     </div>
                                                                    <div class="col-md-6">
                                                                         <div class="form-group">
-                                                                            <span class="text-secondary text-xs font-weight-bold">Nombre Completo: {{$personaP->persona->nombreCompleto}}</span><br>
-                                                                            <span class="text-secondary text-xs font-weight-bold">CI.: {{$personaP->persona->ci}} {{$personaP->persona->exp}}.</span><br>
-                                                                            <span class="text-secondary text-xs font-weight-bold">Formacion: {{$personaP->formacion}}</span><br>
-                                                                            <span class="text-secondary text-xs font-weight-bold">Fecha de Nacimiento: {{$personaP->persona->fechaNacimiento}}</span><br>
-                                                                            <span class="text-secondary text-xs font-weight-bold">Telefono: {{$personaP->persona->telefono}}</span><br>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>Nombre Completo:</b> {{$personaP->persona->nombreCompleto}}</span><br>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>CI.:</b> {{$personaP->persona->ci}} {{$personaP->persona->exp}}.</span><br>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>Formacion:</b> {{$personaP->formacion}}</span><br>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>Fecha de Nacimiento:</b> {{$personaP->persona->fechaNacimiento}}</span><br>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>Telefono:</b> {{$personaP->persona->telefono}}</span><br>
                                                                         </div>
                                                                     </div>
                                                                 </div>    
@@ -84,24 +85,24 @@
                                                                 <div class="row">
                                                                     <div class="col-md-4">
                                                                         <div class="form-group">
-                                                                            <span class="text-secondary text-xs font-weight-bold">N° de Item: {{$puesto->item}}</span><br>
-                                                                            <span class="text-secondary text-xs font-weight-bold">Cargo: {{$puesto->denominacion}}</span><br>
-                                                                            <span class="text-secondary text-xs font-weight-bold">Salario: {{$puesto->salario}} bs.</span><br>
-                                                                            <span class="text-secondary text-xs font-weight-bold">Fecha de Inicio en el Cargo: {{$personaP->fechaInicio}}</span>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>N° de Item:</b> {{$puesto->item}}</span><br>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>Cargo:</b> {{$puesto->denominacion}}</span><br>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>Salario:</b> {{$puesto->salario}} bs.</span><br>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>Fecha de Inicio en el Cargo:</b> {{$personaP->fechaInicio}}</span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-4">
                                                                         <div class="form-group">
-                                                                            <span class="text-secondary text-xs font-weight-bold">Gerencia: {{$puesto->departamento->gerencia->nombre}}</span><br>
-                                                                            <span class="text-secondary text-xs font-weight-bold">Departamento: {{$puesto->departamento->nombre}}</span><br>
-                                                                            <span class="text-secondary text-xs font-weight-bold">Fecha de Inicio en el SIN: {{$personaP->fechaInicioEnSin}}</span>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>Gerencia:</b> {{$puesto->departamento->gerencia->nombre}}</span><br>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>Departamento:</b> {{$puesto->departamento->nombre}}</span><br>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>Fecha de Inicio en el SIN:</b> {{$personaP->fechaInicioEnSin}}</span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-4">
                                                                         <div class="form-group">
-                                                                            <span class="text-secondary text-xs font-weight-bold">Nombre del Antiguo Personal:<br>{{$personaP->nombreCompletoDesvinculacion}}</span><br>
-                                                                            <span class="text-secondary text-xs font-weight-bold">Motivo de Baja: {{$personaP->motivoBaja}}</span><br>
-                                                                            <span class="text-secondary text-xs font-weight-bold">Ultimo dia de Trabajo: {{$personaP->fechaFin}}</span>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>Nombre del Antiguo Personal:</b><br>{{$personaP->nombreCompletoDesvinculacion}}</span><br>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>Motivo de Baja:</b> {{$personaP->motivoBaja}}</span><br>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>Ultimo dia de Trabajo:</b> {{$personaP->fechaFin}}</span>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -111,36 +112,36 @@
                                                                 @foreach($puesto->procesoDeIncorporacion as $proceso)
                                                                     <div class="col-md-4">
                                                                         <div class="form-group">
-                                                                            <span class="text-secondary text-xs font-weight-bold">Propuesto: {{$proceso->propuestos}}</span><br>
-                                                                            <span class="text-secondary text-xs font-weight-bold">Responsable: {{$proceso->responsable}}</span><br>
-                                                                            <span class="text-secondary text-xs font-weight-bold">Estado: {{$proceso->estado}}</span><br>
-                                                                            <span class="text-secondary text-xs font-weight-bold">Fecha de Accion: {{$proceso->fechaAccion}}</span><br>
-                                                                            <span class="text-secondary text-xs font-weight-bold">Item Origen: {{$proceso->itemOrigen}}</span><br>
-                                                                            <span class="text-secondary text-xs font-weight-bold">Cargo Origen: {{$proceso->cargoOrigen}}</span>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>Propuesto:</b> {{$proceso->propuestos}}</span><br>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>Responsable:</b> {{$proceso->responsable}}</span><br>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>Estado:</b> {{$proceso->estado}}</span><br>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>Fecha de Accion:</b> {{$proceso->fechaAccion}}</span><br>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>Item Origen:</b> {{$proceso->itemOrigen}}</span><br>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>Cargo Origen:</b> {{$proceso->cargoOrigen}}</span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-4">
                                                                         <div class="form-group">
-                                                                            <span class="text-secondary text-xs font-weight-bold">Tipo de Movimiento: {{$proceso->tipoMovimiento}}</span><br>
-                                                                            <span class="text-secondary text-xs font-weight-bold">Fecha de Movimiento: {{$proceso->fechaMovimiento}}</span><br>
-                                                                            <span class="text-secondary text-xs font-weight-bold">Remitente:{{$proceso->remite}}</span><br>
-                                                                            <span class="text-secondary text-xs font-weight-bold">Informe/Cuadro: {{$proceso->infoCuadro}}</span><br>
-                                                                            <span class="text-secondary text-xs font-weight-bold">Fecha Informe/Cuadro: {{$proceso->fechaInfCuadro}}</span><br>
-                                                                            <span class="text-secondary text-xs font-weight-bold">hp/hr: {{$proceso->hp_hr}}</span><br>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>Tipo de Movimiento:</b> {{$proceso->tipoMovimiento}}</span><br>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>Fecha de Movimiento:</b> {{$proceso->fechaMovimiento}}</span><br>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>Remitente:</b> {{$proceso->remite}}</span><br>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>Informe/Cuadro:</b> {{$proceso->infoCuadro}}</span><br>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>Fecha Informe/Cuadro:</b> {{$proceso->fechaInfCuadro}}</span><br>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>hp/hr:</b> {{$proceso->hp_hr}}</span><br>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-4">
                                                                         <div class="form-group">
-                                                                            <span class="text-secondary text-xs font-weight-bold">Memorandum: {{$proceso->memorandum}}</span><br>
-                                                                            <span class="text-secondary text-xs font-weight-bold">Ra: {{$proceso->ra}}</span><br>
-                                                                            <span class="text-secondary text-xs font-weight-bold">Fecha Memorandum/Ra: {{$proceso->fechaMemoYRap}}</span>
-                                                                            <span class="text-secondary text-xs font-weight-bold">SIPPASE: {{$proceso->sippase}}</span><br>
-                                                                            <span class="text-secondary text-xs font-weight-bold">Idioma: {{$proceso->idioma}}</span><br>
-                                                                            <span class="text-secondary text-xs font-weight-bold">SAYRI: {{$proceso->sayri}}</span>                       
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>Memorandum:</b> {{$proceso->memorandum}}</span><br>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>Ra:</b> {{$proceso->ra}}</span><br>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>Fecha Memorandum/Ra:</b> {{$proceso->fechaMemoYRap}}</span><br>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>SIPPASE:</b> {{$proceso->sippase}}</span><br>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>Idioma:</b> {{$proceso->idioma}}</span><br>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>SAYRI:</b> {{$proceso->sayri}}</span>                       
                                                                         </div>
                                                                     </div>
                                                                 @endforeach
-                                                                </div>
+                                                                </div>    
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -148,7 +149,7 @@
                                                         </div>
                                                     </div>    
                                                 </div>
-                                            <!----------------------------------------------------------------------------------->
+                                            <!--------------------------------------------------------------------------------------------------------------------------------->
                                         </div>
                                         @else
                                             <div>No hay datos importados</div>
@@ -170,14 +171,51 @@
                                 <td class="align-middle"></td>
                             </tr>
                             @endforeach
-                        </tbody>
-                        @endif
-                    </table>
+                            </tbody>
+                        </table>
+                    </div><br>
+                    <!-----------------------------------------------------------Paginacion--------------------------------------->
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination ml-auto justify-content-end"> 
+                            <li class="page-item {{ $puestos->onFirstPage() ? 'disabled' : '' }}">
+                                <a class="page-link" href="{{ $puestos->previousPageUrl() }}" tabindex="-1" aria-disabled="true"> <- </a>
+                            </li>
+                            @if ($puestos->currentPage() > 2)
+                            <li class="page-item">
+                                <a class="page-link" href="{{ $puestos->url(1) }}">1</a>
+                            </li>
+                             @endif
+                             @if ($puestos->currentPage() > 3)
+                             <li class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+                            @endif
+                            @for ($i = max(1, $puestos->currentPage() - 1); $i <= min($puestos->currentPage() + 1, $puestos->lastPage()); $i++)
+                            <li class="page-item {{ $i === $puestos->currentPage() ? 'active' : '' }}">
+                                <a class="page-link" href="{{ $puestos->url($i) }}">{{ $i }}</a>
+                            </li>
+                            @endfor
+                            @if ($puestos->currentPage() < $puestos->lastPage() - 2)
+                            <li class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+                            @endif
+                            @if ($puestos->currentPage() < $puestos->lastPage() - 1)
+                            <li class="page-item">
+                                <a class="page-link" href="{{ $puestos->url($puestos->lastPage()) }}">{{ $puestos->lastPage() }}</a>
+                            </li>
+                            @endif
+                            <li class="page-item {{ $puestos->currentPage() === $puestos->lastPage() ? 'disabled' : '' }}">
+                                 <a class="page-link" href="{{ $puestos->nextPageUrl() }}"> -> </a>
+                            </li>
+                        </ul>
+                    </nav>
+                @endif
                 </div>
             </div>
         </div>
     </div>
-</div>
+</div>    
     <!--------------------------------------MODAL PARA AÑADIR--------------------------------------------->
     <div class="modal" id="modalPlanilla" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -208,8 +246,6 @@
             </form>
         </div>
     </div>
-    
-    
     @include('layouts.footers.auth.footer')
 </div>
 @endsection
