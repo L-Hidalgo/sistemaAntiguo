@@ -10,10 +10,25 @@
     <div class="row">
         <div class="col-12">
             <div class="card mb-4">
-                <div class="card-header pb-0" style="display: flex; align-items: center;">
+                <div class="card-header pb-0" style="display: flex; align-items: center; justify-content: space-between;">
                     <h6 style="margin-bottom: 0;">Importación de planilla</h6>
-                    <button class="btn btn-primary btn-sm ms-auto" data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="true" data-toggle="modal" data-target="#modalPlanilla">Guardar datos</button>
-                </div>    
+                    <div class="dropdown ms-auto">
+                        <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="ni ni-settings-gear-65"></i>  Opciones
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="true" data-toggle="modal" data-target="#modalPlanilla">
+                                <i class="ni ni-folder-17"></i>  Migrar Planilla
+                            </a>
+                            <a class="dropdown-item" data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="true" data-toggle="modal" data-target="#modalImagenes">
+                                <i class="ni ni-image"></i>  Migrar Imagenes
+                            </a>
+                            <a class="dropdown-item">
+                                <i class="ni ni-tag"></i>  Buscar Datos
+                            </a>
+                        </div>
+                    </div>
+                </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     @if ($puestos->isEmpty())
                         <div class="alert" role="alert">
@@ -38,7 +53,7 @@
                             <tr>
                                 <td class="align-middle text-center"><span class="text-secondary text-xs font-weight-bold">{{ $puesto->item }}</span></td>
                                 <td>
-                                @foreach($puesto->personaPuesto as $personaP)
+                                    @foreach($puesto->personaPuesto as $personaP)
                                     <div class="d-flex px-2 py-1">
 
                                         <div>
@@ -77,14 +92,14 @@
                                                                     </div>
                                                                 </div>    
                                                                 <hr class="horizontal dark">
-                                                                <h6 class="modal-title">Datos de la Instition</h6>
+                                                                <h6 class="modal-title">Datos como Funcionario</h6>
                                                                 <div class="row">
                                                                     <div class="col-md-4">
                                                                         <div class="form-group">
                                                                             <span class="text-secondary text-xs font-weight-bold"><b>N° de Item:</b> {{$puesto->item}}</span><br>
                                                                             <span class="text-secondary text-xs font-weight-bold"><b>Cargo:</b> {{$puesto->denominacion}}</span><br>
-                                                                            <span class="text-secondary text-xs font-weight-bold"><b>Salario:</b> {{$puesto->salario}} bs.</span><br>
-                                                                            <span class="text-secondary text-xs font-weight-bold"><b>Fecha de Inicio en el Cargo:</b> {{$personaP->fechaInicio}}</span>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>Fecha de Inicio en el Cargo:</b> {{$personaP->fechaInicio}}</span><br>
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>Salario:</b> {{$puesto->salario}} bs.</span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-4">
@@ -147,20 +162,22 @@
                                                 </div>
                                             <!--------------------------------------------------------------------------------------------------------------------------------->
                                         </div>
-                                        @else
-                                            <div>ACEFALIA</div>
                                         @endif
                                     </div>
                                 @endforeach
                                 </td>
                                 <td>
-                                @if(isset($puesto->departamento))
-                                    <p class="text-xs font-weight-bold mb-0">{{ $puesto->departamento->gerencia->nombre }}</p>
-                                    <p class="text-xs text-secondary mb-0">{{ $puesto->departamento->nombre }}</p>
-                                @endif
+                                    @if(isset($puesto->departamento))
+                                        <p class="text-xs font-weight-bold mb-0">{{ $puesto->departamento->gerencia->nombre }}</p>
+                                        <p class="text-xs text-secondary mb-0">{{ $puesto->departamento->nombre }}</p>
+                                    @endif
                                 </td>
                                 <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold"></span>
+                                    @if (isset($personaP->persona->nombreCompleto) && ($personaP->persona->nombreCompleto) === 'ACEFALIA')
+                                        <span class="badge badge-sm bg-gradient-secondary">Acefalia</span>
+                                    @else
+                                       <span class="badge badge-sm bg-gradient-success">Ocupado</span>
+                                    @endif
                                 </td>
                                 <td class="align-middle text-center">
                                 @foreach($puesto->personaPuesto as $personaP)
@@ -217,39 +234,37 @@
         </div>
     </div>
 </div>    
- <!--------------------------------------MODAL PARA AÑADIR--------------------------------------------->
-    <div class="modal" id="modalPlanilla" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <form class="modal-content" action="{{ route('importaciones') }}" method="POST" enctype="multipart/form-data">
-                @csrf <!-- {{ csrf_field() }} -->
-                <div class="modal-header">
-                    <h5 class="modal-title">ImportarPlanilla</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Planilla:</label>
-                                    <div class="custom-file">
-                                        <input type="file" name="file" class="form-control" accept=".xlsx, .xls, .xlsm, .csv, .ods">
-                                    </div>
-                                </div>
+<!--------------------------------------MODAL PARA AÑADIR PLANILLA--------------------------------------------->
+<div class="modal" id="modalPlanilla" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <form class="modal-content" action="{{ route('importaciones') }}" method="POST" enctype="multipart/form-data">
+            @csrf <!-- {{ csrf_field() }} -->
+            <div class="modal-header">                    
+                <h5 class="modal-title">Importar Datos de Planilla</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="example-text-input" class="form-control-label">Seleccione una planilla:</label>
+                            <div class="custom-file">
+                                <input type="file" name="file" class="form-control" accept=".xlsx, .xls, .xlsm, .csv, .ods">
                             </div>
                         </div>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-info" style="background-color: #fb6340;">Guardar datos</button>
-                </div>
-            </form>
-        </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-info" style="background-color: #fb6340;">Guardar datos</button>
+            </div>
+        </form>
     </div>
-
-
-    @if(session('success'))
+</div>
+@if(session('success'))
 <div class="alert alert-success alert-dismissible fade show" role="alert">
     <span class="alert-icon"><i class="ni ni-like-2"></i></span>
     <span class="alert-text"><strong>Éxito!</strong> {{ session('success') }}</span>
@@ -258,6 +273,37 @@
     </button>
 </div>
 @endif
+<!--------------------------------------MODAL PARA AÑADIR IMAGENES--------------------------------------------->
+<div class="modal" id="modalImagenes" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <form class="modal-content" id="importImagesForm" action="{{ route('importaciones') }}" method="POST">
+            @csrf
+            <div class="modal-header">                    
+                <h5 class="modal-title">Importar Imágenes</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="directoryInput" class="form-control-label">Seleccione un directorio:</label>
+                            <input type="file" id="directoryInput" webkitdirectory directory multiple class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" onclick="importImages()" class="btn btn-info" style="background-color: #fb6340;">Importar Imágenes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
     
     @include('layouts.footers.auth.footer')
 </div>
@@ -266,6 +312,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
@@ -297,4 +344,33 @@
             });
         });
     });
+</script>
+<script>
+    function importImages() {
+        var files = $('#directoryInput')[0].files;
+
+        if (files.length > 0) {
+            var formData = new FormData();
+            for (var i = 0; i < files.length; i++) {
+                formData.append('images[]', files[i]);
+            }
+
+            $.ajax({
+                url: $('#importImagesForm').attr('action'),
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    alert('Imágenes importadas con éxito');
+                    $('#modalImagenes').modal('hide');
+                },
+                error: function (xhr, status, error) {
+                    alert('Error al importar imágenes');
+                }
+            });
+        } else {
+            alert('Por favor, seleccione un directorio');
+        }
+    }
 </script>
