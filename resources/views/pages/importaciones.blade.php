@@ -296,13 +296,11 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" onclick="importImages()" class="btn btn-info" style="background-color: #fb6340;">Importar Imágenes</button>
+                <button type="button" class="btn btn-info" style="background-color: #fb6340;">Importar Imágenes</button>
             </div>
         </form>
     </div>
 </div>
-
-
 
     
     @include('layouts.footers.auth.footer')
@@ -344,33 +342,4 @@
             });
         });
     });
-</script>
-<script>
-    function importImages() {
-        var files = $('#directoryInput')[0].files;
-
-        if (files.length > 0) {
-            var formData = new FormData();
-            for (var i = 0; i < files.length; i++) {
-                formData.append('images[]', files[i]);
-            }
-
-            $.ajax({
-                url: $('#importImagesForm').attr('action'),
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (response) {
-                    alert('Imágenes importadas con éxito');
-                    $('#modalImagenes').modal('hide');
-                },
-                error: function (xhr, status, error) {
-                    alert('Error al importar imágenes');
-                }
-            });
-        } else {
-            alert('Por favor, seleccione un directorio');
-        }
-    }
 </script>

@@ -22,19 +22,5 @@ class ExcelImportController extends Controller
         //return redirect()->back()->with('success', 'Datos importados correctamente.');
     }
 
-    public function importImages(Request $request)
-    {
-        if ($request->hasFile('images')) {
-            $images = $request->file('images');
-            foreach ($images as $image) {
-                // Procesar y guardar cada imagen, por ejemplo:
-                $imageName = $image->getClientOriginalName();
-                $image->storeAs('images', $imageName);
-                // Realiza aquí la lógica necesaria para guardar las imágenes en tu directorio.
-            }
-            return response()->json(['message' => 'Success']);
-        }
-        return response()->json(['message' => 'No images found'], 400);
-    }
 
 }
