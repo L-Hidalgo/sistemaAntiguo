@@ -14,8 +14,7 @@ class Requisitos extends Model
         'experienciaEnFuncionesDeMando'
     ];
 
-    public function puesto()
-    {
-        return $this->belongsToMany(Puesto::class);
+    public function requisitosPuesto(){
+        return $this->hasMany(RequisitosPuesto::class);
     }
 }

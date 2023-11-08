@@ -11,10 +11,10 @@ return new class extends Migration
     {
         Schema::create('requisitos', function (Blueprint $table) {
             $table->id();
-            $table->string('formacionRequerida')->nullable();
-            $table->string('experienciaProfesionalSegunCargo')->nullable();
-            $table->string('experienciaRelacionadoAlArea')->nullable();
-            $table->string('experienciaEnFuncionesDeMando')->nullable();
+            $table->text('formacionRequerida')->nullable(); 
+            $table->text('experienciaProfesionalSegunCargo')->nullable();
+            $table->text('experienciaRelacionadoAlArea')->nullable();
+            $table->text('experienciaEnFuncionesDeMando')->nullable();
             $table->timestamps();
         });
     }

@@ -19,9 +19,9 @@ class ExcelImportController extends Controller
         return redirect()->back()->with('message', 'Importación completada.');
     }
 
-    // public function mostrarDatosEnTabla(){
-    //     $puestos = Puesto::all();
-    //     return view('importaciones', ['puestos'->$puestos]);
-    // }
+    /*public function mostrarDatosEnTabla(){
+        $puestos = Puesto::all();
+        return view('importaciones', ['puestos'->$puestos]);
+    }*/
 
 }

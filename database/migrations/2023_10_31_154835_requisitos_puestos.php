@@ -10,15 +10,15 @@ return new class extends Migration
     public function up()
     {
         Schema::create('requisitos_puestos', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('puesto_id');
             $table->unsignedBigInteger('requisito_id');
-            $table->timestamps();
-       
             $table->foreign('puesto_id')->references('id')->on('puestos')->onDelete('cascade');
             $table->foreign('requisito_id')->references('id')->on('requisitos')->onDelete('cascade');
+            $table->timestamps();
 
             // clave primaria compuesta
-            $table->primary(['puesto_id', 'requisito_id']);
+            //$table->primary(['puesto_id', 'requisito_id']);
         });
     }
 
