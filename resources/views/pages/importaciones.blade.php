@@ -89,9 +89,15 @@
                                                             <div class="modal-body">
                                                                 <h6 class="modal-title">Datos de la Persona</h6>
                                                                 <div class="row">
+                                                                    @if(isset($personaP->persona->imagen))
+                                                                    <div class="col-md-6">
+                                                                        <img src="{{ route('imagen-persona', ['personaId' => $personaP->persona->id]) }}" style="width: 250px; height: 100px;">
+                                                                    </div>
+                                                                    @else
                                                                     <div class="col-md-6">
                                                                         <img src="/img/team-2.jpg" style="width: 250px; height: 100px;">
                                                                     </div>
+                                                                    @endif
                                                                    <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <span class="text-secondary text-xs font-weight-bold"><b>Nombre Completo:</b> {{$personaP->persona->nombreCompleto}}</span><br>
@@ -101,7 +107,7 @@
                                                                             <span class="text-secondary text-xs font-weight-bold"><b>Telefono:</b> {{$personaP->persona->telefono}}</span><br>
                                                                         </div>
                                                                     </div>
-                                                                </div>    
+                                                                </div>
                                                                 <hr class="horizontal dark">
                                                                 <h6 class="modal-title">Datos como Funcionario</h6>
                                                                 <div class="row">
@@ -159,7 +165,7 @@
                                                                             <span class="text-secondary text-xs font-weight-bold"><b>Fecha Memorandum/Ra:</b> {{$proceso->fechaMemoYRap}}</span><br>
                                                                             <span class="text-secondary text-xs font-weight-bold"><b>SIPPASE:</b> {{$proceso->sippase}}</span><br>
                                                                             <span class="text-secondary text-xs font-weight-bold"><b>Idioma:</b> {{$proceso->idioma}}</span><br>
-                                                                            <span class="text-secondary text-xs font-weight-bold"><b>SAYRI:</b> {{$proceso->sayri}}</span>                       
+                                                                            <span class="text-secondary text-xs font-weight-bold"><b>SAYRI:</b> {{$proceso->sayri}}</span>
                                                                         </div>
                                                                     </div>
                                                                 @endforeach
@@ -169,7 +175,7 @@
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                                                             </div>
                                                         </div>
-                                                    </div>    
+                                                    </div>
                                                 </div>
                                             <!--------------------------------------------------------------------------------------------------------------------------------->
                                         </div>
@@ -205,7 +211,7 @@
                     </div><br>
                     <!-----------------------------------------------------------Paginacion--------------------------------------->
                     <nav aria-label="Page navigation example">
-                        <ul class="pagination ml-auto justify-content-end"> 
+                        <ul class="pagination ml-auto justify-content-end">
                             <li class="page-item {{ $puestos->onFirstPage() ? 'disabled' : '' }}">
                                 <a class="page-link" href="{{ $puestos->previousPageUrl() }}" tabindex="-1" aria-disabled="true"> <- </a>
                             </li>
@@ -244,13 +250,13 @@
             </div>
         </div>
     </div>
-</div>   
+</div>
 <!--------------------------------------MODAL PARA AÑADIR IMAGENES--------------------------------------------->
 <div class="modal" id="modalImagenes" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <form class="modal-content" id="importImagesForm" method="POST" action="{{ route('importar.imagenes') }}" enctype="multipart/form-data">
             @csrf
-            <div class="modal-header">                    
+            <div class="modal-header">
                 <h5 class="modal-title">Importar Imágenes</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
@@ -272,13 +278,13 @@
             </div>
         </form>
     </div>
-</div> 
+</div>
 <!--------------------------------------MODAL PARA AÑADIR PLANILLA--------------------------------------------->
 <div class="modal" id="modalPlanilla" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <form class="modal-content" action="{{ route('importaciones') }}" method="POST" enctype="multipart/form-data">
             @csrf <!-- {{ csrf_field() }} -->
-            <div class="modal-header">                    
+            <div class="modal-header">
                 <h5 class="modal-title">Importar Datos de Planilla</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
@@ -311,7 +317,7 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-@endif    
+@endif
     @include('layouts.footers.auth.footer')
 </div>
 @endsection

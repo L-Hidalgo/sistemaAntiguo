@@ -11,7 +11,7 @@ return new class extends Migration
     {
         Schema::create('personas', function (Blueprint $table) {
             $table->id();
-            $table->string('ci')->nullable();
+            $table->string('ci')->unique()->nullable();
             $table->string('an')->nullable();
             $table->string('exp')->nullable();
             $table->string('nombres')->nullable();
@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('segundoApellido')->nullable();
             $table->string('nombreCompleto')->nullable();
             $table->string('sexo')->nullable();
-            $table->date('fechaNacimiento')->nullable(); 
+            $table->date('fechaNacimiento')->nullable();
             $table->string('telefono')->nullable();
             $table->string('imagen')->nullable();
             $table->timestamps();
