@@ -14,10 +14,10 @@ return new class extends Migration
             $table->string('propuestos')->nullable();
             $table->string('estado')->nullable();
             $table->string('remitente')->nullable();
-            $table->string('fechaAccion')->nullable();
+            $table->date('fechaAccion')->nullable();
             $table->string('responsable')->nullable();
             $table->string('informeCuadro')->nullable();
-            $table->string('fechaInformeCuadro')->nullable();
+            $table->date('fechaInformeCuadro')->nullable();
             $table->string('hpHr')->nullable();
             $table->string('sippase')->nullable();
             $table->string('idioma')->nullable();

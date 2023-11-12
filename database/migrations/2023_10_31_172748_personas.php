@@ -19,8 +19,9 @@ return new class extends Migration
             $table->string('segundoApellido')->nullable();
             $table->string('nombreCompleto')->nullable();
             $table->string('sexo')->nullable();
-            $table->string('fechaNacimiento')->nullable();
+            $table->date('fechaNacimiento')->nullable(); 
             $table->string('telefono')->nullable();
+            $table->string('imagen')->nullable();
             $table->timestamps();
         });
     }

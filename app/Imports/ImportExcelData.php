@@ -13,6 +13,8 @@ use App\Models\Requisitos;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithStartRow;
+use Carbon\Carbon;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 
 class ImportExcelData implements ToModel, WithStartRow
@@ -31,15 +33,15 @@ class ImportExcelData implements ToModel, WithStartRow
 
         $puesto = $this->migrarPuesto($row[0], $row[3], $row[4], $row[5], $row[42], $departamento->id);
 
-        $persona = $this->migrarPersona($row[6], $row[7], $row[8], $row[9], $row[10], $row[11], $row[11].' '.$row[9].' '.$row[10], $row[15], $row[16], $row[18]);
+        $persona = $this->migrarPersona($row[6], $row[7], $row[8], $row[9], $row[10], $row[11], $row[11] . ' ' . $row[9] . ' ' . $row[10], $row[15], $row[16], $row[18]);
 
-        if ($persona !== null) {
-            $personaPuesto = $this->migrarPersonaPuesto($row[13], $row[14], $row[17], $row[19], $row[20], $row[39], $row[40], $row[41], $puesto->id, $persona->id);
-        }
+        $personaPuesto = $this->migrarPersonaPuesto($row[13], $row[14], $row[0] . ' ' . $row[6] , $row[19], $row[20], $row[39], $row[40], $row[41], $puesto->id, $persona->id);
         
         $procesoDeIncorporacion = $this->migrarProcesoDeIncorporacion($row[21], $row[22], $row[23], $row[24], $row[25], $row[26], $row[27], $row[28], $row[29], $row[30], $row[31], $row[32], $row[33], $row[34], $row[35], $row[36], $row[37], $row[38], $puesto->id);
    
         $requisitos = $this->migrarRequisitos($row[43], $row[44], $row[45], $row[46]);
+
+        $requisitoPuesto = $this->migrarRequisitosPuesto($puesto->id, $requisitos->id);
 
     }
 
@@ -84,7 +86,9 @@ class ImportExcelData implements ToModel, WithStartRow
 
     public function migrarPersona($ci, $an, $exp, $primerApellido, $segundoApellido, $nombres, $nombreCompleto, $sexo, $fechaNacimiento, $telefono): Persona {
         $persona = Persona::where('ci', $ci)->first();
-        if(!isset($persona)){
+        if (!isset($persona)) {
+            $timestamp = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($fechaNacimiento);
+            $fechaNacimiento = Carbon::createFromTimestamp($timestamp)->format('Y-m-d');
             $persona = Persona::create([
                 'ci' => $ci,
                 'an'=> $an,
@@ -92,7 +96,7 @@ class ImportExcelData implements ToModel, WithStartRow
                 'primerApellido'=> $primerApellido,
                 'segundoApellido'=> $segundoApellido,
                 'nombres'=> $nombres,
-                'nombreCompleto' => $nombres.''.$primerApellido.''.$segundoApellido,
+                'nombreCompleto' => $nombres . ' ' . $primerApellido . ' ' . $segundoApellido,
                 'sexo'=> $sexo,
                 'fechaNacimiento'=> $fechaNacimiento,
                 'telefono'=> $telefono
@@ -100,10 +104,16 @@ class ImportExcelData implements ToModel, WithStartRow
         }
         return $persona;
     }
-
-    public function migrarPersonaPuesto($estadoFormacion, $formacion, $fileAc, $fechaInicioEnSin, $fechaInicio, $nombreCompletoDesvinculacion, $motivoBaja, $fechaFin, $puestoId, $personaId): PersonaPuesto {
+    
+    /*public function migrarPersonaPuesto($estadoFormacion, $formacion, $fileAc, $fechaInicioEnSin, $fechaInicio, $nombreCompletoDesvinculacion, $motivoBaja, $fechaFin, $puestoId, $personaId): PersonaPuesto {
         $personaPuesto = PersonaPuesto::where('estadoFormacion', $estadoFormacion)->where('puesto_id', $puestoId)->where('persona_id', $personaId)->first();
         if(!isset($personaPuesto)){
+            $timestampFechaInicioEnSin = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($fechaInicioEnSin);
+            $fechaInicioEnSin = Carbon::createFromTimestamp($timestampFechaInicioEnSin)->format('Y-m-d');
+            $timestampFechaInicio = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp( $fechaInicio);
+            $fechaInicio = Carbon::createFromTimestamp($timestampFechaInicio)->format('Y-m-d');
+            //$timestampFechaFin = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($fechaFin);
+            //$fechaFin = Carbon::createFromTimestamp($timestampFechaFin)->format('Y-m-d');
             $personaPuesto = PersonaPuesto::create([
                 'estadoFormacion' => $estadoFormacion,
                 'formacion' => $formacion,
@@ -118,11 +128,62 @@ class ImportExcelData implements ToModel, WithStartRow
             ]);
         }
         return $personaPuesto;
+    }*/
+    // ... (other methods remain unchanged)
+
+public function migrarPersonaPuesto($estadoFormacion, $formacion, $fileAc, $fechaInicioEnSin, $fechaInicio, $nombreCompletoDesvinculacion, $motivoBaja, $fechaFin, $puestoId, $personaId): PersonaPuesto {
+    $persona = Persona::find($personaId);
+    $puesto = Puesto::find($puestoId);
+
+    if (!$persona || !$puesto) {
+        // Handle the case where either the persona or puesto is not found
+        return null;
     }
+
+    // Modify the value of $fileAc to concatenate 'item' and 'ci'
+    $fileAc = $puesto->item . '-' . $persona->ci;
+
+    $personaPuesto = PersonaPuesto::where('estadoFormacion', $estadoFormacion)
+        ->where('puesto_id', $puestoId)
+        ->where('persona_id', $personaId)
+        ->first();
+
+    if (!isset($personaPuesto)) {
+        $timestampFechaInicioEnSin = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($fechaInicioEnSin);
+        $fechaInicioEnSin = Carbon::createFromTimestamp($timestampFechaInicioEnSin)->format('Y-m-d');
+        $timestampFechaInicio = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($fechaInicio);
+        $fechaInicio = Carbon::createFromTimestamp($timestampFechaInicio)->format('Y-m-d');
+
+        $personaPuesto = PersonaPuesto::create([
+            'estadoFormacion' => $estadoFormacion,
+            'formacion' => $formacion,
+            'fileAc' => $fileAc,
+            'fechaInicioEnSin' => $fechaInicioEnSin,
+            'fechaInicio' => $fechaInicio,
+            'nombreCompletoDesvinculacion' => $nombreCompletoDesvinculacion,
+            'motivoBaja' => $motivoBaja,
+            'fechaFin' => $fechaFin,
+            'puesto_id' => $puestoId,
+            'persona_id' => $personaId
+        ]);
+    }
+
+    return $personaPuesto;
+}
+
+
 
     public function migrarProcesoDeIncorporacion($propuestos, $estado, $remitente, $fechaAccion, $responsable, $informeCuadro, $fechaInformeCuadro, $hpHr, $sippase, $idioma, $fechaMovimiento, $tipoMovimiento, $itemOrigen, $cargoOrigen, $memorandum, $ra, $fechaMermorialRap, $sayri, $puestoId): ProcesoDeIncorporacion {
         $procesoDeIncorporacion = ProcesoDeIncorporacion::where('propuestos', $propuestos)->where('puesto_id', $puestoId)->first();
         if(!isset($procesoDeIncorporacion)){
+            $timestampFechaAccion = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($fechaAccion);
+            $fechaAccion = Carbon::createFromTimestamp($timestampFechaAccion)->format('Y-m-d');
+            $timestampFechaInformeCuadro = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($fechaInformeCuadro);
+            $fechaInformeCuadro = Carbon::createFromTimestamp($timestampFechaInformeCuadro)->format('Y-m-d');
+            /*$timestampFechaMovimiento = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($fechaMovimiento);
+            $fechaMovimiento = Carbon::createFromTimestamp($timestampFechaMovimiento)->format('Y-m-d');
+            $timestampFechaMermorialRap = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($fechaMermorialRap);
+            $fechaMermorialRap = Carbon::createFromTimestamp($timestampFechaMermorialRap)->format('Y-m-d');*/
             $procesoDeIncorporacion = ProcesoDeIncorporacion::create([
                 'propuestos' => $propuestos, 
                 'estado' => $estado, 
@@ -159,5 +220,16 @@ class ImportExcelData implements ToModel, WithStartRow
             ]);
         }
         return $requisitos;
-    }   
+    }
+    
+    public function migrarRequisitosPuesto($puestoId, $requisitoId): RequisitosPuesto {
+        $requisitoPuesto = RequisitosPuesto::where('puesto_id', $puestoId)->where('requisito_id', $requisitoId)->first();
+        if(!isset($requisitoPuesto)){
+            $requisitoPuesto = RequisitosPuesto::create([
+                'puesto_id' => $puestoId,
+                'requisito_id' => $requisitoId
+            ]);
+        }
+        return $requisitoPuesto;
+    }
 }

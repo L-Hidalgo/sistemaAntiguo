@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Puesto;
+use App\Models\Persona;
 
 class ExcelImportController extends Controller
 {
@@ -18,9 +19,8 @@ class ExcelImportController extends Controller
         Excel::import(new ImportExcelData, $file);
 
         $message ='Datos importados correctamente.';
-        return response()->json(['message' => $message]);
-        //return redirect()->back()->with('success', 'Datos importados correctamente.');
+        $redirectUrl = route('importaciones');
+        //return response()->json(['message' => $message]);
+        return response()->json(['message' => $message, 'redirect' => $redirectUrl]);
     }
-
-
 }

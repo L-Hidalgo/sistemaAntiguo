@@ -54,8 +54,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     //nuestros links
 	Route::post('/importaciones', [ExcelImportController::class, 'importExcel'])->name('importaciones');
+	Route::post('/importar-imagenes', [ImportImagesController::class, 'importImagenes'])->name('importar.imagenes');
+
+	//Route::post('/importaciones', [ExcelImportController::class, 'importExcel'])->name('importar.excel');
 	// Route::get('/importaciones', [ExcelImportController::class, 'mostrarDatosEnTabla'])->name('listar-importacion');
 	// Route::match(['get', 'post'], '/importaciones', [ExcelImportController::class, 'importExcel', 'mostrarDatosEnTabla'])->name('importaciones');
-
-
 });

@@ -30,12 +30,12 @@
                     </div>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
-                    @if ($puestos->isEmpty())
-                        <div class="alert" role="alert">
-                            <span class="alert-icon"><i class="ni ni-notification-70"></i></span>
-                            <strong>Importante!</strong> No hay datos importados...
-                        </div>
-                    @else
+                @if ($puestos->isEmpty())
+                    <div class="alert" role="alert">
+                        <span class="alert-icon"><i class="ni ni-notification-70"></i></span>
+                        <strong>Importante!</strong> No hay datos importados...
+                    </div>
+                @else
                     <div class="table-responsive p-0">
                         <table class="table align-items-center mb-0">
                             <thead>
@@ -49,13 +49,24 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            <tr>
+                                <td><input type="text" class="form-control" id="buscarItem" placeholder="Buscar Item"></td>
+                                <td>
+                                    <input type="text" class="form-control" id="buscarNombre" placeholder="Buscar por Nombre">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" id="buscarGerencia" placeholder="Buscar por Gerencia">
+                                </td>
+                                <td><input type="text" class="form-control" id="buscarEstado" placeholder="Buscar por Estado"></td>
+                                <td><input type="text" class="form-control" id="buscarFechaMigracion" placeholder="Fecha de Migracion"></td>
+                                <td><input type="text" class="form-control" id="buscarFechaActualizacion" placeholder="Fecha de Actuliazacion"></td>
+                            </tr>
                             @foreach ($puestos as $puesto)
                             <tr>
                                 <td class="align-middle text-center"><span class="text-secondary text-xs font-weight-bold">{{ $puesto->item }}</span></td>
                                 <td>
                                     @foreach($puesto->personaPuesto as $personaP)
                                     <div class="d-flex px-2 py-1">
-
                                         <div>
                                             <img src="/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1">
                                         </div>
@@ -152,7 +163,7 @@
                                                                         </div>
                                                                     </div>
                                                                 @endforeach
-                                                                </div>    
+                                                                </div>
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -233,7 +244,35 @@
             </div>
         </div>
     </div>
-</div>    
+</div>   
+<!--------------------------------------MODAL PARA AÑADIR IMAGENES--------------------------------------------->
+<div class="modal" id="modalImagenes" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <form class="modal-content" id="importImagesForm" method="POST" action="{{ route('importar.imagenes') }}" enctype="multipart/form-data">
+            @csrf
+            <div class="modal-header">                    
+                <h5 class="modal-title">Importar Imágenes</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="directoryInput" class="form-control-label">Seleccione un archivo .zip:</label>
+                            <input type="file" name="file" class="form-control" accept=".zip">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-info" style="background-color: #fb6340;">Importar Imágenes</button>
+            </div>
+        </form>
+    </div>
+</div> 
 <!--------------------------------------MODAL PARA AÑADIR PLANILLA--------------------------------------------->
 <div class="modal" id="modalPlanilla" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
@@ -272,37 +311,7 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-@endif
-<!--------------------------------------MODAL PARA AÑADIR IMAGENES--------------------------------------------->
-<div class="modal" id="modalImagenes" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <form class="modal-content" id="importImagesForm" action="{{ route('importaciones') }}" method="POST">
-            @csrf
-            <div class="modal-header">                    
-                <h5 class="modal-title">Importar Imágenes</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="directoryInput" class="form-control-label">Seleccione un directorio:</label>
-                            <input type="file" id="directoryInput" webkitdirectory directory multiple class="form-control">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-info" style="background-color: #fb6340;">Importar Imágenes</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-    
+@endif    
     @include('layouts.footers.auth.footer')
 </div>
 @endsection
@@ -342,4 +351,43 @@
             });
         });
     });
+</script>
+<script>
+    // jQuery para filtrar la tabla
+$(document).ready(function() {
+    $('#buscarItem, #buscarNombre, #buscarGerencia, #buscarEstado, #buscarFechaMigracion, #buscarFechaActualizacion').on('keyup', function() {
+        var valorItem = $('#buscarItem').val().toLowerCase();
+        var valorNombre = $('#buscarNombre').val().toLowerCase();
+        var valorGerencia = $('#buscarGerencia').val().toLowerCase();
+        var valorEstado = $('#buscarEstado').val().toLowerCase();
+        var valorFechaMigracion = $('#buscarFechaMigracion').val().toLowerCase();
+        var valorFechaActualizacion = $('#buscarFechaActualizacion').val().toLowerCase();
+
+        $('table tbody tr').filter(function() {
+            var textoItem = $(this).find('td:eq(0)').text().toLowerCase();
+            var textoNombre = $(this).find('td:eq(1)').text().toLowerCase();
+            var textoGerencia = $(this).find('td:eq(2)').text().toLowerCase();
+            var textoEstado = $(this).find('td:eq(3)').text().toLowerCase();
+            var textoFechaMigracion = $(this).find('td:eq(4)').text().toLowerCase();
+            var textoFechaActualizacion = $(this).find('td:eq(5)').text().toLowerCase();
+
+            var mostrar = textoItem.indexOf(valorItem) > -1 &&
+                         textoNombre.indexOf(valorNombre) > -1 &&
+                         textoGerencia.indexOf(valorGerencia) > -1 &&
+                         textoEstado.indexOf(valorEstado) > -1 &&
+                         textoFechaMigracion.indexOf(valorFechaMigracion) > -1 &&
+                         textoFechaActualizacion.indexOf(valorFechaActualizacion) > -1;
+
+            $(this).toggle(mostrar);
+        });
+    });
+});
+</script>
+<!-- Bootstrap JS y scripts para los povers-->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+<script>
+  var popoverTriggerList = [].slice.call(document.querySelectorAll('.puesto-popover'));
+  var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+    return new bootstrap.Popover(popoverTriggerEl);
+  });
 </script>

@@ -14,8 +14,8 @@ return new class extends Migration
             $table->string('estadoFormacion')->nullable();
             $table->string('formacion')->nullable();
             $table->string('fileAc')->nullable();
-            $table->string('fechaInicioEnSin')->nullable();
-            $table->string('fechaInicio')->nullable();
+            $table->date('fechaInicioEnSin')->nullable();
+            $table->date('fechaInicio')->nullable();
             $table->string('nombreCompletoDesvinculacion')->nullable();
             $table->string('motivoBaja')->nullable();
             $table->string('fechaFin')->nullable();

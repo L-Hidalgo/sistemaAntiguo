@@ -11,14 +11,11 @@ return new class extends Migration
     {
         Schema::create('requisitos_puestos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('puesto_id');
-            $table->unsignedBigInteger('requisito_id');
-            $table->foreign('puesto_id')->references('id')->on('puestos')->onDelete('cascade');
-            $table->foreign('requisito_id')->references('id')->on('requisitos')->onDelete('cascade');
+            $table->unsignedBigInteger('puesto_id')->nullable();
+            $table->unsignedBigInteger('requisito_id')->nullable();
+            $table->foreign('puesto_id')->references('id')->on('puestos');
+            $table->foreign('requisito_id')->references('id')->on('requisitos');
             $table->timestamps();
-
-            // clave primaria compuesta
-            //$table->primary(['puesto_id', 'requisito_id']);
         });
     }
 
