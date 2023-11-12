@@ -36,6 +36,15 @@
                         <strong>Importante!</strong> No hay datos importados...
                     </div>
                 @else
+                    <!-- <div  class="content-cards">
+                        @foreach ($puestos as $puesto)
+                        <div class="personas-card">
+                            <img class="imagen-persona avatar me-3" src="/img/team-2.jpg" alt="imagen persona">
+                            <span class="text-uppercase text-secondary text-s font-weight-bolder">NOMBRE</span> <br>
+                            <span class="text-uppercase text-secondary text-xs font-weight-ligter opacity-7">CARGO</span>
+                        </div>
+                        @endforeach
+                    </div> -->
                     <div class="table-responsive p-0">
                         <table class="table align-items-center mb-0">
                             <thead>
@@ -251,6 +260,24 @@
         </div>
     </div>
 </div>
+<!-- <style>
+    .content-cards {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+    .personas-card {
+        width: 150px;
+        height: 210px;
+        border: 1px solid black;
+        padding: 5px;
+        border-radius: 10px;
+    }
+    .imagen-persona {
+        width: 100%;
+        height: 150px;
+    }
+</style> -->
 <!--------------------------------------MODAL PARA AÑADIR IMAGENES--------------------------------------------->
 <div class="modal" id="modalImagenes" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
