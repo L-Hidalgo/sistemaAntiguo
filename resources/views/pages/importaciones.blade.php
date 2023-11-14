@@ -2,9 +2,10 @@
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'Importaciones'])
 <?php
-    use App\Models\Puesto;
-    //$puestos = Puesto::all();
-    $puestos = Puesto::paginate(8);
+use App\Models\PersonaPuesto;
+
+    // where('estado', 1)
+    $personaPuesto = PersonaPuesto::paginate(8);
 ?>
 <div class="container-fluid py-4">
     <div class="row">
@@ -78,7 +79,7 @@
                     </div>
                 </div>
                 <!-- ......................................Modal Final------------------------------------------------->
-                @if ($puestos->isEmpty())
+                @if ($personaPuesto->isEmpty())
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="alert" role="alert">
                         <span class="alert-icon"><i class="ni ni-notification-70"></i></span>
@@ -86,12 +87,10 @@
                     </div>
                 @else
                     <div class="d-flex flex-wrap">
-                    @foreach ($puestos as $puesto)
                         <!-------------------Cards------------------------>
+                        @foreach($personaPuesto as $personaP)
                         <div class="card shadow m-4" style="width: 13rem;">
-                        @foreach($puesto->personaPuesto as $personaP)
                             <img src="/img/team-2.jpg" class="card-img-top">
-                            @if (isset($personaP))
                             <div class="card-body">
                                 <span class="badge rounded-pill bg-primary" data-bs-toggle="modal" data-bs-target="#informacionModal">Detalle</span>
                                 <!-- ......................................Modal Detalle------------------------------------------------->
@@ -129,16 +128,16 @@
                                                 <div class="row">
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <span class="text-secondary text-xs font-weight-bold"><b>N° de Item:</b> {{$puesto->item}}</span><br>
-                                                            <span class="text-secondary text-xs font-weight-bold"><b>Cargo:</b> {{$puesto->denominacion}}</span><br>
+                                                            <span class="text-secondary text-xs font-weight-bold"><b>N° de Item:</b> {{$personaP->puesto->item}}</span><br>
+                                                            <span class="text-secondary text-xs font-weight-bold"><b>Cargo:</b> {{$personaP->puesto->denominacion}}</span><br>
                                                             <span class="text-secondary text-xs font-weight-bold"><b>Fecha de Inicio en el Cargo:</b> {{$personaP->fechaInicio}}</span><br>
-                                                            <span class="text-secondary text-xs font-weight-bold"><b>Salario:</b> {{$puesto->salario}} bs.</span>
+                                                            <span class="text-secondary text-xs font-weight-bold"><b>Salario:</b> {{$personaP->puesto->salario}} bs.</span>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <span class="text-secondary text-xs font-weight-bold"><b>Gerencia:</b> {{$puesto->departamento->gerencia->nombre}}</span><br>
-                                                            <span class="text-secondary text-xs font-weight-bold"><b>Departamento:</b> {{$puesto->departamento->nombre}}</span><br>
+                                                            <span class="text-secondary text-xs font-weight-bold"><b>Gerencia:</b> {{$personaP->puesto->departamento->gerencia->nombre}}</span><br>
+                                                            <span class="text-secondary text-xs font-weight-bold"><b>Departamento:</b> {{$personaP->puesto->departamento->nombre}}</span><br>
                                                             <span class="text-secondary text-xs font-weight-bold"><b>Fecha de Inicio en el SIN:</b> {{$personaP->fechaInicioEnSin}}</span>
                                                         </div>
                                                     </div>
@@ -154,9 +153,9 @@
                                                 <h6 class="modal-title">Requisitos de formacion</h6>
                                                 <div class="row">
                                                     <div class="col-md-12">
-                                                        <span class="text-secondary text-xs font-weight-bold"><b>Objetivo del Puesto:</b> {{$puesto->objetivo}}</span>
+                                                        <span class="text-secondary text-xs font-weight-bold"><b>Objetivo del Puesto:</b> {{$personaP->puesto->objetivo}}</span>
                                                     </div>
-                                                    @foreach ($puesto->requisitosPuesto as $requisitoPuesto)
+                                                    @foreach ($personaP->puesto->requisitosPuesto as $requisitoPuesto)
                                                     <div class="col-md-12">
                                                         @if ($requisitoPuesto->requisito)
                                                             <span class="text-secondary text-xs font-weight-bold"><b>Formacion Requerida:</b> {{$requisitoPuesto->requisito->formacionRequerida}}</span>
@@ -188,46 +187,44 @@
                                 </div>
                               <!-- ......................................Modal------------------------------------------------->
                                 <h6 class="mb-0 text-sm card-title">{{$personaP->persona->nombreCompleto}}</h6>
-                                <span class="text-secondary text-xs font-weight-bold">{{$puesto->denominacion}}</span>
+                                <span class="text-secondary text-xs font-weight-bold">{{$personaP->puesto->denominacion}}</span>
                             </div>
-                            @endif
-                        @endforeach
                         </div>
-                    @endforeach
+                        @endforeach
                     </div>
                     <!--------------------------------------------Pie de pagina------------------------------------------------------------------>
                     <nav aria-label="Page navigation example">
                         <ul class="pagination ml-auto justify-content-end">
-                            <li class="page-item {{ $puestos->onFirstPage() ? 'disabled' : '' }}">
-                                <a class="page-link" href="{{ $puestos->previousPageUrl() }}" tabindex="-1" aria-disabled="true"> <- </a>
+                            <li class="page-item {{ $personaPuesto->onFirstPage() ? 'disabled' : '' }}">
+                                <a class="page-link" href="{{ $personaPuesto->previousPageUrl() }}" tabindex="-1" aria-disabled="true"> <- </a>
                             </li>
-                            @if ($puestos->currentPage() > 2)
+                            @if ($personaPuesto->currentPage() > 2)
                             <li class="page-item">
-                                <a class="page-link" href="{{ $puestos->url(1) }}">1</a>
+                                <a class="page-link" href="{{ $personaPuesto->url(1) }}">1</a>
                             </li>
                              @endif
-                             @if ($puestos->currentPage() > 3)
+                             @if ($personaPuesto->currentPage() > 3)
                              <li class="page-item disabled">
                                 <span class="page-link">...</span>
                             </li>
                             @endif
-                            @for ($i = max(1, $puestos->currentPage() - 1); $i <= min($puestos->currentPage() + 1, $puestos->lastPage()); $i++)
-                            <li class="page-item {{ $i === $puestos->currentPage() ? 'active' : '' }}">
-                                <a class="page-link" href="{{ $puestos->url($i) }}">{{ $i }}</a>
+                            @for ($i = max(1, $personaPuesto->currentPage() - 1); $i <= min($personaPuesto->currentPage() + 1, $personaPuesto->lastPage()); $i++)
+                            <li class="page-item {{ $i === $personaPuesto->currentPage() ? 'active' : '' }}">
+                                <a class="page-link" href="{{ $personaPuesto->url($i) }}">{{ $i }}</a>
                             </li>
                             @endfor
-                            @if ($puestos->currentPage() < $puestos->lastPage() - 2)
+                            @if ($personaPuesto->currentPage() < $personaPuesto->lastPage() - 2)
                             <li class="page-item disabled">
                                 <span class="page-link">...</span>
                             </li>
                             @endif
-                            @if ($puestos->currentPage() < $puestos->lastPage() - 1)
+                            @if ($personaPuesto->currentPage() < $personaPuesto->lastPage() - 1)
                             <li class="page-item">
-                                <a class="page-link" href="{{ $puestos->url($puestos->lastPage()) }}">{{ $puestos->lastPage() }}</a>
+                                <a class="page-link" href="{{ $personaPuesto->url($personaPuesto->lastPage()) }}">{{ $personaPuesto->lastPage() }}</a>
                             </li>
                             @endif
-                            <li class="page-item {{ $puestos->currentPage() === $puestos->lastPage() ? 'disabled' : '' }}">
-                                 <a class="page-link" href="{{ $puestos->nextPageUrl() }}"> -> </a>
+                            <li class="page-item {{ $personaPuesto->currentPage() === $personaPuesto->lastPage() ? 'disabled' : '' }}">
+                                 <a class="page-link" href="{{ $personaPuesto->nextPageUrl() }}"> -> </a>
                             </li>
                         </ul>
                     </nav>
