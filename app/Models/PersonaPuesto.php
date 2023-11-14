@@ -18,6 +18,7 @@ class PersonaPuesto extends Model
         'nombreCompletoDesvinculacion',
         'motivoBaja',
         'fechaFin',
+        'estado',
         'puesto_id',
         'persona_id',
     ];

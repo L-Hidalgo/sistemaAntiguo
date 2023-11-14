@@ -31,11 +31,11 @@ class ImportExcelData implements ToModel, WithStartRow
 
         $departamento =  $this->migrarDepartamento($row[2], $gerencia->id);
 
-        $puesto = $this->migrarPuesto($row[0], $row[3], $row[4], $row[5], $row[42], $departamento->id);
-
         $persona = $this->migrarPersona($row[6], $row[7], $row[8], $row[9], $row[10], $row[11], $row[11] . ' ' . $row[9] . ' ' . $row[10], $row[15], $row[16], $row[18]);
 
-        $personaPuesto = $this->migrarPersonaPuesto($row[13], $row[14], $row[0] . ' ' . $row[6] , $row[19], $row[20], $row[39], $row[40], $row[41], $puesto->id, $persona->id);
+        $puesto = $this->migrarPuesto($row[0], $row[3], $row[4], $row[5], $row[42], $departamento->id);
+
+        $personaPuesto = $this->migrarPersonaPuesto($row[13], $row[14], $row[0] . ' ' . $row[6] , $row[19], $row[20], $row[39], $row[40], $row[41], $row[9], $puesto->id, $persona->id);
         
         $procesoDeIncorporacion = $this->migrarProcesoDeIncorporacion($row[21], $row[22], $row[23], $row[24], $row[25], $row[26], $row[27], $row[28], $row[29], $row[30], $row[31], $row[32], $row[33], $row[34], $row[35], $row[36], $row[37], $row[38], $puesto->id);
    
@@ -69,21 +69,6 @@ class ImportExcelData implements ToModel, WithStartRow
         return $departamento;
     }
 
-    public function migrarPuesto($item, $denominacion, $salario, $salarioLiteral, $objetivo, $departamentoId): Puesto {
-        $puesto = Puesto::where('denominacion', $denominacion)->where('item', $item)->where('departamento_id', $departamentoId)->first();
-        if(!isset($puesto)){
-            $puesto = Puesto::create([
-                'item' => $item,
-                'denominacion' => $denominacion,
-                'salario' => $salario,
-                'salarioLiteral' => $salarioLiteral,
-                'objetivo' => $objetivo,
-                'departamento_id' => $departamentoId
-            ]);
-        }
-        return $puesto;
-    }
-
     public function migrarPersona($ci, $an, $exp, $primerApellido, $segundoApellido, $nombres, $nombreCompleto, $sexo, $fechaNacimiento, $telefono): Persona {
         $persona = Persona::where('ci', $ci)->first();
         if (!isset($persona)) {
@@ -104,8 +89,23 @@ class ImportExcelData implements ToModel, WithStartRow
         }
         return $persona;
     }
-    
-    public function migrarPersonaPuesto($estadoFormacion, $formacion, $fileAc, $fechaInicioEnSin, $fechaInicio, $nombreCompletoDesvinculacion, $motivoBaja, $fechaFin, $puestoId, $personaId): PersonaPuesto {
+
+    public function migrarPuesto($item, $denominacion, $salario, $salarioLiteral, $objetivo, $departamentoId): Puesto {
+        $puesto = Puesto::where('denominacion', $denominacion)->where('item', $item)->where('departamento_id', $departamentoId)->first();
+        if(!isset($puesto)){
+            $puesto = Puesto::create([
+                'item' => $item,
+                'denominacion' => $denominacion,
+                'salario' => $salario,
+                'salarioLiteral' => $salarioLiteral,
+                'objetivo' => $objetivo,
+                'departamento_id' => $departamentoId
+            ]);
+        }
+        return $puesto;
+    }  
+
+    public function migrarPersonaPuesto($estadoFormacion, $formacion, $fileAc, $fechaInicioEnSin, $fechaInicio, $nombreCompletoDesvinculacion, $motivoBaja, $fechaFin, $estado, $puestoId, $personaId): PersonaPuesto {
         $persona = Persona::find($personaId);
         $puesto = Puesto::find($puestoId);
 
@@ -114,6 +114,12 @@ class ImportExcelData implements ToModel, WithStartRow
         }
 
         $fileAc = $puesto->item . '-' . $persona->ci;
+
+        if ($estado === 'ACEFALIA') {
+            $estado = 'Desocupado';
+        } else {
+            $estado = 'Ocupado';
+        }
 
         $personaPuesto = PersonaPuesto::where('estadoFormacion', $estadoFormacion)
             ->where('puesto_id', $puestoId)
@@ -128,9 +134,7 @@ class ImportExcelData implements ToModel, WithStartRow
             $timestampFechaInicio = is_numeric($timestampFechaInicio) ? $timestampFechaInicio : 0;
             $fechaInicio = Carbon::createFromTimestamp($timestampFechaInicio)->format('Y-m-d');
 
-            // Verifica si $fechaFin ya es un valor numérico
             $timestampFechaFin = is_numeric($fechaFin) ? $fechaFin : (is_numeric($fechaFin) ? $fechaFin : strtotime($fechaFin));
-            // Asegúra que $timestampFechaFin sea un valor numérico
             $timestampFechaFin = is_numeric($timestampFechaFin) ? $timestampFechaFin : 0;
             $fechaFin = Carbon::createFromTimestamp($timestampFechaFin)->format('Y-m-d');
 
@@ -143,6 +147,7 @@ class ImportExcelData implements ToModel, WithStartRow
                 'nombreCompletoDesvinculacion' => $nombreCompletoDesvinculacion,
                 'motivoBaja' => $motivoBaja,
                 'fechaFin' => $fechaFin,
+                'estado' => $estado,
                 'puesto_id' => $puestoId,
                 'persona_id' => $personaId
             ]);
