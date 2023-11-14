@@ -108,13 +108,13 @@ class ImportExcelData implements ToModel, WithStartRow
     public function migrarPersonaPuesto($estadoFormacion, $formacion, $fileAc, $fechaInicioEnSin, $fechaInicio, $nombreCompletoDesvinculacion, $motivoBaja, $fechaFin, $puestoId, $personaId): PersonaPuesto {
         $persona = Persona::find($personaId);
         $puesto = Puesto::find($puestoId);
-    
+
         if (!$persona || !$puesto) {
             return null;
         }
-    
+
         $fileAc = $puesto->item . '-' . $persona->ci;
-    
+
         $personaPuesto = PersonaPuesto::where('estadoFormacion', $estadoFormacion)
             ->where('puesto_id', $puestoId)
             ->where('persona_id', $personaId)
@@ -123,18 +123,17 @@ class ImportExcelData implements ToModel, WithStartRow
         if (!isset($personaPuesto)) {
             $timestampFechaInicioEnSin = is_numeric($fechaInicioEnSin) ? $fechaInicioEnSin : \PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($fechaInicioEnSin);
             $fechaInicioEnSin = Carbon::createFromTimestamp($timestampFechaInicioEnSin)->format('Y-m-d');
-    
-            $timestampFechaInicio = is_numeric($fechaInicio) ? $fechaInicio : \PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($fechaInicio);
+
+            $timestampFechaInicio = is_numeric($fechaInicio) ? $fechaInicio : (is_numeric($fechaInicio) ? $fechaInicio : strtotime($fechaInicio));
+            $timestampFechaInicio = is_numeric($timestampFechaInicio) ? $timestampFechaInicio : 0;
             $fechaInicio = Carbon::createFromTimestamp($timestampFechaInicio)->format('Y-m-d');
-    
+
             // Verifica si $fechaFin ya es un valor numérico
             $timestampFechaFin = is_numeric($fechaFin) ? $fechaFin : (is_numeric($fechaFin) ? $fechaFin : strtotime($fechaFin));
-    
             // Asegúra que $timestampFechaFin sea un valor numérico
             $timestampFechaFin = is_numeric($timestampFechaFin) ? $timestampFechaFin : 0;
-    
             $fechaFin = Carbon::createFromTimestamp($timestampFechaFin)->format('Y-m-d');
-    
+
             $personaPuesto = PersonaPuesto::create([
                 'estadoFormacion' => $estadoFormacion,
                 'formacion' => $formacion,
@@ -153,40 +152,46 @@ class ImportExcelData implements ToModel, WithStartRow
     
     public function migrarProcesoDeIncorporacion($propuestos, $estado, $remitente, $fechaAccion, $responsable, $informeCuadro, $fechaInformeCuadro, $hpHr, $sippase, $idioma, $fechaMovimiento, $tipoMovimiento, $itemOrigen, $cargoOrigen, $memorandum, $ra, $fechaMermorialRap, $sayri, $puestoId): ProcesoDeIncorporacion {
         $procesoDeIncorporacion = ProcesoDeIncorporacion::where('propuestos', $propuestos)->where('puesto_id', $puestoId)->first();
-        if(!isset($procesoDeIncorporacion)){
-            $timestampFechaAccion = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($fechaAccion);
+    
+        if (!isset($procesoDeIncorporacion)) {
+            $timestampFechaAccion = is_numeric($fechaAccion) ? $fechaAccion : strtotime($fechaAccion);
             $fechaAccion = Carbon::createFromTimestamp($timestampFechaAccion)->format('Y-m-d');
-            $timestampFechaInformeCuadro = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($fechaInformeCuadro);
+    
+            $timestampFechaInformeCuadro = is_numeric($fechaInformeCuadro) ? $fechaInformeCuadro : strtotime($fechaInformeCuadro);
             $fechaInformeCuadro = Carbon::createFromTimestamp($timestampFechaInformeCuadro)->format('Y-m-d');
-            /*$timestampFechaMovimiento = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($fechaMovimiento);
+    
+            $timestampFechaMovimiento = is_numeric($fechaMovimiento) ? $fechaMovimiento : strtotime($fechaMovimiento);
             $fechaMovimiento = Carbon::createFromTimestamp($timestampFechaMovimiento)->format('Y-m-d');
-            $timestampFechaMermorialRap = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($fechaMermorialRap);
-            $fechaMermorialRap = Carbon::createFromTimestamp($timestampFechaMermorialRap)->format('Y-m-d');*/
+    
+            $timestampFechaMermorialRap = is_numeric($fechaMermorialRap) ? $fechaMermorialRap : strtotime($fechaMermorialRap);
+            $fechaMermorialRap = Carbon::createFromTimestamp($timestampFechaMermorialRap)->format('Y-m-d');
+    
             $procesoDeIncorporacion = ProcesoDeIncorporacion::create([
-                'propuestos' => $propuestos, 
-                'estado' => $estado, 
-                'remitente' => $remitente, 
-                'fechaAccion' => $fechaAccion, 
-                'responsable' => $responsable, 
-                'informeCuadro' => $informeCuadro, 
+                'propuestos' => $propuestos,
+                'estado' => $estado,
+                'remitente' => $remitente,
+                'fechaAccion' => $fechaAccion,
+                'responsable' => $responsable,
+                'informeCuadro' => $informeCuadro,
                 'fechaInformeCuadro' => $fechaInformeCuadro,
-                'hpHr' => $hpHr, 
-                'sippase' => $sippase, 
-                'idioma' => $idioma, 
-                'fechaMovimiento' => $fechaMovimiento, 
-                'tipoMovimiento' => $tipoMovimiento, 
-                'itemOrigen' => $itemOrigen, 
-                'cargoOrigen' => $cargoOrigen, 
-                'memorandum' => $memorandum, 
-                'ra' => $ra, 
+                'hpHr' => $hpHr,
+                'sippase' => $sippase,
+                'idioma' => $idioma,
+                'fechaMovimiento' => $fechaMovimiento,
+                'tipoMovimiento' => $tipoMovimiento,
+                'itemOrigen' => $itemOrigen,
+                'cargoOrigen' => $cargoOrigen,
+                'memorandum' => $memorandum,
+                'ra' => $ra,
                 'fechaMermorialRap' => $fechaMermorialRap,
                 'sayri' => $sayri,
-                'puesto_id' => $puestoId
+                'puesto_id' => $puestoId,
             ]);
         }
+    
         return $procesoDeIncorporacion;
     }
-
+    
     public function migrarRequisitos($formacionRequerida, $experienciaProfesionalSegunCargo, $experienciaRelacionadoAlArea, $experienciaEnFuncionesDeMando): Requisitos {
         $requisitos = Requisitos::where('formacionRequerida', $formacionRequerida)->first();
         if(!isset($requisitos)){

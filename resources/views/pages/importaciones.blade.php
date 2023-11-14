@@ -20,9 +20,7 @@ use App\Models\PersonaPuesto;
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#migrarPlanillaModal"><i class="ni ni-folder-17"></i>  Migrar Planilla</a>
                             <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#migrarImagenesModal"><i class="ni ni-image"></i>  Migrar Imagenes</a>
-                            <a class="dropdown-item">
-                                <i class="ni ni-tag"></i>  Buscar Datos
-                            </a>
+                            <a class="dropdown-item"><i class="ni ni-tag"></i>  Buscar Datos</a>
                         </div>
                     </div>
                 </div>

@@ -21,13 +21,13 @@ return new class extends Migration
             $table->string('hpHr')->nullable();
             $table->string('sippase')->nullable();
             $table->string('idioma')->nullable();
-            $table->string('fechaMovimiento')->nullable();
+            $table->date('fechaMovimiento')->nullable();
             $table->string('tipoMovimiento')->nullable();
             $table->string('itemOrigen')->nullable();
             $table->string('cargoOrigen')->nullable();
             $table->string('memorandum')->nullable();
             $table->string('ra')->nullable();
-            $table->string('fechaMemorialRap')->nullable();
+            $table->date('fechaMemorialRap')->nullable();
             $table->string('sayri')->nullable();
             $table->unsignedBigInteger('puesto_id');
             $table->foreign('puesto_id')->references('id')->on('puestos');

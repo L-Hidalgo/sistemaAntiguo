@@ -24,6 +24,8 @@ use PDO;
 use PDOStatement;
 use RuntimeException;
 
+set_time_limit(60);
+
 class Connection implements ConnectionInterface
 {
     use DetectsConcurrencyErrors,
@@ -485,6 +487,7 @@ class Connection implements ConnectionInterface
      * @param  array  $bindings
      * @return bool
      */
+
     public function statement($query, $bindings = [])
     {
         return $this->run($query, $bindings, function ($query, $bindings) {

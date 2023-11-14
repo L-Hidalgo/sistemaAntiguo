@@ -6,6 +6,7 @@ use App\Models\Persona;
 use Illuminate\Support\Facades\Storage;
 use ZipArchive;
 use Illuminate\Support\Facades\File;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ImportImagesController extends Controller
 {
@@ -39,21 +40,23 @@ class ImportImagesController extends Controller
                         }
                         $zip->close();
                     }
-                    // Eliminar el archivo ZIP después de extraer las imágenes
                     unlink($rutaArchivo);
 
-                    return redirect()->back()->with('success', 'Imágenes importadas correctamente.');
+                    Alert::success('Éxito', 'Imágenes importadas correctamente.')->persistent(true, true);
+                    return redirect()->back();
                 } else {
-                    return redirect()->back()->with('error', 'El archivo no es un archivo ZIP.');
+                    Alert::error('Error', 'El archivo no es un archivo ZIP.')->persistent(true, true);
+                    return redirect()->back();
                 }
             } else {
-                return redirect()->back()->with('error', 'No se ha proporcionado un archivo.');
+                Alert::error('Error', 'No se ha proporcionado un archivo.')->persistent(true, true);
+                return redirect()->back();
             }
             return redirect()->back()->with('success', 'Imágenes importadas correctamente.');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Error: ' . $e->getMessage());
+            Alert::error('Error', 'Error: ' . $e->getMessage())->persistent(true, true);
+            return redirect()->back();
         }
-
     }
 
     public function getImagenPersona($personaId) {
