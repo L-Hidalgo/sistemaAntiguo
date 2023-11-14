@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('fechaInicio')->nullable();
             $table->string('nombreCompletoDesvinculacion')->nullable();
             $table->string('motivoBaja')->nullable();
-            $table->string('fechaFin')->nullable();
+            $table->date('fechaFin')->nullable();
             $table->unsignedBigInteger('puesto_id')->nullable();
             $table->unsignedBigInteger('persona_id')->nullable();
             $table->foreign('puesto_id')->references('id')->on('puestos');
