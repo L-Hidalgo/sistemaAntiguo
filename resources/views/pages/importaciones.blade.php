@@ -90,7 +90,11 @@ use App\Models\PersonaPuesto;
                         <!-------------------Cards------------------------>
                         @foreach($personaPuesto as $personaP)
                         <div class="card shadow m-4" style="width: 13rem;">
-                            <img src="/img/team-2.jpg" class="card-img-top">
+                            @if(isset($personaP->persona->imagen))
+                                <img src="{{ route('imagen-persona', ['personaId' => $personaP->persona->id]) }}" class="card-img-top">
+                            @else
+                                <img src="/img/team-2.jpg" class="card-img-top">
+                            @endif    
                             <div class="card-body">
                                 <span class="badge rounded-pill bg-primary" data-bs-toggle="modal" data-bs-target="#informacionModal{{$personaP->id}}">Detalle</span>
                                 <!-- ......................................Modal Detalle------------------------------------------------->
