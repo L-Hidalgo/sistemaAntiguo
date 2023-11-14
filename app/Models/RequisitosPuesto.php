@@ -19,7 +19,7 @@ class RequisitosPuesto extends Model
     }
 
     public function requisito() {
-        return $this->belongsTo(Requisitos::class,'persona_id', 'id');
+        return $this->belongsTo(Requisitos::class,'requisito_id', 'id');
     }
 
 }

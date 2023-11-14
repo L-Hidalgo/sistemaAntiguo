@@ -92,9 +92,9 @@ use App\Models\PersonaPuesto;
                         <div class="card shadow m-4" style="width: 13rem;">
                             <img src="/img/team-2.jpg" class="card-img-top">
                             <div class="card-body">
-                                <span class="badge rounded-pill bg-primary" data-bs-toggle="modal" data-bs-target="#informacionModal">Detalle</span>
+                                <span class="badge rounded-pill bg-primary" data-bs-toggle="modal" data-bs-target="#informacionModal{{$personaP->id}}">Detalle</span>
                                 <!-- ......................................Modal Detalle------------------------------------------------->
-                                <div class="modal fade modal-dialog-scrollable" id="informacionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade modal-dialog-scrollable" id="informacionModal{{$personaP->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
