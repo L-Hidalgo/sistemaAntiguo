@@ -20,11 +20,9 @@ class ImportImagesController extends Controller
                 $archivo->move($directorioDestino, $nombreArchivo);
 
                 $rutaArchivo = $directorioDestino . '/' . $nombreArchivo;
-
                 // Verificar si es un archivo ZIP
                 if (pathinfo($rutaArchivo, PATHINFO_EXTENSION) === 'zip') {
                     $zip = new ZipArchive;
-
                     if ($zip->open($rutaArchivo) === true) {
                         for ($i = 0; $i < $zip->numFiles; $i++) {
                             $nombreArchivo = $zip->getNameIndex($i);
@@ -35,9 +33,6 @@ class ImportImagesController extends Controller
                             if ($persona) {
                                 $nombreImagen = $ci . '.' . $extension;
                                 $zip->extractTo(Storage::disk('img_personas')->path('/'), $nombreArchivo);
-                                $nuevoNombreArchivo = $directorioDestino . '/' . $nombreArchivo;
-                                $nuevoNombreImagen = $directorioDestino . '/' . $nombreImagen;
-                                rename($nuevoNombreArchivo, $nuevoNombreImagen);
                                 $persona->imagen = $nombreImagen; // Asignar el nombre de la imagen a la persona
                                 $persona->save();
                             }

@@ -9,9 +9,9 @@
 <div class="container-fluid py-4">
     <div class="row">
         <div class="col-12">
-            <div class="card mb-4">        
+            <div class="card mb-4">
                 <div class="card-header pb-0" style="display: flex; align-items: center; justify-content: space-between;">
-                    <h6 style="margin-bottom: 0;">Importación de planilla</h6>   
+                    <h6 style="margin-bottom: 0;">Importación de planilla</h6>
                     <div class="dropdown ms-auto">
                         <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="ni ni-settings-gear-65"></i>  Opciones
@@ -65,7 +65,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <label for="directoryInput" class="form-label">Seleccione un archivo .zip:</label>
-                                        <input type="file" class="form-control" accept=".zip">
+                                        <input type="file" name="file" class="form-control" accept=".zip">
                                     </div>
                                 </div>
                             </div>
@@ -109,7 +109,7 @@
                                                     <div class="col-md-6">
                                                         <img src="{{ route('imagen-persona', ['personaId' => $personaP->persona->id]) }}" class="img-fluid">
                                                     </div>
-                                                    @else  
+                                                    @else
                                                     <div class="col-md-6">
                                                         <img src="/img/team-2.jpg" class="img-fluid">
                                                     </div>
@@ -140,7 +140,7 @@
                                                             <span class="text-secondary text-xs font-weight-bold"><b>Gerencia:</b> {{$puesto->departamento->gerencia->nombre}}</span><br>
                                                             <span class="text-secondary text-xs font-weight-bold"><b>Departamento:</b> {{$puesto->departamento->nombre}}</span><br>
                                                             <span class="text-secondary text-xs font-weight-bold"><b>Fecha de Inicio en el SIN:</b> {{$personaP->fechaInicioEnSin}}</span>
-                                                        </div> 
+                                                        </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
@@ -191,9 +191,9 @@
                                 <span class="text-secondary text-xs font-weight-bold">{{$puesto->denominacion}}</span>
                             </div>
                             @endif
-                        @endforeach    
+                        @endforeach
                         </div>
-                    @endforeach    
+                    @endforeach
                     </div>
                     <!--------------------------------------------Pie de pagina------------------------------------------------------------------>
                     <nav aria-label="Page navigation example">
@@ -233,13 +233,13 @@
                     </nav>
                     <!------------------------------------------------------------------------------------->
                 </div>
-                @endif  
+                @endif
             </div>
         </div>
     </div>
     @include('layouts.footers.auth.footer')
 </div>
 @endsection
-                            
+
 
 
