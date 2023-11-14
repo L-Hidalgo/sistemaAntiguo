@@ -14,13 +14,10 @@ use App\Models\Persona;
 class ExcelImportController extends Controller
 {
     public function importExcel(Request $request) {
-        $file = $request->file('file');
-        Log::info('Import excel');
+        $file = $request->file('archivoPlanilla'); 
+        Log::info('El controlador import excel');
         Excel::import(new ImportExcelData, $file);
-
-        $message ='Datos importados correctamente.';
-        $redirectUrl = route('importaciones');
-        //return response()->json(['message' => $message]);
-        return response()->json(['message' => $message, 'redirect' => $redirectUrl]);
+    
+        return redirect()->back()->with('message', 'Importación completada.');
     }
 }
