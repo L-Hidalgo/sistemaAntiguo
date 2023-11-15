@@ -3,9 +3,7 @@
 @include('layouts.navbars.auth.topnav', ['title' => 'Importaciones'])
 <?php
 use App\Models\PersonaPuesto;
-
-    // where('estado', 1)
-    $personaPuesto = PersonaPuesto::paginate(8);
+$personaPuesto = PersonaPuesto::paginate(8);
 ?>
 <div class="container-fluid py-4">
     <div class="row">
@@ -20,7 +18,7 @@ use App\Models\PersonaPuesto;
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#migrarPlanillaModal"><i class="ni ni-folder-17"></i>  Migrar Planilla</a>
                             <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#migrarImagenesModal"><i class="ni ni-image"></i>  Migrar Imagenes</a>
-                            <a class="dropdown-item" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><i class="ni ni-tag"></i>  Buscar Datos</a>
+                            <a class="dropdown-item"><i class="ni ni-tag"></i>  Buscar Datos</a>
                         </div>
                     </div>
                 </div>
@@ -76,17 +74,7 @@ use App\Models\PersonaPuesto;
                         </form>
                     </div>
                 </div>
-                <!-- ......................................Offcanvas para buscar------------------------------------------------->
-                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-                    <div class="offcanvas-header">
-                        <h5 id="offcanvasRightLabel">Buscador</h5>
-                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        ...
-                    </div>
-                </div>
-                <!-- ......................................Offcanvas para buscar------------------------------------------------->
+                <!-- ......................................------------------------------------------------------------------------>
                 @if ($personaPuesto->isEmpty())
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="alert" role="alert">
@@ -94,6 +82,9 @@ use App\Models\PersonaPuesto;
                         <strong>Importante!</strong> No hay datos importados...
                     </div>
                 @else
+                <!----------------formulario-------------------------------->
+                <!----------------------------------------------------------------------------->    
+
                     <div class="d-flex flex-wrap">
                         <!-------------------Cards------------------------>
                         @foreach($personaPuesto as $personaP)
@@ -104,11 +95,11 @@ use App\Models\PersonaPuesto;
                                 <img src="/img/team-2.jpg" class="card-img-top">
                             @endif    
                             <div class="card-body">
-                                <span class="badge rounded-pill bg-primary" data-bs-toggle="modal" data-bs-target="#informacionModal{{$personaP->id}}">Detalle</span>
+                                <span class="badge rounded-pill bg-primary" data-bs-toggle="modal" data-bs-target="#informacionModal{{$personaP->id}}" style="font-size: 0.5em;">Detalle</span>
                                 @if ($personaP->estado == 'Desocupado')
-                                    <span class="badge rounded-pill bg-danger">{{$personaP->estado}}</span>
+                                    <span class="badge rounded-pill bg-danger" style="font-size: 0.5em;">{{$personaP->estado}}</span>
                                 @else
-                                    <span class="badge rounded-pill bg-success">{{$personaP->estado}}</span>
+                                    <span class="badge rounded-pill bg-success" style="font-size: 0.5em;">{{$personaP->estado}}</span>
                                 @endif
                                 <!-- ......................................Modal Detalle------------------------------------------------->
                                 <div class="modal fade modal-dialog-scrollable" id="informacionModal{{$personaP->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -254,6 +245,5 @@ use App\Models\PersonaPuesto;
     @include('layouts.footers.auth.footer')
 </div>
 @endsection
-
 
 

@@ -10,6 +10,8 @@ use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\ChangePassword;
 use App\Http\Controllers\ExcelImportController;
 use App\Http\Controllers\ImportImagesController;
+use App\Http\Controllers\BuscarDatosImportadosController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -55,9 +57,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/importaciones', [ExcelImportController::class, 'importExcel'])->name('importaciones');
 	Route::post('/importar-imagenes', [ImportImagesController::class, 'importImagenes'])->name('importar.imagenes');
     Route::get( '/imagen-persona/{personaId}', [ImportImagesController::class, 'getImagenPersona'])->name('imagen-persona');
+	Route::get('/importaciones', [BuscarDatosImportadosController::class, 'buscarDatosImportados'])->name('importaciones.buscar');
 
-    // getImagenPersona
-	//Route::post('/importaciones', [ExcelImportController::class, 'importExcel'])->name('importar.excel');
-	// Route::get('/importaciones', [ExcelImportController::class, 'mostrarDatosEnTabla'])->name('listar-importacion');
-	// Route::match(['get', 'post'], '/importaciones', [ExcelImportController::class, 'importExcel', 'mostrarDatosEnTabla'])->name('importaciones');
+
 });

@@ -17,14 +17,14 @@ class Puesto extends Model
         'departamento_id'
     ];
 
-    public function procesoDeIncorporacion() {
-        return $this->hasMany(ProcesoDeIncorporacion::class);
-    }
-    
     public function personaPuesto(){
         return $this->hasMany(PersonaPuesto::class,'puesto_id', 'id');
     }
 
+    public function procesoDeIncorporacion() {
+        return $this->hasMany(ProcesoDeIncorporacion::class);
+    }
+    
     public function requisitosPuesto(){
         return $this->hasMany(RequisitosPuesto::class);
     }
