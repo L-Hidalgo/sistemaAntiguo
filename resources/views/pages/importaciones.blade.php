@@ -83,6 +83,19 @@ $personaPuesto = PersonaPuesto::paginate(8);
                         <strong>Importante!</strong> No hay datos importados...
                     </div>
                 @else
+                <!----------------formulario-------------------------------->
+                <form class="form-inline float-right">
+                    <input type="text" id="item" placeholder="Buscar por item">
+                    <select id="estado">
+                        <option value="Ocupado">Ocupado</option>
+                        <option value="Desocupado">Desocupado</option>
+                    </select>
+                    <select id="tipoMovimiento">
+                        <option value="Designacion">Designación</option>
+                        <option value="Cambio">Cambio</option>
+                    </select>
+                    <button onclick="buscarDatos()">Buscar</button>
+                </form>
                 <!----------------------------------------------------------------------------->
 
                     <div class="d-flex flex-wrap">
@@ -260,5 +273,4 @@ $personaPuesto = PersonaPuesto::paginate(8);
     }).mount('#importacion-page')
 </script>
 @endsection
-
 
