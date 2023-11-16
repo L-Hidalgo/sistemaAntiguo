@@ -1,19 +1,39 @@
 <?php
 
-use App\Models\PersonaPuesto;
+namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Models\PersonaPuesto;
 
-class BuscarDatosImportadosController extends Controller
+class PersonaPuestoController extends Controller
 {
-    public function buscarDatosImportados(Request $request)
+    public function buscarDatos(Request $request)
     {
-        $estado = $request->get('buscarpor');
+        $item = $request->input('item');
+        $estado = $request->input('estado');
+        $tipoMovimiento = $request->input('tipoMovimiento');
 
-        dd($estado);
-        //$personaPuesto = PersonaPuesto::where('estado', 'LIKE', "%$estado%")->paginate(8);
-        $personaPuesto = PersonaPuesto::paginate(8);
-        return view('importaciones.buscar', compact('personaPuesto'));
+        $query = PersonaPuesto::query();
+
+        if ($item) {
+            $query->whereHas('puesto', function ($q) use ($item) {
+                $q->where('item', 'LIKE', "%$item%");
+            });
+        }
+
+        if ($estado) {
+            $query->where('estado', $estado);
+        }
+
+        if ($tipoMovimiento) {
+            $query->whereHas('puesto.procesoDeIncorporacion', function (Builder $q) use ($tipoMovimiento) {
+                $q->where('tipoMovimiento', $tipoMovimiento);
+            });
+        }
+
+        $resultados = $query->paginate(8);
+
+        return response()->json($resultados);
     }
 }
 

@@ -83,6 +83,18 @@ $personaPuesto = PersonaPuesto::paginate(8);
                     </div>
                 @else
                 <!----------------formulario-------------------------------->
+                <form class="form-inline float-right">
+                    <input type="text" id="item" placeholder="Buscar por item">
+                    <select id="estado">
+                        <option value="Ocupado">Ocupado</option>
+                        <option value="Desocupado">Desocupado</option>
+                    </select>
+                    <select id="tipoMovimiento">
+                        <option value="Designacion">Designación</option>
+                        <option value="Cambio">Cambio</option>
+                    </select>
+                    <button onclick="buscarDatos()">Buscar</button>
+                </form>
                 <!----------------------------------------------------------------------------->    
 
                     <div class="d-flex flex-wrap">
@@ -246,4 +258,25 @@ $personaPuesto = PersonaPuesto::paginate(8);
 </div>
 @endsection
 
+<JavaScript>
+function buscarDatos() {
+    const item = document.getElementById('item').value;
+    const estado = document.getElementById('estado').value;
+    const tipoMovimiento = document.getElementById('tipoMovimiento').value;
+
+    axios.get('/buscar-datos', {
+        params: {
+            item: item,
+            estado: estado,
+            tipoMovimiento: tipoMovimiento
+        }
+    })
+    .then(response => {
+        console.log(response.data);
+    })
+    .catch(error => {
+        console.error(error);
+    });
+}
+</JavaScript>
 
