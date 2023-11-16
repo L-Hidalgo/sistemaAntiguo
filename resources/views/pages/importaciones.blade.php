@@ -1,6 +1,6 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 @section('content')
-@include('layouts.navbars.auth.topnav', ['title' => 'Importaciones'])
+@include('layouts.navbars.auth.topnav', ['title' => 'Planilla'])
 <?php
 
 use App\Models\Departamento;
@@ -82,7 +82,6 @@ $departamentos = Departamento::all();
                     </div>
                 </div>
                 <!-- ......................................------------------------------------------------------------------------>
-                <!----------------formulario-------------------------------->
                 <div v-if="listaPersonaPuesto.length == 0" class="card-body px-0 pt-0 pb-2">
                     <div class="alert" role="alert">
                         <span class="alert-icon"><i class="ni ni-notification-70"></i></span>
@@ -91,32 +90,23 @@ $departamentos = Departamento::all();
                 </div>
                 <!-- </div> -->
                 <!----------------formulario-------------------------------->
-                <div class="form-inline float-right">
-                    <input class="ml-2" type="text" v-model="item" placeholder="Buscar por item">
-                    <select class="m-2" v-model="gerenciaId">
-                        <option :value="undefined">TODOS</option>
+                <div class="form-inline float-right" style="display: flex; margin-left: 10px;">
+                    <input class="form-control" type="text" v-model="item" placeholder="Buscar por item" style="width: 15%; height: 5%;">
+                    <select class="form-control" v-model="gerenciaId" style="width: 15%; height: 5%; margin-left: 10px;">
+                        <option :value="undefined">Gerenecias </option>
                         @foreach($gerencias as $g)
-                        <option :value="{{$g->id}}">{{$g->nombre}}</option>
+                            <option :value="{{$g->id}}">{{$g->nombre}}</option>
                         @endforeach
                     </select>
-                    <select class="m-2" v-model="departamentoId">
-                        <option :value="undefined">TODOS</option>
-                        @foreach($departamentos as $d)
-                        <option :value="{{$d->id}}">{{$d->nombre}}</option>
-                        @endforeach
+                    <select class="form-control" v-model="departamentoId" style="width: 15%; height: 5%; margin-left: 10px;">
+                        <option :value="undefined">Departamentos</option>
+                            @foreach($departamentos as $d)
+                                <option :value="{{$d->id}}">{{$d->nombre}}</option>
+                            @endforeach
                     </select>
-                    <!-- <select id="estado">
-                        <option value="Ocupado">Ocupado</option>
-                        <option value="Desocupado">Desocupado</option>
-                    </select>
-                    <select id="tipoMovimiento">
-                        <option value="Designacion">Designación</option>
-                        <option value="Cambio">Cambio</option>
-                    </select> -->
-                    <button @click="onFilter()">Buscar</button>
+                    <button class="btn btn-primary" @click="onFilter()" style="border-radius: 50%; padding: 10px; cursor: pointer; margin-left: 10px;"><i class="fas fa-search"></i></button>
                 </div>
                 <!----------------------------------------------------------------------------->
-
                     <div class="d-flex flex-wrap">
                         <!-------------------Cards------------------------>
                         <div v-for="personaP in listaPersonaPuesto" class="card shadow m-4" style="width: 13rem;">
@@ -124,8 +114,8 @@ $departamentos = Departamento::all();
                             <img v-else src="/img/team-2.jpg" class="card-img-top">
                             <div class="card-body">
                                 <span class="badge rounded-pill bg-primary" data-bs-toggle="modal" :data-bs-target="'#informacionModal' + personaP.id" style="font-size: 0.5em;">Detalle</span>
-                                <span v-if="personaP.estado == 'Ocupado'" class="badge rounded-pill bg-danger" style="font-size: 0.5em;">@{{personaP.estado}}</span>
-                                <span v-else class="badge rounded-pill bg-success" style="font-size: 0.5em;">@{{personaP.estado}}</span>
+                                <span v-if="personaP.estado == 'Ocupado'" class="badge rounded-pill bg-success" style="font-size: 0.5em;">@{{personaP.estado}}</span>
+                                <span v-else class="badge rounded-pill bg-danger" style="font-size: 0.5em;">@{{personaP.estado}}</span>
                                 <!-- ......................................Modal Detalle------------------------------------------------->
                                 <div v-if="detallePersonaPuesto?.id" class="modal fade modal-dialog-scrollable" :id="'informacionModal' + personaP.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
