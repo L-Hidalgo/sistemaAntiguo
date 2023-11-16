@@ -6,11 +6,14 @@
 use App\Models\Departamento;
 use App\Models\Gerencia;
 use App\Models\PersonaPuesto;
+//use App\Models\ProcesoDeIncorporacion;
 // use App\Models\Puesto;
-
 // $personaPuesto = PersonaPuesto::paginate(8);
 $gerencias = Gerencia::all();
 $departamentos = Departamento::all();
+$personaPuesto = PersonaPuesto::all();
+//$personaPuesto = PersonaPuesto::all();
+//$procesoDeIncorporacion= ProcesoDeIncorporacion::all();
 ?>
 <div id="importacion-page" class="container-fluid py-4">
     <div class="row">
@@ -23,9 +26,9 @@ $departamentos = Departamento::all();
                             <i class="ni ni-settings-gear-65"></i>  Opciones
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#migrarPlanillaModal"><i class="ni ni-folder-17"></i>  Migrar Planilla</a>
-                            <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#migrarImagenesModal"><i class="ni ni-image"></i>  Migrar Imagenes</a>
-                            <a class="dropdown-item"><i class="ni ni-tag"></i>  Buscar Datos</a>
+                            <a class="dropdown-item text-secondary font-weight-bold" data-bs-toggle="modal" data-bs-target="#migrarPlanillaModal"><i class="ni ni-folder-17"></i>  Migrar Planilla</a>
+                            <a class="dropdown-item text-secondary font-weight-bold" data-bs-toggle="modal" data-bs-target="#migrarImagenesModal"><i class="ni ni-image"></i>  Migrar Imagenes</a>
+                            <a class="dropdown-item text-secondary font-weight-bold" href="#" onclick="toggleForm()"> <i class="ni ni-tag"></i> Buscar Datos</a>
                         </div>
                     </div>
                 </div>
@@ -90,22 +93,42 @@ $departamentos = Departamento::all();
                 </div>
                 <!-- </div> -->
                 <!----------------formulario-------------------------------->
-                <div class="form-inline float-right" style="display: flex; margin-left: 10px;">
-                    <input class="form-control" type="text" v-model="item" placeholder="Buscar por item" style="width: 15%; height: 5%;">
-                    <select class="form-control" v-model="gerenciaId" style="width: 15%; height: 5%; margin-left: 10px;">
+                <div class="search-form form-inline float-right" id="searchForm" style="margin-left: 10px;display: none; flex-direction: row;">
+                    <input class="form-control form-control-alternative text-secondary text-xs font-weight-bold" type="text" v-model="item" placeholder="Buscar por item" style="width: 15%; height: 5%; margin-left: 15px;">
+                    <select class="form-control form-control-alternative text-secondary text-xs font-weight-bold" v-model="gerenciaId" style="width: 20%; height: 5%; margin-left: 25px;">
                         <option :value="undefined">Gerenecias </option>
                         @foreach($gerencias as $g)
                             <option :value="{{$g->id}}">{{$g->nombre}}</option>
                         @endforeach
                     </select>
-                    <select class="form-control" v-model="departamentoId" style="width: 15%; height: 5%; margin-left: 10px;">
-                        <option :value="undefined">Departamentos</option>
+                    <select class="form-control form-control-alternative text-secondary text-xs font-weight-bold" v-model="departamentoId" style="width: 20%; height: 5%; margin-left: 25px;">
+                        <option :value="undefined">Departamentos <span order-radius: 50%; background-color: #3490dc; color: #fff; text-align: center; line-height: 20px; margin-left: 5px;">{{ $departamentos->count() }}</span>
+</option>
                             @foreach($departamentos as $d)
                                 <option :value="{{$d->id}}">{{$d->nombre}}</option>
                             @endforeach
                     </select>
-                    <button class="btn btn-primary" @click="onFilter()" style="border-radius: 50%; padding: 10px; cursor: pointer; margin-left: 10px;"><i class="fas fa-search"></i></button>
+                    <!--<input class="form-control" type="text" v-model="nombreCompleto" placeholder="Buscar por nombre completo" style="width: 20%; height: 5%; margin-left: 10px;">-->
+                    <select class="form-control form-control-alternative text-secondary text-xs font-weight-bold" v-model="estado" style="width: 15%; height: 5%; margin-left: 25px;">
+                        <option :value="undefined">Estado</option>
+                        <option value="Ocupado">Ocupado</option>
+                        <option value="Desocupado">Desocupado</option>
+                    </select>
+                    <select class="form-control form-control-alternative text-secondary text-xs font-weight-bold" v-model="tipoMovimiento" style="width: 15%; height: 5%; margin-left: 20px;">
+                        <option :value="undefined">Tipo de Movimiento</option>
+                        <option value="Designacion">Designación</option>
+                        <option value="Cambio de Item">Cambio de Item</option>
+                    </select>
+                    <button class="btn btn-primary" @click="onFilter()" style="border-radius: 50%; padding: 10px; cursor: pointer; margin-left: 20px; margin-right: 20px;"><i class="fas fa-search"></i></button>
                 </div>
+                <div class="custom-select-wrapper">
+        <select class="custom-select" v-model="departamentoId">
+            <option :value="undefined">Departamentos <span class="badge badge-primary">{{ $departamentos->count() }}</span></option>
+            @foreach($departamentos as $d)
+                <option :value="{{$d->id}}">{{$d->nombre}}</option>
+            @endforeach
+        </select>
+    </div>
                 <!----------------------------------------------------------------------------->
                     <div class="d-flex flex-wrap">
                         <!-------------------Cards------------------------>
@@ -239,9 +262,12 @@ $departamentos = Departamento::all();
     createApp({
     setup() {
         const datoDesdeVue = ref("DESDE VUE")
+        const item = ref();
         const gerenciaId = ref();
         const departamentoId = ref();
-        const item = ref();
+        //const nombreCompleto = ref();
+        const estado = ref();  
+        const tipoMovimiento = ref();
         const listaPersonaPuesto = ref([]);
 
         // Paginacion
@@ -267,6 +293,9 @@ $departamentos = Departamento::all();
                 gerenciaId: gerenciaId.value,
                 departamentoId: departamentoId.value,
                 item: item.value,
+                //nombreCompleto: nombreCompleto.value,
+                estado: estado.value,  
+                tipoMovimiento: tipoMovimiento.value, 
                 // Paginacion
                 page: page.value,
                 limit: limit.value,
@@ -298,6 +327,9 @@ $departamentos = Departamento::all();
             item,
             gerenciaId,
             departamentoId,
+            //nombreCompleto,
+            estado,
+            tipoMovimiento,
             datoDesdeVue,
             onFilter,
             listaPersonaPuesto,
@@ -312,6 +344,13 @@ $departamentos = Departamento::all();
         }
     }
     }).mount('#importacion-page')
+
+    // Función para mostrar el formulario al hacer clic en el enlace "Buscar Datos"
+    function toggleForm() {
+        var form = document.getElementById('searchForm');
+        form.style.display = (form.style.display === 'none' || form.style.display === '') ? 'flex' : 'none';
+    }
+
 </script>
 @endsection
 
