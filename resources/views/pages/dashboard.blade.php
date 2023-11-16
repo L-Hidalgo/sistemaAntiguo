@@ -12,7 +12,11 @@
                                 <div class="numbers">
                                     <p class="text-sm mb-0 text-uppercase font-weight-bold">Items</p>
                                     <h5 class="font-weight-bolder">
-                                        $53,000
+                                    @isset($totalItemsOcupados)
+                                    {{ $totalItemsOcupados }}
+                                    @else
+                                        No definido
+                                    @endisset
                                     </h5>
                                     <p class="mb-0">
                                         <span class="text-success text-sm font-weight-bolder">Ocupados</span>
@@ -37,10 +41,14 @@
                                 <div class="numbers">
                                     <p class="text-sm mb-0 text-uppercase font-weight-bold">Items</p>
                                     <h5 class="font-weight-bolder">
-                                        2,300
+                                    @isset($totalItemsDesocupados)
+                                        {{ $totalItemsDesocupados }}
+                                    @else
+                                        No definido
+                                    @endisset
                                     </h5>
                                     <p class="mb-0">
-                                        <span class="text-success text-sm font-weight-bolder">Desocupados</span>
+                                        <span class="text-danger text-sm font-weight-bolder">Desocupados</span>
                                         por año.
                                     </p>
                                 </div>
@@ -60,12 +68,16 @@
                         <div class="row">
                             <div class="col-8">
                                 <div class="numbers">
-                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Numero de personas</p>
+                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Personas</p>
                                     <h5 class="font-weight-bolder">
-                                        +3,462
+                                    @isset($personasDesignadas)
+                                        {{ $personasDesignadas }}
+                                    @else
+                                        No definido
+                                    @endisset
                                     </h5>
                                     <p class="mb-0">
-                                        <span class="text-danger text-sm font-weight-bolder">Designadas</span>
+                                        <span class="text-success text-sm font-weight-bolder">Designadas</span>
                                         a otro item por año.
                                     </p>
                                 </div>
@@ -85,12 +97,16 @@
                         <div class="row">
                             <div class="col-8">
                                 <div class="numbers">
-                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Numero de personas</p>
+                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Personas</p>
                                     <h5 class="font-weight-bolder">
-                                        $103,430
+                                    @isset($personasCambiadas)
+                                        {{ $personasCambiadas }}
+                                    @else
+                                        No definido
+                                    @endisset
                                     </h5>
                                     <p class="mb-0">
-                                        <span class="text-success text-sm font-weight-bolder">cambiadas a otro item</span> por año.
+                                        <span class="text-danger text-sm font-weight-bolder">cambiadas a otro item</span> por año.
                                     </p>
                                 </div>
                             </div>
