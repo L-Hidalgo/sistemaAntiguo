@@ -5,7 +5,7 @@
 use App\Models\PersonaPuesto;
 $personaPuesto = PersonaPuesto::paginate(8);
 ?>
-<div class="container-fluid py-4">
+<div id="importacion-page" class="container-fluid py-4">
     <div class="row">
         <div class="col-12">
             <div class="card mb-4">
@@ -75,6 +75,7 @@ $personaPuesto = PersonaPuesto::paginate(8);
                     </div>
                 </div>
                 <!-- ......................................------------------------------------------------------------------------>
+                <!----------------formulario-------------------------------->
                 @if ($personaPuesto->isEmpty())
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="alert" role="alert">
@@ -82,8 +83,7 @@ $personaPuesto = PersonaPuesto::paginate(8);
                         <strong>Importante!</strong> No hay datos importados...
                     </div>
                 @else
-                <!----------------formulario-------------------------------->
-                <!----------------------------------------------------------------------------->    
+                <!----------------------------------------------------------------------------->
 
                     <div class="d-flex flex-wrap">
                         <!-------------------Cards------------------------>
@@ -93,7 +93,7 @@ $personaPuesto = PersonaPuesto::paginate(8);
                                 <img src="{{ route('imagen-persona', ['personaId' => $personaP->persona->id]) }}" class="card-img-top">
                             @else
                                 <img src="/img/team-2.jpg" class="card-img-top">
-                            @endif    
+                            @endif
                             <div class="card-body">
                                 <span class="badge rounded-pill bg-primary" data-bs-toggle="modal" data-bs-target="#informacionModal{{$personaP->id}}" style="font-size: 0.5em;">Detalle</span>
                                 @if ($personaP->estado == 'Desocupado')
@@ -244,6 +244,21 @@ $personaPuesto = PersonaPuesto::paginate(8);
     </div>
     @include('layouts.footers.auth.footer')
 </div>
+<script>
+    const { ref, createApp } = Vue;
+    createApp({
+    setup() {
+        const datoDesdeVue = ref("DESDE VUE")
+        const gerenciaId = ref();
+        const departamentoId = ref();
+        return {
+            gerenciaId,
+            departamentoId,
+            datoDesdeVue,
+        }
+    }
+    }).mount('#importacion-page')
+</script>
 @endsection
 
 

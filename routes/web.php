@@ -57,7 +57,5 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/importaciones', [ExcelImportController::class, 'importExcel'])->name('importaciones');
 	Route::post('/importar-imagenes', [ImportImagesController::class, 'importImagenes'])->name('importar.imagenes');
     Route::get( '/imagen-persona/{personaId}', [ImportImagesController::class, 'getImagenPersona'])->name('imagen-persona');
-	Route::get('/importaciones', [BuscarDatosImportadosController::class, 'buscarDatosImportados'])->name('importaciones.buscar');
-
-
+	Route::get('/buscar-importados', [BuscarDatosImportadosController::class, 'buscarDatosImportados'])->name('importaciones.buscar');
 });

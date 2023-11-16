@@ -1,0 +1,12 @@
+@apiUrl=http://127.0.0.1:8000
+
+### listar persona puesto
+POST {{apiUrl}}/api/listar-persona-puesto
+Content-Type: application/json
+
+{
+    "page": 1,
+    "limit": 3,
+    "gerenciaId": 2,
+    "deparatamentoId": 1
+}

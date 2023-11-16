@@ -1,5 +1,5 @@
 <?php
-
+namespace App\Http\Controllers;
 use App\Models\PersonaPuesto;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
