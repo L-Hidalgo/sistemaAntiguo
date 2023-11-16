@@ -20,8 +20,11 @@ class PersonaPuestoController extends Controller
         /* ------------------------------------------- FILTROS ------------------------------------------ */
         $gerenciaId = $request->input('gerenciaId');
         $departamentoId = $request->input('departamentoId');
+        $item = $request->input('item');
+
         $query = DB::table('personas_puestos')
         ->join('puestos', 'personas_puestos.puesto_id', '=', 'puestos.id')
+        ->join('personas', 'personas.id', '=', 'personas_puestos.persona_id')
         ->join('departamentos', 'puestos.departamento_id', '=', 'departamentos.id');
 
         if(isset($departamentoId)) {
@@ -30,8 +33,11 @@ class PersonaPuestoController extends Controller
         if(isset($gerenciaId)) {
           $query = $query->where('departamentos.gerencia_id', $gerenciaId);
         }
+        if(isset($item)) {
+            $query = $query->where('puestos.item', $item);
+          }
 
-        $query = $query->select('personas_puestos.*');
+        $query = $query->select(['puestos.denominacion', 'puestos.item', 'personas_puestos.id', 'personas_puestos.estado', 'personas_puestos.persona_id', 'personas.nombreCompleto', 'personas.imagen']);
 
         $personaPuestos = $query->paginate($limit, ['*'], 'page', $page); // Paginate the personaPuestos
 

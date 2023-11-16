@@ -2,8 +2,15 @@
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'Importaciones'])
 <?php
+
+use App\Models\Departamento;
+use App\Models\Gerencia;
 use App\Models\PersonaPuesto;
-$personaPuesto = PersonaPuesto::paginate(8);
+// use App\Models\Puesto;
+
+// $personaPuesto = PersonaPuesto::paginate(8);
+$gerencias = Gerencia::all();
+$departamentos = Departamento::all();
 ?>
 <div id="importacion-page" class="container-fluid py-4">
     <div class="row">
@@ -76,71 +83,71 @@ $personaPuesto = PersonaPuesto::paginate(8);
                 </div>
                 <!-- ......................................------------------------------------------------------------------------>
                 <!----------------formulario-------------------------------->
-                @if ($personaPuesto->isEmpty())
-                <div class="card-body px-0 pt-0 pb-2">
+                <div v-if="listaPersonaPuesto.length == 0" class="card-body px-0 pt-0 pb-2">
                     <div class="alert" role="alert">
                         <span class="alert-icon"><i class="ni ni-notification-70"></i></span>
                         <strong>Importante!</strong> No hay datos importados...
                     </div>
-                @else
+                </div>
+                <!-- </div> -->
                 <!----------------formulario-------------------------------->
-                <form class="form-inline float-right">
-                    <input type="text" id="item" placeholder="Buscar por item">
-                    <select id="estado">
+                <div class="form-inline float-right">
+                    <input class="ml-2" type="text" v-model="item" placeholder="Buscar por item">
+                    <select class="m-2" v-model="gerenciaId">
+                        <option :value="undefined">TODOS</option>
+                        @foreach($gerencias as $g)
+                        <option :value="{{$g->id}}">{{$g->nombre}}</option>
+                        @endforeach
+                    </select>
+                    <select class="m-2" v-model="departamentoId">
+                        <option :value="undefined">TODOS</option>
+                        @foreach($departamentos as $d)
+                        <option :value="{{$d->id}}">{{$d->nombre}}</option>
+                        @endforeach
+                    </select>
+                    <!-- <select id="estado">
                         <option value="Ocupado">Ocupado</option>
                         <option value="Desocupado">Desocupado</option>
                     </select>
                     <select id="tipoMovimiento">
                         <option value="Designacion">Designación</option>
                         <option value="Cambio">Cambio</option>
-                    </select>
-                    <button onclick="buscarDatos()">Buscar</button>
-                </form>
+                    </select> -->
+                    <button @click="onFilter()">Buscar</button>
+                </div>
                 <!----------------------------------------------------------------------------->
 
                     <div class="d-flex flex-wrap">
                         <!-------------------Cards------------------------>
-                        @foreach($personaPuesto as $personaP)
-                        <div class="card shadow m-4" style="width: 13rem;">
-                            @if(isset($personaP->persona->imagen))
-                                <img src="{{ route('imagen-persona', ['personaId' => $personaP->persona->id]) }}" class="card-img-top">
-                            @else
-                                <img src="/img/team-2.jpg" class="card-img-top">
-                            @endif
+                        <div v-for="personaP in listaPersonaPuesto" class="card shadow m-4" style="width: 13rem;">
+                            <img v-if="personaP.imagen" :src="'/imagen-persona/' + personaP.persona_id" class="card-img-top">
+                            <img v-else src="/img/team-2.jpg" class="card-img-top">
                             <div class="card-body">
-                                <span class="badge rounded-pill bg-primary" data-bs-toggle="modal" data-bs-target="#informacionModal{{$personaP->id}}" style="font-size: 0.5em;">Detalle</span>
-                                @if ($personaP->estado == 'Desocupado')
-                                    <span class="badge rounded-pill bg-danger" style="font-size: 0.5em;">{{$personaP->estado}}</span>
-                                @else
-                                    <span class="badge rounded-pill bg-success" style="font-size: 0.5em;">{{$personaP->estado}}</span>
-                                @endif
+                                <span class="badge rounded-pill bg-primary" data-bs-toggle="modal" :data-bs-target="'#informacionModal' + personaP.id" style="font-size: 0.5em;">Detalle</span>
+                                <span v-if="personaP.estado == 'Ocupado'" class="badge rounded-pill bg-danger" style="font-size: 0.5em;">@{{personaP.estado}}</span>
+                                <span v-else class="badge rounded-pill bg-success" style="font-size: 0.5em;">@{{personaP.estado}}</span>
                                 <!-- ......................................Modal Detalle------------------------------------------------->
-                                <div class="modal fade modal-dialog-scrollable" id="informacionModal{{$personaP->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div v-if="detallePersonaPuesto?.id" class="modal fade modal-dialog-scrollable" :id="'informacionModal' + personaP.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Perfil de {{$personaP->persona->nombreCompleto}}</h5>
+                                                <h5 class="modal-title" id="exampleModalLabel">Perfil de @{{personaP.nombreCompleto}}</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
                                                 <h6 class="modal-title">Datos de la Persona</h6>
                                                 <div class="row">
-                                                    @if(isset($personaP->persona->imagen))
                                                     <div class="col-md-6">
-                                                        <img src="{{ route('imagen-persona', ['personaId' => $personaP->persona->id]) }}" class="img-fluid">
+                                                        <img v-if="personaP.imagen" :src="'/imagen-persona/' + personaP.persona_id" class="img-fluid">
+                                                        <img v-else src="/img/team-2.jpg" class="img-fluid">
                                                     </div>
-                                                    @else
-                                                    <div class="col-md-6">
-                                                        <img src="/img/team-2.jpg" class="img-fluid">
-                                                    </div>
-                                                    @endif
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <span class="text-secondary text-xs font-weight-bold"><b>Nombre Completo:</b> {{$personaP->persona->nombreCompleto}}</span><br>
-                                                            <span class="text-secondary text-xs font-weight-bold"><b>CI.:</b> {{$personaP->persona->ci}} {{$personaP->persona->exp}}.</span><br>
-                                                            <span class="text-secondary text-xs font-weight-bold"><b>Formacion:</b> {{$personaP->formacion}}</span><br>
-                                                            <span class="text-secondary text-xs font-weight-bold"><b>Fecha de Nacimiento:</b> {{$personaP->persona->fechaNacimiento}}</span><br>
-                                                            <span class="text-secondary text-xs font-weight-bold"><b>Telefono:</b> {{$personaP->persona->telefono}}</span><br>
+                                                            <span class="text-secondary text-xs font-weight-bold"><b>Nombre Completo:</b> @{{detallePersonaPuesto.persona.nombreCompleto}}</span><br>
+                                                            <span class="text-secondary text-xs font-weight-bold"><b>CI.:</b> @{{detallePersonaPuesto.persona.ci}} @{{detallePersonaPuesto.persona.exp}}.</span><br>
+                                                            <span class="text-secondary text-xs font-weight-bold"><b>Formacion:</b> @{{detallePersonaPuesto.formacion}}</span><br>
+                                                            <span class="text-secondary text-xs font-weight-bold"><b>Fecha de Nacimiento:</b> @{{detallePersonaPuesto.persona.fechaNacimiento}}</span><br>
+                                                            <span class="text-secondary text-xs font-weight-bold"><b>Telefono:</b> @{{detallePersonaPuesto.persona.telefono}}</span><br>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -149,24 +156,24 @@ $personaPuesto = PersonaPuesto::paginate(8);
                                                 <div class="row">
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <span class="text-secondary text-xs font-weight-bold"><b>N° de Item:</b> {{$personaP->puesto->item}}</span><br>
-                                                            <span class="text-secondary text-xs font-weight-bold"><b>Cargo:</b> {{$personaP->puesto->denominacion}}</span><br>
-                                                            <span class="text-secondary text-xs font-weight-bold"><b>Fecha de Inicio en el Cargo:</b> {{$personaP->fechaInicio}}</span><br>
-                                                            <span class="text-secondary text-xs font-weight-bold"><b>Salario:</b> {{$personaP->puesto->salario}} bs.</span>
+                                                            <span class="text-secondary text-xs font-weight-bold"><b>N° de Item:</b> @{{detallePersonaPuesto.puesto.item}}</span><br>
+                                                            <span class="text-secondary text-xs font-weight-bold"><b>Cargo:</b> @{{detallePersonaPuesto.puesto.denominacion}}</span><br>
+                                                            <span class="text-secondary text-xs font-weight-bold"><b>Fecha de Inicio en el Cargo:</b> @{{detallePersonaPuesto.fechaInicio}}</span><br>
+                                                            <span class="text-secondary text-xs font-weight-bold"><b>Salario:</b> @{{detallePersonaPuesto.puesto.salario}} bs.</span>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <span class="text-secondary text-xs font-weight-bold"><b>Gerencia:</b> {{$personaP->puesto->departamento->gerencia->nombre}}</span><br>
-                                                            <span class="text-secondary text-xs font-weight-bold"><b>Departamento:</b> {{$personaP->puesto->departamento->nombre}}</span><br>
-                                                            <span class="text-secondary text-xs font-weight-bold"><b>Fecha de Inicio en el SIN:</b> {{$personaP->fechaInicioEnSin}}</span>
+                                                            <span class="text-secondary text-xs font-weight-bold"><b>Gerencia:</b> @{{detallePersonaPuesto.puesto.departamento.gerencia.nombre}}</span><br>
+                                                            <span class="text-secondary text-xs font-weight-bold"><b>Departamento:</b> @{{detallePersonaPuesto.puesto.departamento.nombre}}</span><br>
+                                                            <span class="text-secondary text-xs font-weight-bold"><b>Fecha de Inicio en el SIN:</b> @{{detallePersonaPuesto.fechaInicioEnSin}}</span>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <span class="text-secondary text-xs font-weight-bold"><b>Nombre del Antiguo Personal:</b><br>{{$personaP->nombreCompletoDesvinculacion}}</span><br>
-                                                            <span class="text-secondary text-xs font-weight-bold"><b>Motivo de Baja:</b> {{$personaP->motivoBaja}}</span><br>
-                                                            <span class="text-secondary text-xs font-weight-bold"><b>Ultimo dia de Trabajo:</b> {{$personaP->fechaFin}}</span>
+                                                            <span class="text-secondary text-xs font-weight-bold"><b>Nombre del Antiguo Personal:</b><br>@{{detallePersonaPuesto.nombreCompletoDesvinculacion}}</span><br>
+                                                            <span class="text-secondary text-xs font-weight-bold"><b>Motivo de Baja:</b> @{{detallePersonaPuesto.motivoBaja}}</span><br>
+                                                            <span class="text-secondary text-xs font-weight-bold"><b>Ultimo dia de Trabajo:</b> @{{detallePersonaPuesto.fechaFin}}</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -174,30 +181,22 @@ $personaPuesto = PersonaPuesto::paginate(8);
                                                 <h6 class="modal-title">Requisitos de formacion</h6>
                                                 <div class="row">
                                                     <div class="col-md-12">
-                                                        <span class="text-secondary text-xs font-weight-bold"><b>Objetivo del Puesto:</b> {{$personaP->puesto->objetivo}}</span>
+                                                        <span class="text-secondary text-xs font-weight-bold"><b>Objetivo del Puesto:</b> @{{detallePersonaPuesto.puesto.objetivo}}</span>
                                                     </div>
-                                                    @foreach ($personaP->puesto->requisitosPuesto as $requisitoPuesto)
-                                                    <div class="col-md-12">
-                                                        @if ($requisitoPuesto->requisito)
-                                                            <span class="text-secondary text-xs font-weight-bold"><b>Formacion Requerida:</b> {{$requisitoPuesto->requisito->formacionRequerida}}</span>
-                                                        @endif
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        @if ($requisitoPuesto->requisito)
-                                                            <span class="text-secondary text-xs font-weight-bold"><b>Experiencia Profesional según Cargo:</b> {{$requisitoPuesto->requisito->experienciaProfesionalSegunCargo}}</span>
-                                                        @endif
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        @if ($requisitoPuesto->requisito)
-                                                            <span class="text-secondary text-xs font-weight-bold"><b>Experiencia Relacionado al Área:</b> {{$requisitoPuesto->requisito->experienciaRelacionadoAlArea}}</span>
-                                                        @endif
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        @if ($requisitoPuesto->requisito)
-                                                            <span class="text-secondary text-xs font-weight-bold"><b>Experiencia Relacionado en Función de Mando:</b> {{$requisitoPuesto->requisito->experienciaEnFuncionesDeMando}}</span>
-                                                        @endif
-                                                    </div>
-                                                    @endforeach
+                                                    <template v-for="requisitoPuesto in detallePersonaPuesto.puesto.requisitosPuesto">
+                                                        <div class="col-md-12">
+                                                                <span v-if="requisitoPuesto.requisito" class="text-secondary text-xs font-weight-bold"><b>Formacion Requerida:</b> @{{requisitoPuesto.requisito.formacionRequerida}}</span>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                                <span v-if="requisitoPuesto.requisito" class="text-secondary text-xs font-weight-bold"><b>Experiencia Profesional según Cargo:</b> @{{requisitoPuesto.requisito.experienciaProfesionalSegunCargo}}</span>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                                <span v-if="requisitoPuesto.requisito" class="text-secondary text-xs font-weight-bold"><b>Experiencia Relacionado al Área:</b> @{{requisitoPuesto.requisito.experienciaRelacionadoAlArea}}</span>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                                <span v-if="requisitoPuesto.requisito" class="text-secondary text-xs font-weight-bold"><b>Experiencia Relacionado en Función de Mando:</b> @{{requisitoPuesto.requisito.experienciaEnFuncionesDeMando}}</span>
+                                                        </div>
+                                                    </template>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
@@ -207,67 +206,119 @@ $personaPuesto = PersonaPuesto::paginate(8);
                                     </div>
                                 </div>
                               <!-- ......................................Modal------------------------------------------------->
-                                <h6 class="mb-0 text-sm card-title">{{$personaP->persona->nombreCompleto}}</h6>
-                                <span class="text-secondary text-xs font-weight-bold">{{$personaP->puesto->denominacion}}</span>
+                                <h6 class="mb-0 text-sm card-title">@{{personaP.nombreCompleto}}</h6>
+                                <span class="text-secondary text-xs font-weight-bold">@{{personaP.denominacion}}</span>
                             </div>
                         </div>
-                        @endforeach
                     </div>
                     <!--------------------------------------------Pie de pagina------------------------------------------------------------------>
                     <nav aria-label="Page navigation example">
                         <ul class="pagination ml-auto justify-content-end">
-                            <li class="page-item {{ $personaPuesto->onFirstPage() ? 'disabled' : '' }}">
-                                <a class="page-link" href="{{ $personaPuesto->previousPageUrl() }}" tabindex="-1" aria-disabled="true"> <- </a>
+                            <li :class="'page-item'+ page == 1? ' disabled' : '' ">
+                                <a class="page-link" aria-disabled="true" @click="onPaginate(page -1)"> <- </a>
                             </li>
-                            @if ($personaPuesto->currentPage() > 2)
-                            <li class="page-item">
-                                <a class="page-link" href="{{ $personaPuesto->url(1) }}">1</a>
+                            <li v-if="page>2" class="page-item">
+                                <a class="page-link" @click="onPaginate(1)">1</a>
                             </li>
-                             @endif
-                             @if ($personaPuesto->currentPage() > 3)
-                             <li class="page-item disabled">
+                            <li v-if="page > 3" class="page-item disabled">
                                 <span class="page-link">...</span>
                             </li>
-                            @endif
-                            @for ($i = max(1, $personaPuesto->currentPage() - 1); $i <= min($personaPuesto->currentPage() + 1, $personaPuesto->lastPage()); $i++)
-                            <li class="page-item {{ $i === $personaPuesto->currentPage() ? 'active' : '' }}">
-                                <a class="page-link" href="{{ $personaPuesto->url($i) }}">{{ $i }}</a>
+                            <li v-for="i in pagesToJump" :class="'page-item' + i == page ? ' active' : ''">
+                                <a class="page-link" @click="onPaginate(i)">@{{ i }}</a>
                             </li>
-                            @endfor
-                            @if ($personaPuesto->currentPage() < $personaPuesto->lastPage() - 2)
-                            <li class="page-item disabled">
+                            <li v-if="page < lastPage -2" class="page-item disabled">
                                 <span class="page-link">...</span>
                             </li>
-                            @endif
-                            @if ($personaPuesto->currentPage() < $personaPuesto->lastPage() - 1)
-                            <li class="page-item">
-                                <a class="page-link" href="{{ $personaPuesto->url($personaPuesto->lastPage()) }}">{{ $personaPuesto->lastPage() }}</a>
+                            <li v-if="page < lastPage - 1" class="page-item">
+                                <a class="page-link" @click="onPaginate(lastPage)">@{{ lastPage }}</a>
                             </li>
-                            @endif
-                            <li class="page-item {{ $personaPuesto->currentPage() === $personaPuesto->lastPage() ? 'disabled' : '' }}">
-                                 <a class="page-link" href="{{ $personaPuesto->nextPageUrl() }}"> -> </a>
+                            <li :class="'page-item'+ page === lastPage ? ' disabled' : ''">
+                                 <a class="page-link" @click="onPaginate(page + 1)"> -> </a>
                             </li>
                         </ul>
                     </nav>
                     <!------------------------------------------------------------------------------------->
                 </div>
-                @endif
             </div>
         </div>
     </div>
     @include('layouts.footers.auth.footer')
 </div>
 <script>
-    const { ref, createApp } = Vue;
+    const { ref, createApp, computed } = Vue;
     createApp({
     setup() {
         const datoDesdeVue = ref("DESDE VUE")
         const gerenciaId = ref();
         const departamentoId = ref();
+        const item = ref();
+        const listaPersonaPuesto = ref([]);
+
+        // Paginacion
+        const page = ref(1);
+        const limit = ref(3);
+        const total = ref(0);
+        const lastPage = ref(1);
+        const pagesToJump = computed(() => {
+            let pagesJup = [];
+            for(let i = Math.max(page.value -1 , 1); i< Math.min(page.value + 1, lastPage.value); i++){
+                pagesJup.push(i);
+            }
+            return pagesJup;
+        });
+        function onPaginate(pageNumber) {
+            page.value = pageNumber;
+            onFilter();
+        }
+
+        // Filtros
+        function onFilter() {
+            const filtros = {
+                gerenciaId: gerenciaId.value,
+                departamentoId: departamentoId.value,
+                item: item.value,
+                // Paginacion
+                page: page.value,
+                limit: limit.value,
+            };
+            axios
+                .post("/api/listar-persona-puesto", filtros)
+                .then(function(response) {
+                    if(response.data?.data) {
+                        listaPersonaPuesto.value = response.data?.data;
+                    }
+                    if(response.data?.total) {
+                        total.value = response.data?.total
+                    }
+                    if(response.data?.last_page) {
+                        lastPage.value = response.data?.last_page
+                    }
+                })
+                .catch(function(error) {
+                    console.log('error:', error.data)
+                })
+                .then(function() {
+                });
+        }
+
+        onFilter();
+        // Modal data
+        const detallePersonaPuesto = ref({});
         return {
+            item,
             gerenciaId,
             departamentoId,
             datoDesdeVue,
+            onFilter,
+            listaPersonaPuesto,
+            detallePersonaPuesto,
+            // Paginacion
+            page,
+            limit,
+            total,
+            lastPage,
+            onPaginate,
+            pagesToJump,
         }
     }
     }).mount('#importacion-page')
