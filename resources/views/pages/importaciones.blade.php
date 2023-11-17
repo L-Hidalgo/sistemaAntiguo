@@ -120,7 +120,7 @@ $personaPuesto = PersonaPuesto::all();
                         <option value="Designacion">Designación</option>
                         <option value="Cambio de Item">Cambio de Item</option>
                     </select>
-                    <button class="btn btn-primary" @click="onFilter()" style="border-radius: 50%; padding: 10px; cursor: pointer; margin-left: 20px; margin-right: 20px;"><i class="fas fa-search"></i></button>
+                    <button class="btn btn-primary" @click="onFilter()" style="border-radius: 50%; padding: 5px; font-size: 12px; cursor: pointer; margin-left: 20px; margin-right: 20px;"><i class="fas fa-search"></i></button>
                 </div>
                 <!----------------------------------------------------------------------------->
                 <div class="d-flex flex-wrap">
