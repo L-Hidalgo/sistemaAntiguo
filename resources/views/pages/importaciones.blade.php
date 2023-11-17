@@ -6,14 +6,9 @@
 use App\Models\Departamento;
 use App\Models\Gerencia;
 use App\Models\PersonaPuesto;
-//use App\Models\ProcesoDeIncorporacion;
-// use App\Models\Puesto;
-// $personaPuesto = PersonaPuesto::paginate(8);
 $gerencias = Gerencia::all();
 $departamentos = Departamento::all();
 $personaPuesto = PersonaPuesto::all();
-//$personaPuesto = PersonaPuesto::all();
-//$procesoDeIncorporacion= ProcesoDeIncorporacion::all();
 ?>
 <div class="container-fluid py-4">
     <!-- Large modal -->
@@ -21,7 +16,7 @@ $personaPuesto = PersonaPuesto::all();
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0" style="display: flex; align-items: center; justify-content: space-between;">
-                    <h6 style="margin-bottom: 0;">Importación de planilla</h6>
+                    <h6 style="margin-bottom: 0;">Planilla</h6>
                     <div class="dropdown ms-auto">
                         <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="ni ni-settings-gear-65"></i> Opciones
