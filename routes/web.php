@@ -39,9 +39,7 @@ Route::get('/', function () {return redirect('/dashboard');})->middleware('auth'
 
 
 	Route::get('/dashboard', [HomeController::class, 'index'])->name('home')->middleware('auth');
-Route::group(['middleware' => 'auth'], function () {
-	Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
-	Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');
+    Route::group(['middleware' => 'auth'], function () {
 	Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
 
 	Route::get('/permisos', [UserProfileController::class, 'index'])->name('permisos');
@@ -53,7 +51,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/{page}', [PageController::class, 'index'])->name('page');
 	Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
-    //nuestros links
+    //Links de Vista Planilla
 	Route::post('/importaciones', [ExcelImportController::class, 'importExcel'])->name('importaciones');
 	Route::post('/importar-imagenes', [ImportImagesController::class, 'importImagenes'])->name('importar.imagenes');
     Route::get( '/imagen-persona/{personaId}', [ImportImagesController::class, 'getImagenPersona'])->name('imagen-persona');
