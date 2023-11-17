@@ -19,6 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/listar-persona-puesto', [PersonaPuestoController::class, 'listarPersonaPuesto'])->name('importaciones.buscar');
+Route::post('/persona-puesto/listar', [PersonaPuestoController::class, 'listarPersonaPuesto'])->name('importaciones.buscar');
+Route::get('/persona-puesto/{personaPuestoId}', [PersonaPuestoController::class, 'obtenerInfoDePersonapuesto'])->name('persona.puest.byid');
 Route::group(['middleware' => 'auth'], function () {
 });
