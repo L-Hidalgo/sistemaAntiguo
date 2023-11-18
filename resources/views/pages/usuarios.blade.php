@@ -9,24 +9,19 @@
                 <div class="card-header pb-0" style="display: flex; align-items: center; justify-content: space-between;">
                     <h6 style="margin-bottom: 0;">Usuarios</h6>
                     <div class="dropdown ms-auto">
-                        <button class="btn btn-primary btn-sm " type="button" id="dropdownMenuButton" data-bs-toggle="modal" data-bs-target="#migrarPlanillaModal">
-                        <i class="ni ni-fat-add"></i> Añadir
+                        <button class="btn btn-primary btn-sm " type="button" id="dropdownMenuButton" data-bs-toggle="modal" data-bs-target="#agregarUsuarioModal">
+                        <i class="ni ni-fat-add"></i> Añadir Nuevo Usuario
                         </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item text-secondary font-weight-bold" data-bs-toggle="modal" data-bs-target="#migrarPlanillaModal"><i class="ni ni-folder-17"></i> Migrar Planilla</a>
-                            <a class="dropdown-item text-secondary font-weight-bold" data-bs-toggle="modal" data-bs-target="#migrarImagenesModal"><i class="ni ni-image"></i> Migrar Imagenes</a>
-                            <a class="dropdown-item text-secondary font-weight-bold" @click="toggleForm"> <i class="ni ni-tag"></i> Buscar Datos</a>
-                        </div>
                     </div>
                 </div>
                 <!-- ......................................Modal para Planilla------------------------------------------------->
-                <div class="modal fade" id="migrarPlanillaModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="agregarUsuarioModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
-                        <form action="{{ route('importaciones') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('usuarios') }}" method="POST" enctype="multipart/form-data">
                             <div class="modal-content">
                                 @csrf
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Migrar Planilla</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Agregar Nuevo</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
                                 </div>
                                 <div class="modal-body">

@@ -61,6 +61,4 @@ Route::get('/', function () {return redirect('/dashboard');})->middleware('auth'
 	//Links de vista Usuarios
 	Route::get('/usuarios', [UsuariosController::class])->name('usuarios')->middleware('auth');
 
-	//Links de incorporaciones 
-	Route::get('/incorporaciones', [IncorporacionesController::class])->name('incorporaciones')->middleware('auth');
 });
