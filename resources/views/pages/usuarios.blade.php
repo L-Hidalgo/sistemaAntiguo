@@ -10,31 +10,31 @@
                     <h6 style="margin-bottom: 0;">Usuarios</h6>
                     <div class="dropdown ms-auto">
                         <button class="btn btn-primary btn-sm " type="button" id="dropdownMenuButton" data-bs-toggle="modal" data-bs-target="#agregarUsuarioModal">
-                        <i class="ni ni-fat-add"></i> Añadir Nuevo Usuario
+                        <i class="ni ni-fat-add"></i> Añadir Usuario
                         </button>
                     </div>
                 </div>
                 <!-- ......................................Modal para Planilla------------------------------------------------->
                 <div class="modal fade" id="agregarUsuarioModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
-                        <form action="{{ route('usuarios') }}" method="POST" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('registrar') }}" enctype="multipart/form-data">
                             <div class="modal-content">
                                 @csrf
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Agregar Nuevo</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Agregar Nuevo Usuario</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <label for="archivoPlanilla" class="form-label">Seleccione un archivo .xlsx, .xls, .xlsm, .csv, .ods:</label>
-                                            <input type="file" class="form-control" id="archivoPlanilla" name="archivoPlanilla" accept=".xlsx, .xls, .xlsm, .csv, .ods">
-                                        </div>
-                                    </div>
+                                    <label for="ci">Buscar por CI:</label>
+                                    <input type="text" name="ci" required>
+                                    <label for="usuario">Usuario:</label>
+                                    <input type="text" name="usuario" required>
+                                    <label for="contrasena">Contraseña:</label>
+                                    <input type="password" name="contraseña" required>  
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                    <button type="submit" class="btn btn-primary">Migrar</button>
+                                    <button type="submit" class="btn btn-primary">Registrar</button>
                                 </div>
                             </div>
                         </form>

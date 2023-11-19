@@ -11,14 +11,14 @@ return new class extends Migration
     {
         Schema::create('personas', function (Blueprint $table) {
             $table->id();
-            $table->string('ci')->unique()->nullable();
+            $table->string('ci')->unique();
             $table->string('an')->nullable();
             $table->string('exp')->nullable();
-            $table->string('nombres')->nullable();
-            $table->string('primerApellido')->nullable();
+            $table->string('nombres');
+            $table->string('primerApellido');
             $table->string('segundoApellido')->nullable();
-            $table->string('nombreCompleto')->nullable();
-            $table->string('sexo')->nullable();
+            $table->string('nombreCompleto');
+            $table->string('sexo');
             $table->date('fechaNacimiento')->nullable();
             $table->string('telefono')->nullable();
             $table->string('imagen')->nullable();

@@ -1,16 +1,18 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\ChangePassword;
+//Nuestro
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ExcelImportController;
 use App\Http\Controllers\ImportImagesController;
 use App\Http\Controllers\BuscarDatosImportadosController;
+use App\Http\Controllers\RegistrarUsuarioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,13 +54,14 @@ Route::get('/', function () {return redirect('/dashboard');})->middleware('auth'
 	Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
     //Links de Vista Planilla
-	Route::post('/importaciones', [ExcelImportController::class, 'importExcel'])->name('importaciones')->middleware('auth');
-	Route::post('/importar-imagenes', [ImportImagesController::class, 'importImagenes'])->name('importar.imagenes')->middleware('auth');
-    Route::get( '/imagen-persona/{personaId}', [ImportImagesController::class, 'getImagenPersona'])->name('imagen-persona')->middleware('auth');
-	Route::get('/buscar-importados', [BuscarDatosImportadosController::class, 'buscarDatosImportados'])->name('importaciones.buscar')->middleware('auth');
-	Route::get('/dashboard', [HomeController::class, 'index'])->name('home')->middleware('auth');
+	Route::post('/importaciones', [ExcelImportController::class, 'importExcel'])->name('importaciones');
+	Route::post('/importar-imagenes', [ImportImagesController::class, 'importImagenes'])->name('importar.imagenes');
+    Route::get( '/imagen-persona/{personaId}', [ImportImagesController::class, 'getImagenPersona'])->name('imagen-persona');
+	Route::get('/buscar-importados', [BuscarDatosImportadosController::class, 'buscarDatosImportados'])->name('importaciones.buscar');
+	Route::get('/dashboard', [HomeController::class, 'index'])->name('home');
 
 	//Links de vista Usuarios
-	Route::get('/usuarios', [UsuariosController::class])->name('usuarios')->middleware('auth');
+	Route::get('/usuarios', [RegistrarUsuarioController::class, 'mostrarUsuarios'])->name('usuarios'); //mostrar
+	Route::post('/registrar', [RegistrarUsuarioController::class, 'registrar'])->name('registrar');
 
 });

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Persona extends Model
 {
+    use HasFactory;
+
     protected $table = 'personas'; 
 
     protected $fillable = [
@@ -23,14 +25,15 @@ class Persona extends Model
         'telefono',
         'imagen'
     ];
-
+    
     public function personaPuesto()
     {
         return $this->hasMany(PersonaPuesto::class);
     }
 
-    public function contactoPersona()
+    public function usuario()
     {
-        return $this->hasMany(ContactoPersona::class);
+        return $this->hasOne(User::class, 'persona_id');
     }
+
 }
