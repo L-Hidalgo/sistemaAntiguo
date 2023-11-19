@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('postal')->nullable();
             $table->text('about')->nullable();
             $table->rememberToken();
+            $table->foreignId('persona_id')->nullable()->constrained('personas');
             $table->timestamps();
         });
     }
