@@ -118,17 +118,22 @@ $personaPuesto = PersonaPuesto::all();
                     <button class="btn btn-primary" @click="onFilter()" style="border-radius: 50%; padding: 5px; font-size: 12px; cursor: pointer; margin-left: 20px; margin-right: 20px;"><i class="fas fa-search"></i></button>
                 </div>
                 <!----------------------------------------------------------------------------->
-                <div class="d-flex flex-wrap">
-                    <!-------------------Cards------------------------>
-                    <div v-for="personaP in listaPersonaPuesto" class="card shadow m-4" style="width: 13rem;">
-                        <img v-if="personaP.imagen" :src="'/imagen-persona/' + personaP.persona_id" class="card-img-top">
-                        <img v-else src="/img/team-2.jpg" class="card-img-top">
-                        <div class="card-body">
-                            <span class="badge rounded-pill bg-primary" style="font-size: 0.5em;" @click="getDetalleReg(personaP.id)">Detalle</span>
-                            <span v-if="personaP.estado == 'Ocupado'" class="badge rounded-pill bg-success" style="font-size: 0.5em;">@{{personaP.estado}}</span>
-                            <span v-else class="badge rounded-pill bg-danger" style="font-size: 0.5em;">@{{personaP.estado}}</span>
-                            <h6 class="mb-0 text-sm card-title">@{{personaP.nombreCompleto}}</h6>
-                            <span class="text-secondary text-xs font-weight-bold">@{{personaP.denominacion}}</span>
+                <div class="row">
+                    <div class="col-2">
+                        listart gerencias aqui
+                    </div>
+                    <div class="col-10 d-flex flex-wrap">
+                        <!-------------------Cards------------------------>
+                        <div v-for="personaP in listaPersonaPuesto" class="card shadow m-4" style="width: 13rem;">
+                            <img v-if="personaP.imagen" :src="'/imagen-persona/' + personaP.persona_id" class="card-img-top">
+                            <img v-else src="/img/team-2.jpg" class="card-img-top">
+                            <div class="card-body">
+                                <span class="badge rounded-pill bg-primary" style="font-size: 0.5em;" @click="getDetalleReg(personaP.id)">Detalle</span>
+                                <span v-if="personaP.estado == 'Ocupado'" class="badge rounded-pill bg-success" style="font-size: 0.5em;">@{{personaP.estado}}</span>
+                                <span v-else class="badge rounded-pill bg-danger" style="font-size: 0.5em;">@{{personaP.estado}}</span>
+                                <h6 class="mb-0 text-sm card-title">@{{personaP.nombreCompleto}}</h6>
+                                <span class="text-secondary text-xs font-weight-bold">@{{personaP.denominacion}}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
