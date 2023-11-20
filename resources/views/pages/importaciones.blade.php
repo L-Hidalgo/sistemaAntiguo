@@ -257,13 +257,14 @@ $personaPuesto = PersonaPuesto::all();
                         <input class="form-control form-control-alternative text-secondary text-xs font-weight-bold" type="text" v-model="item" placeholder="Buscar por item"><br>
                         <!---------------------FALTA DEPARTAMENTO Y GERNECIA---------------->
                         <div v-model="gerenciaId" style="height: 200px; overflow-y: scroll;">
-                            <span class="text-secondary text-xs font-weight-bold" :value="undefined">GERENCIAS</span>
+                            <span class="text-secondary text-xs font-weight-bold">GERENCIAS</span>
                             @foreach($gerencias as $g)
-                                <label>
-                                     <input type="checkbox" :value="{{$g->id}}" > <span class="text-secondary text-xs font-weight-bold">{{$g->nombre}}</span>
-                                </label><br>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="gerencia{{$g->id}}" v-model="gerenciaId" :value="{{$g->id}}">
+                                    <label class="custom-control-label" for="gerencia{{$g->id}}">{{$g->nombre}}</label>
+                                </div>
                             @endforeach
-                        </div>                        
+                        </div><br>                        
                         <!------------------------------------------------------------------>
                         <select class="form-control form-control-alternative text-secondary text-xs font-weight-bold" v-model="estado">
                             <option :value="undefined">Estado</option>
