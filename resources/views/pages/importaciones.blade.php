@@ -256,9 +256,14 @@ $personaPuesto = PersonaPuesto::all();
                         <button class="btn btn-primary" @click="onFilter()" style="padding: 5px; font-size: 12px; width: 100%;"><i class="fas fa-search"></i> Buscar</button>
                         <input class="form-control form-control-alternative text-secondary text-xs font-weight-bold" type="text" v-model="item" placeholder="Buscar por item"><br>
                         <!---------------------FALTA DEPARTAMENTO Y GERNECIA---------------->
-
-
-                        
+                        <div v-model="gerenciaId" style="height: 200px; overflow-y: scroll;">
+                            <span class="text-secondary text-xs font-weight-bold" :value="undefined">GERENCIAS</span>
+                            @foreach($gerencias as $g)
+                                <label>
+                                     <input type="checkbox" :value="{{$g->id}}" > <span class="text-secondary text-xs font-weight-bold">{{$g->nombre}}</span>
+                                </label><br>
+                            @endforeach
+                        </div>                        
                         <!------------------------------------------------------------------>
                         <select class="form-control form-control-alternative text-secondary text-xs font-weight-bold" v-model="estado">
                             <option :value="undefined">Estado</option>
