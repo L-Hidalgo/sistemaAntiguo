@@ -1,7 +1,6 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
-
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => 'Menu Principal'])
+@include('layouts.navbars.auth.topnav', ['title' => 'Menu Principal'])
     <div class="container-fluid py-4">
         <div class="row">
             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
@@ -10,17 +9,17 @@
                         <div class="row">
                             <div class="col-8">
                                 <div class="numbers">
-                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Items</p>
+                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">N° de Items</p>
                                     <h5 class="font-weight-bolder">
-                                    @isset($totalItemsOcupados)
-                                    {{ $totalItemsOcupados }}
+                                        @isset($totalItemsOcupados)
+                                            {{ $totalItemsOcupados }}
                                     @else
                                         No definido
                                     @endisset
                                     </h5>
                                     <p class="mb-0">
                                         <span class="text-success text-sm font-weight-bolder">Ocupados</span>
-                                        por año.
+                                        por mes.
                                     </p>
                                 </div>
                             </div>
@@ -39,7 +38,7 @@
                         <div class="row">
                             <div class="col-8">
                                 <div class="numbers">
-                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Items</p>
+                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">N° de Acefalias</p>
                                     <h5 class="font-weight-bolder">
                                     @isset($totalItemsDesocupados)
                                         {{ $totalItemsDesocupados }}
@@ -48,8 +47,8 @@
                                     @endisset
                                     </h5>
                                     <p class="mb-0">
-                                        <span class="text-danger text-sm font-weight-bolder">Desocupados</span>
-                                        por año.
+                                        <span class="text-danger text-sm font-weight-bolder">por</span>
+                                        mes.
                                     </p>
                                 </div>
                             </div>
@@ -68,7 +67,7 @@
                         <div class="row">
                             <div class="col-8">
                                 <div class="numbers">
-                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Personas</p>
+                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">N° de Personas</p>
                                     <h5 class="font-weight-bolder">
                                     @isset($personasDesignadas)
                                         {{ $personasDesignadas }}
@@ -78,7 +77,7 @@
                                     </h5>
                                     <p class="mb-0">
                                         <span class="text-success text-sm font-weight-bolder">Designadas</span>
-                                        a otro item por año.
+                                        a otro item por mes.
                                     </p>
                                 </div>
                             </div>
@@ -97,7 +96,7 @@
                         <div class="row">
                             <div class="col-8">
                                 <div class="numbers">
-                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Personas</p>
+                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">N° de Cambios</p>
                                     <h5 class="font-weight-bolder">
                                     @isset($personasCambiadas)
                                         {{ $personasCambiadas }}
@@ -106,7 +105,7 @@
                                     @endisset
                                     </h5>
                                     <p class="mb-0">
-                                        <span class="text-danger text-sm font-weight-bolder">cambiadas a otro item</span> por año.
+                                        <span class="text-danger text-sm font-weight-bolder">de item</span> por mes.
                                     </p>
                                 </div>
                             </div>
@@ -138,7 +137,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-5">
+        <!--<div class="col-lg-5">
                 <div class="card card-carousel overflow-hidden h-100 p-0">
                     <div id="carouselExampleCaptions" class="carousel slide h-100" data-bs-ride="carousel">
                         <div class="carousel-inner border-radius-lg h-100">
@@ -181,7 +180,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
         
         @include('layouts.footers.auth.footer')
     </div>

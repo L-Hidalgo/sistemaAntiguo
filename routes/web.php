@@ -52,11 +52,12 @@ Route::get('/', function () {return redirect('/dashboard');})->middleware('auth'
 	Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
     //Links de Vista Planilla
+	Route::get('/dashboard', [HomeController::class, 'index'])->name('home');
+	
 	Route::post('/importaciones', [ExcelImportController::class, 'importExcel'])->name('importaciones')->middleware('auth');
 	Route::post('/importar-imagenes', [ImportImagesController::class, 'importImagenes'])->name('importar.imagenes')->middleware('auth');
     Route::get( '/imagen-persona/{personaId}', [ImportImagesController::class, 'getImagenPersona'])->name('imagen-persona')->middleware('auth');
 	Route::get('/buscar-importados', [BuscarDatosImportadosController::class, 'buscarDatosImportados'])->name('importaciones.buscar')->middleware('auth');
-	Route::get('/dashboard', [HomeController::class, 'index'])->name('home')->middleware('auth');
 
 	//Links de vista Usuarios
 	Route::get('/usuarios', [UsuariosController::class])->name('usuarios')->middleware('auth');

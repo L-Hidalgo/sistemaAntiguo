@@ -29,8 +29,4 @@ class Persona extends Model
         return $this->hasMany(PersonaPuesto::class);
     }
 
-    public function contactoPersona()
-    {
-        return $this->hasMany(ContactoPersona::class);
-    }
 }
