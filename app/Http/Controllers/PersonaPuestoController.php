@@ -20,7 +20,7 @@ class PersonaPuestoController extends Controller
 
         /* ------------------------------------------- FILTROS ------------------------------------------ */
         $item = $request->input('item');
-        $gerenciaId = $request->input('gerenciaId');
+        $gerenciasIds = $request->input('gerenciasIds');
         $departamentoId = $request->input('departamentoId');
         //$nombreCompleto = $request->input('nombreCompleto');
         $estado = $request->input('estado');
@@ -30,6 +30,7 @@ class PersonaPuestoController extends Controller
             ->join('puestos', 'personas_puestos.puesto_id', '=', 'puestos.id')
             ->join('personas', 'personas.id', '=', 'personas_puestos.persona_id')
             ->join('departamentos', 'puestos.departamento_id', '=', 'departamentos.id')
+            ->join('gerencias', 'departamentos.gerencia_id', '=', 'gerencias.id')
             ->join('proceso_de_incorporaciones', 'puestos.id', '=', 'proceso_de_incorporaciones.puesto_id');
 
         if (isset($item)) {
@@ -38,8 +39,8 @@ class PersonaPuestoController extends Controller
         if (isset($departamentoId)) {
             $query = $query->where('departamentos.id', $departamentoId);
         }
-        if (isset($gerenciaId)) {
-            $query = $query->where('departamentos.gerencia_id', $gerenciaId);
+        if (isset($gerenciasIds) && count($gerenciasIds) > 0) {
+            $query = $query->whereIn('departamentos.gerencia_id' ,$gerenciasIds);
         }
         /*if(isset($nombreCompleto)) {
             $query = $query->where('personas.nombreCompleto', $nombreCompleto);
@@ -51,7 +52,7 @@ class PersonaPuestoController extends Controller
             $query = $query->where('proceso_de_incorporaciones.tipoMovimiento', $tipoMovimiento);
         }
 
-        $query = $query->select(['puestos.denominacion', 'puestos.item', 'personas_puestos.id', 'personas_puestos.estado', 'personas_puestos.persona_id', 'personas.nombreCompleto', 'personas.imagen']);
+        $query = $query->select(['puestos.denominacion', 'puestos.item', 'personas_puestos.id', 'personas_puestos.estado', 'personas_puestos.persona_id', 'personas.nombreCompleto', 'personas.imagen', 'departamentos.nombre as departamento','gerencias.nombre as gerencia']);
 
         $personaPuestos = $query->paginate($limit, ['*'], 'page', $page); // Paginate the personaPuestos
 

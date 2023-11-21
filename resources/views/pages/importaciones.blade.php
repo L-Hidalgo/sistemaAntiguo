@@ -5,15 +5,15 @@
 
 use App\Models\Departamento;
 use App\Models\Gerencia;
-use App\Models\PersonaPuesto;
+// use App\Models\PersonaPuesto;
 $gerencias = Gerencia::all();
 $departamentos = Departamento::all();
-$personaPuesto = PersonaPuesto::all();
+// $personaPuesto = PersonaPuesto::all();
 ?>
 <div class="container-fluid py-4">
     <div id="importacion-page" class="row">
-    <!------------------------------------------------------------------------------------------>
-        <div class="col-md-9">
+        <!------------------------------------------------------------------------------------------>
+        <div class="col-md-10">
             <div class="card">
                 <div class="card-header pb-0" style="display: flex; align-items: center; justify-content: space-between;">
                     <h6 style="margin-bottom: 0;">Planilla</h6>
@@ -92,7 +92,7 @@ $personaPuesto = PersonaPuesto::all();
                 <!----------------formulario-------------------------------->
                 <div v-if="showForm" class="search-form form-inline float-right d-flex" style="margin-left: 10px;display: none; flex-direction: row;">
                     <input class="form-control form-control-alternative text-secondary text-xs font-weight-bold" type="text" v-model="item" placeholder="Buscar por item" style="width: 14%; height: 5%; margin-left: 15px;">
-                    <select class="form-control form-control-alternative text-secondary text-xs font-weight-bold" v-model="gerenciaId" style="width: 20%; height: 5%; margin-left: 25px;">
+                    <select class="form-control form-control-alternative text-secondary text-xs font-weight-bold" v-model="gerenciasIds" style="width: 20%; height: 5%; margin-left: 25px;">
                         <option :value="undefined">Gerenecias </option>
                         @foreach($gerencias as $g)
                         <option :value="{{$g->id}}">{{$g->nombre}}</option>
@@ -133,7 +133,15 @@ $personaPuesto = PersonaPuesto::all();
                                 <span v-if="personaP.estado == 'Ocupado'" class="badge rounded-pill bg-success" style="font-size: 0.5em;">@{{personaP.estado}}</span>
                                 <span v-else class="badge rounded-pill bg-danger" style="font-size: 0.5em;">@{{personaP.estado}}</span>
                                 <h6 class="mb-0 text-sm card-title">@{{personaP.nombreCompleto}}</h6>
-                                <span class="text-secondary text-xs font-weight-bold">@{{personaP.denominacion}}</span>
+                                <span class="text-secondary text-xs font-weight-bold">@{{personaP.denominacion}}</span><br>
+                                <span class="text-secondary text-xs font-weight-bold">
+                                    <i class="ni ni-hat-3"></i>
+                                    @{{personaP.departamento}}
+                                </span><br>
+                                <span class="text-secondary text-xs font-weight-bold">
+                                    <i class="ni ni-building"></i>
+                                    @{{personaP.gerencia}}
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -166,7 +174,7 @@ $personaPuesto = PersonaPuesto::all();
                                 <hr class="horizontal dark">
                                 <h6 class="modal-title">Datos como Funcionario</h6>
                                 <div class="row">
-                                <div class="col-md-6">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <span class="text-secondary text-xs font-weight-bold"><b>N° de Item:</b> @{{detallePersonaPuesto.puesto.item}}</span><br>
                                             <span class="text-secondary text-xs font-weight-bold"><b>Departamento:</b> @{{detallePersonaPuesto.puesto.departamento.nombre}}</span><br>
@@ -223,19 +231,19 @@ $personaPuesto = PersonaPuesto::all();
                         <li :class="{'page-item': true, disabled: page == 1}">
                             <a class="page-link" aria-disabled="true" @click="onPaginate(page -1)"> <- </a>
                         </li>
-                        <li v-if="page>2" class="page-item">
+                        <li v-if="page>3" class="page-item">
                             <a class="page-link" @click="onPaginate(1)">1</a>
                         </li>
-                        <li v-if="page > 3" class="page-item disabled">
+                        <li v-if="page > 4" class="page-item disabled">
                             <span class="page-link">...</span>
                         </li>
-                        <li v-for="i in 5" :class="{'page-item': true, 'active': (i-3) == page}">
-                            <a v-if="(i-3) >= 1 && (i-3) <= lastPage" class="page-link" @click="onPaginate((i-3))">@{{ (i-3) }}</a>
+                        <li v-for="i in 5" :class="{'page-item': true, 'active': (page - (3-i)) == page}">
+                            <a v-if="(page - (3-i)) >= 1 && (page - (3-i)) <= lastPage" class="page-link" @click="onPaginate((page - (3-i)))">@{{ (page - (3-i)) }}</a>
                         </li>
-                        <li v-if="page < lastPage -2" class="page-item disabled">
+                        <li v-if="page < lastPage - 3" class="page-item disabled">
                             <span class="page-link">...</span>
                         </li>
-                        <li v-if="page < lastPage - 1" class="page-item">
+                        <li v-if="page < lastPage - 2" class="page-item">
                             <a class="page-link" @click="onPaginate(lastPage)">@{{ lastPage }}</a>
                         </li>
                         <li :class="{'page-item': true, disabled: page == lastPage}">
@@ -246,23 +254,23 @@ $personaPuesto = PersonaPuesto::all();
             </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-2">
             <div class="card card-profile">
                 <div class="card-header text-center border-0 pt-0 pt-lg-2 pb-4 pb-lg-3">
-                    <h6>Filtros</h6>
+                    <h6>Filtros asd asd </h6>
                 </div>
                 <div class="card-body pt-0">
-                    <div  class="search-form">
+                    <div class="search-form">
                         <button class="btn btn-primary" @click="onFilter()" style="padding: 5px; font-size: 12px; width: 100%;"><i class="fas fa-search"></i> Buscar</button>
                         <input class="form-control form-control-alternative text-secondary text-xs font-weight-bold" type="text" v-model="item" placeholder="Buscar por item"><br>
                         <!---------------------FALTA DEPARTAMENTO Y GERNECIA---------------->
-                        <div v-model="gerenciaId" style="height: 200px; overflow-y: scroll;">
-                            <span class="text-secondary text-xs font-weight-bold">GERENCIAS</span>
+                        <div style="height: 200px; overflow-y: scroll;">
+                            <span class="text-secondary text-xs font-weight-bold"> <i class="ni ni-building"></i> GERENCIAS</span>
                             @foreach($gerencias as $g)
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="gerencia{{$g->id}}" v-model="gerenciaId" :value="{{$g->id}}">
-                                    <label class="custom-control-label" for="gerencia{{$g->id}}">{{$g->nombre}}</label>
-                                </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="gerencia{{$g->id}}" v-model="gerenciasIds" :value="{{$g->id}}">
+                                <label class="custom-control-label" for="gerencia{{$g->id}}">{{$g->nombre}}</label>
+                            </div>
                             @endforeach
                         </div><br>
                         <!------------------------------------------------------------------>
@@ -294,7 +302,7 @@ $personaPuesto = PersonaPuesto::all();
     createApp({
         setup() {
             const item = ref();
-            const gerenciaId = ref();
+            const gerenciasIds = ref([]);
             const departamentoId = ref();
             //const nombreCompleto = ref();
             const estado = ref();
@@ -315,7 +323,7 @@ $personaPuesto = PersonaPuesto::all();
             // Filtros
             function onFilter() {
                 const filtros = {
-                    gerenciaId: gerenciaId.value,
+                    gerenciasIds: gerenciasIds.value,
                     departamentoId: departamentoId.value,
                     item: item.value,
                     //nombreCompleto: nombreCompleto.value,
@@ -382,7 +390,7 @@ $personaPuesto = PersonaPuesto::all();
                 getDetalleReg,
                 // filtros
                 item,
-                gerenciaId,
+                gerenciasIds,
                 departamentoId,
                 //nombreCompleto,
                 estado,

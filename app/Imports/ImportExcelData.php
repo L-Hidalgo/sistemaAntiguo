@@ -33,7 +33,7 @@ class ImportExcelData implements ToModel, WithStartRow
 
         $puesto = $this->migrarPuesto($row[0], $row[3], $row[4], $row[5], $row[42], $departamento->id);
 
-        if(isset($row[6])) {
+        if(isset($row[6]) && isset($row[11])) {
 
             $persona = $this->migrarPersona($row[6], $row[7], $row[8], $row[9], $row[10], $row[11], $row[11] . ' ' . $row[9] . ' ' . $row[10], $row[15], $row[16], $row[18]);
 
