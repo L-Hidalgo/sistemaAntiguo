@@ -11,8 +11,10 @@ use App\Http\Controllers\ChangePassword;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ExcelImportController;
 use App\Http\Controllers\ImportImagesController;
-use App\Http\Controllers\BuscarDatosImportadosController;
+//use App\Http\Controllers\BuscarDatosImportadosController;
 use App\Http\Controllers\RegistrarUsuarioController;
+use App\Http\Controllers\IncorporacionesController;
+use App\Http\Controllers\CambioItemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,10 +61,16 @@ Route::get('/', function () {return redirect('/dashboard');})->middleware('auth'
 	Route::post('/importaciones', [ExcelImportController::class, 'importExcel'])->name('importaciones')->middleware('auth');
 	Route::post('/importar-imagenes', [ImportImagesController::class, 'importImagenes'])->name('importar.imagenes')->middleware('auth');
     Route::get( '/imagen-persona/{personaId}', [ImportImagesController::class, 'getImagenPersona'])->name('imagen-persona')->middleware('auth');
-	Route::get('/buscar-importados', [BuscarDatosImportadosController::class, 'buscarDatosImportados'])->name('importaciones.buscar')->middleware('auth');
+	//Route::get('/buscar-importados', [BuscarDatosImportadosController::class, 'buscarDatosImportados'])->name('importaciones.buscar')->middleware('auth');
 
 	//Links de vista Usuarios
 	Route::get('/usuarios', [RegistrarUsuarioController::class, 'mostrarUsuarios'])->name('usuarios'); //mostrar
 	Route::post('/registrar', [RegistrarUsuarioController::class, 'registrar'])->name('registrar');
+
+	//Links de Incorporaciones 
+	Route::get('/incorporaciones', [IncorporacionesController::class, 'mostarIncorporaciones'])->name('incorporaciones')->middleware('auth');
+	//Route::get('/registrar-cambio-de-item', [CambioItemController::class, 'mostrarCambioDeItem'])->name('registrarCambioDeItem');
+
+
 
 });
