@@ -40,7 +40,7 @@ Route::get('/', function () {return redirect('/dashboard');})->middleware('auth'
 	Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
 
 
-	
+
     Route::group(['middleware' => 'auth'], function () {
 	Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
 
@@ -54,11 +54,12 @@ Route::get('/', function () {return redirect('/dashboard');})->middleware('auth'
 	Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
     //Links de Vista Planilla
-	Route::post('/importaciones', [ExcelImportController::class, 'importExcel'])->name('importaciones');
-	Route::post('/importar-imagenes', [ImportImagesController::class, 'importImagenes'])->name('importar.imagenes');
-    Route::get( '/imagen-persona/{personaId}', [ImportImagesController::class, 'getImagenPersona'])->name('imagen-persona');
-	Route::get('/buscar-importados', [BuscarDatosImportadosController::class, 'buscarDatosImportados'])->name('importaciones.buscar');
 	Route::get('/dashboard', [HomeController::class, 'index'])->name('home');
+
+	Route::post('/importaciones', [ExcelImportController::class, 'importExcel'])->name('importaciones')->middleware('auth');
+	Route::post('/importar-imagenes', [ImportImagesController::class, 'importImagenes'])->name('importar.imagenes')->middleware('auth');
+    Route::get( '/imagen-persona/{personaId}', [ImportImagesController::class, 'getImagenPersona'])->name('imagen-persona')->middleware('auth');
+	Route::get('/buscar-importados', [BuscarDatosImportadosController::class, 'buscarDatosImportados'])->name('importaciones.buscar')->middleware('auth');
 
 	//Links de vista Usuarios
 	Route::get('/usuarios', [RegistrarUsuarioController::class, 'mostrarUsuarios'])->name('usuarios'); //mostrar

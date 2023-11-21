@@ -11,10 +11,10 @@ $departamentos = Departamento::all();
 $personaPuesto = PersonaPuesto::all();
 ?>
 <div class="container-fluid py-4">
-    <!-- Large modal -->
     <div id="importacion-page" class="row">
-        <div class="col-12">
-            <div class="card mb-4">
+    <!------------------------------------------------------------------------------------------>
+        <div class="col-md-9">
+            <div class="card">
                 <div class="card-header pb-0" style="display: flex; align-items: center; justify-content: space-between;">
                     <h6 style="margin-bottom: 0;">Planilla</h6>
                     <div class="dropdown ms-auto">
@@ -54,6 +54,7 @@ $personaPuesto = PersonaPuesto::all();
                         </form>
                     </div>
                 </div>
+                <!--</div>    -->
                 <!-- ......................................Modal para Imagenes------------------------------------------------->
                 <div class="modal fade" id="migrarImagenesModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -81,7 +82,7 @@ $personaPuesto = PersonaPuesto::all();
                     </div>
                 </div>
                 <!-- ......................................------------------------------------------------------------------------>
-                <div v-if="listaPersonaPuesto.length == 0" class="card-body px-0 pt-0 pb-2">
+                <div class="card-body pb-0" v-if="listaPersonaPuesto.length == 0">
                     <div class="alert" role="alert">
                         <span class="alert-icon"><i class="ni ni-notification-70"></i></span>
                         <strong>Importante!</strong> No hay datos importados...
@@ -98,7 +99,7 @@ $personaPuesto = PersonaPuesto::all();
                         @endforeach
                     </select>
                     <select class="form-control form-control-alternative text-secondary text-xs font-weight-bold" v-model="departamentoId" style="width: 20%; height: 5%; margin-left: 25px;">
-                        <option :value="undefined">Departamentos <span order-radius: 50%; background-color: #3490dc; color: #fff; text-align: center; line-height: 20px; margin-left: 5px;">{{ $departamentos->count() }}</span>
+                        <option :value="undefined">Departamentos <span order-radius: 50%; background-color: #3490dc; color: #fff; text-align: center; line-height: 20px; margin-left: 5px;"></span>
                         </option>
                         @foreach($departamentos as $d)
                         <option :value="{{$d->id}}">{{$d->nombre}}</option>
@@ -118,13 +119,13 @@ $personaPuesto = PersonaPuesto::all();
                     <button class="btn btn-primary" @click="onFilter()" style="border-radius: 50%; padding: 5px; font-size: 12px; cursor: pointer; margin-left: 20px; margin-right: 20px;"><i class="fas fa-search"></i></button>
                 </div>
                 <!----------------------------------------------------------------------------->
-                <div class="row">
-                    <div class="col-2">
-                        listart gerencias aqui
-                    </div>
-                    <div class="col-10 d-flex flex-wrap">
+                <div class="card-body pb-0">
+                    <div class="d-flex flex-wrap">
                         <!-------------------Cards------------------------>
-                        <div v-for="personaP in listaPersonaPuesto" class="card shadow m-4" style="width: 13rem;">
+                        <div v-for="personaP in listaPersonaPuesto" class="card shadow m-2" style="width: 13rem; position: relative;">
+                            <div style="position: absolute; top: 0; left: 0; background-color: rgba(255, 255, 255, 0.8); padding: 5px;">
+                                <span class="text-secondary text-xs font-weight-bold">@{{personaP.item}}</span>
+                            </div>
                             <img v-if="personaP.imagen" :src="'/imagen-persona/' + personaP.persona_id" class="card-img-top">
                             <img v-else src="/img/team-2.jpg" class="card-img-top">
                             <div class="card-body">
@@ -148,11 +149,11 @@ $personaPuesto = PersonaPuesto::all();
                             <div v-if="detallePersonaPuesto?.id" class="modal-body">
                                 <h6 class="modal-title">Datos de la Persona</h6>
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <img v-if="detallePersonaPuesto?.persona?.imagen" :src="'/imagen-persona/' + detallePersonaPuesto?.persona_id" class="img-fluid">
-                                        <img v-else src="/img/team-2.jpg" class="img-fluid">
+                                    <div class="col-md-4">
+                                        <img v-if="detallePersonaPuesto?.persona?.imagen" :src="'/imagen-persona/' + detallePersonaPuesto?.persona_id" class="img-fluid img-thumbnail" style="max-width: 200px; max-height: 150px;">
+                                        <img v-else src="/img/team-2.jpg" class="img-fluid img-thumbnail">
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-8">
                                         <div class="form-group">
                                             <span class="text-secondary text-xs font-weight-bold"><b>Nombre Completo:</b> @{{detallePersonaPuesto.persona.nombreCompleto}}</span><br>
                                             <span class="text-secondary text-xs font-weight-bold"><b>CI.:</b> @{{detallePersonaPuesto.persona.ci}} @{{detallePersonaPuesto.persona.exp}}.</span><br>
@@ -165,28 +166,27 @@ $personaPuesto = PersonaPuesto::all();
                                 <hr class="horizontal dark">
                                 <h6 class="modal-title">Datos como Funcionario</h6>
                                 <div class="row">
-                                    <div class="col-md-4">
+                                <div class="col-md-6">
                                         <div class="form-group">
                                             <span class="text-secondary text-xs font-weight-bold"><b>N° de Item:</b> @{{detallePersonaPuesto.puesto.item}}</span><br>
-                                            <span class="text-secondary text-xs font-weight-bold"><b>Cargo:</b> @{{detallePersonaPuesto.puesto.denominacion}}</span><br>
-                                            <span class="text-secondary text-xs font-weight-bold"><b>Fecha de Inicio en el Cargo:</b> @{{detallePersonaPuesto.fechaInicio}}</span><br>
-                                            <span class="text-secondary text-xs font-weight-bold"><b>Salario:</b> @{{detallePersonaPuesto.puesto.salario}} bs.</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <span class="text-secondary text-xs font-weight-bold"><b>Gerencia:</b> @{{detallePersonaPuesto.puesto.departamento.gerencia.nombre}}</span><br>
                                             <span class="text-secondary text-xs font-weight-bold"><b>Departamento:</b> @{{detallePersonaPuesto.puesto.departamento.nombre}}</span><br>
                                             <span class="text-secondary text-xs font-weight-bold"><b>Fecha de Inicio en el SIN:</b> @{{detallePersonaPuesto.fechaInicioEnSin}}</span>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span class="text-secondary text-xs font-weight-bold"><b>Gerencia:</b> @{{detallePersonaPuesto.puesto.departamento.gerencia.nombre}}</span><br>
+                                            <span class="text-secondary text-xs font-weight-bold"><b>Cargo:</b> @{{detallePersonaPuesto.puesto.denominacion}}</span><br>
+                                            <span class="text-secondary text-xs font-weight-bold"><b>Fch. de Inic. en el Cargo:</b> @{{detallePersonaPuesto.fechaInicio}}</span>
+                                        </div>
+                                    </div>
+                                    <!--<div class="col-md-4">
                                         <div class="form-group">
                                             <span class="text-secondary text-xs font-weight-bold"><b>Nombre del Antiguo Personal:</b><br>@{{detallePersonaPuesto.nombreCompletoDesvinculacion}}</span><br>
                                             <span class="text-secondary text-xs font-weight-bold"><b>Motivo de Baja:</b> @{{detallePersonaPuesto.motivoBaja}}</span><br>
                                             <span class="text-secondary text-xs font-weight-bold"><b>Ultimo dia de Trabajo:</b> @{{detallePersonaPuesto.fechaFin}}</span>
                                         </div>
-                                    </div>
+                                    </div>-->
                                 </div>
                                 <hr class="horizontal dark">
                                 <h6 class="modal-title">Requisitos de formacion</h6>
@@ -217,9 +217,6 @@ $personaPuesto = PersonaPuesto::all();
                     </div>
                 </div>
                 <!-- ......................................Modal------------------------------------------------->
-
-
-
                 <!--------------------------------------------Pie de pagina------------------------------------------------------------------>
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-end">
@@ -246,9 +243,44 @@ $personaPuesto = PersonaPuesto::all();
                         </li>
                     </ul>
                 </nav>
-                <!------------------------------------------------------------------------------------->
             </div>
         </div>
+
+        <div class="col-md-3">
+            <div class="card card-profile">
+                <div class="card-header text-center border-0 pt-0 pt-lg-2 pb-4 pb-lg-3">
+                    <h6>Filtros</h6>
+                </div>
+                <div class="card-body pt-0">
+                    <div  class="search-form">
+                        <button class="btn btn-primary" @click="onFilter()" style="padding: 5px; font-size: 12px; width: 100%;"><i class="fas fa-search"></i> Buscar</button>
+                        <input class="form-control form-control-alternative text-secondary text-xs font-weight-bold" type="text" v-model="item" placeholder="Buscar por item"><br>
+                        <!---------------------FALTA DEPARTAMENTO Y GERNECIA---------------->
+                        <div v-model="gerenciaId" style="height: 200px; overflow-y: scroll;">
+                            <span class="text-secondary text-xs font-weight-bold">GERENCIAS</span>
+                            @foreach($gerencias as $g)
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="gerencia{{$g->id}}" v-model="gerenciaId" :value="{{$g->id}}">
+                                    <label class="custom-control-label" for="gerencia{{$g->id}}">{{$g->nombre}}</label>
+                                </div>
+                            @endforeach
+                        </div><br>
+                        <!------------------------------------------------------------------>
+                        <select class="form-control form-control-alternative text-secondary text-xs font-weight-bold" v-model="estado">
+                            <option :value="undefined">Estado</option>
+                            <option value="Ocupado">Ocupado</option>
+                            <option value="Desocupado">Acefalias</option>
+                        </select><br>
+                        <select class="form-control form-control-alternative text-secondary text-xs font-weight-bold" v-model="tipoMovimiento">
+                            <option :value="undefined">Tipo de Movimiento</option>
+                            <option value="Designacion">Designación</option>
+                            <option value="Cambio de Item">Cambio de Item</option>
+                        </select><br>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!------------------------------------------------------------------------------------------>
     </div>
 </div>
 @include('layouts.footers.auth.footer')
